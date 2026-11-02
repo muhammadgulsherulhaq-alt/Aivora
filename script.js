@@ -1,126 +1,252 @@
 
 const items = [
-  ["Runway","Video","AI video creation; free access may be limited.","https://runwayml.com/"],
-  ["Pika","Video","AI video generation with plan limits.","https://pika.art/"],
-  ["Canva","Image","Graphic design and selected AI features.","https://www.canva.com/"],
-  ["Adobe Firefly","Image","AI image tools with limited credits.","https://firefly.adobe.com/"],
-  ["ElevenLabs","Audio","AI voice tools with a limited free plan.","https://elevenlabs.io/"],
-  ["Suno","Audio","AI music with limited free credits.","https://suno.com/"],
-  ["Grammarly","Writing","Writing assistance with free and paid features.","https://grammarly.com/"],
-  ["QuillBot","Writing","Paraphrasing with free usage limits.","https://quillbot.com/"],
-  ["Notion","Productivity","Workspace with free and paid capabilities.","https://notion.so/"],
-  ["Perplexity","Productivity","AI answer and research engine.","https://perplexity.ai/"],
-  ["Windsurf","Developer","AI coding editor; check free plan details.","https://windsurf.com/"],
-  ["Replit","Developer","Online coding workspace.","https://replit.com/"]
+  ["Runway", "Video", "AI video creation; free access may be limited.", "https://runwayml.com/"],
+  ["Pika", "Video", "AI video generation with plan limits.", "https://pika.art/"],
+  ["Canva", "Image", "Graphic design and selected AI features.", "https://www.canva.com/"],
+  ["Adobe Firefly", "Image", "AI image tools with limited credits.", "https://firefly.adobe.com/"],
+  ["ElevenLabs", "Audio", "AI voice tools with a limited free plan.", "https://elevenlabs.io/"],
+  ["Suno", "Audio", "AI music with limited free credits.", "https://suno.com/"],
+  ["Grammarly", "Writing", "Writing assistance with free and paid features.", "https://grammarly.com/"],
+  ["QuillBot", "Writing", "Paraphrasing with free usage limits.", "https://quillbot.com/"],
+  ["Notion", "Productivity", "Workspace with free and paid capabilities.", "https://notion.so/"],
+  ["Perplexity", "Productivity", "AI answer and research engine.", "https://perplexity.ai/"],
+  ["Windsurf", "Developer", "AI coding editor; check free plan details.", "https://windsurf.com/"],
+  ["Replit", "Developer", "Online coding workspace.", "https://replit.com/"]
 ];
+
+// =====================================
+// DIRECTORY SEARCH & FILTER
+// =====================================
 
 const grid = document.querySelector("#toolGrid");
 const filter = document.querySelector("#filter");
 const search = document.querySelector("#search");
 
-function render() {
-  const q = (search?.value || "").toLowerCase();
+function renderTools() {
+  if (!grid || !filter || !search) return;
 
-  grid.innerHTML = items
-    .filter(x =>
-      (filter.value === "All" || x[1] === filter.value) &&
-      x.join(" ").toLowerCase().includes(q)
-    )
-    .map(x => `
-      <article class="tool">
-        <small>${x[1]} · Free tier / limits</small>
-        <h3>${x[0]}</h3>
-        <p>${x[2]}</p>
-        <a href="${x[3]}" target="_blank" rel="noopener">
-          Official website ↗
-        </a>
-      </article>
-    `).join("") || "<p>No matching tools.</p>";
+  const query = search.value.trim().toLowerCase();
+
+  const filteredItems = items.filter(item => {
+    const categoryMatch =
+      filter.value === "All" || item[1] === filter.value;
+
+    const searchMatch =
+      item.join(" ").toLowerCase().includes(query);
+
+    return categoryMatch && searchMatch;
+  });
+
+  grid.innerHTML = filteredItems.map(item => `
+    <article class="tool">
+      <small>${item[1]} · Free tier / limits</small>
+      <h3>${item[0]}</h3>
+      <p>${item[2]}</p>
+      <a href="${item[3]}" target="_blank" rel="noopener noreferrer">
+        Official website ↗
+      </a>
+    </article>
+  `).join("") || "<p>No matching tools found.</p>";
 }
 
-filter.addEventListener("change", render);
-search.addEventListener("input", render);
+filter?.addEventListener("change", renderTools);
+search?.addEventListener("input", renderTools);
 
+// Category buttons
 document.querySelectorAll("[data-cat]").forEach(button => {
-  button.onclick = () => {
+  button.addEventListener("click", () => {
+    if (!filter) return;
+
     filter.value = button.dataset.cat;
-    render();
-    document.querySelector("#tools").scrollIntoView({
+    renderTools();
+
+    document.querySelector("#tools")?.scrollIntoView({
       behavior: "smooth"
     });
-  };
+  });
 });
+
+// =====================================
+// SUPABASE CONNECTION
+// =====================================
+
+let client = null;
+
+const config = window.AIVORA_CONFIG || {};
+
+const supabaseUrl = (config.url || "")
+  .trim()
+  .replace(/\/+$/, "");
+
+const supabaseKey = (config.anonKey || "").trim();
+
+if (
+  window.supabase &&
+  supabaseUrl &&
+  supabaseKey
+) {
+  try {
+    client = window.supabase.createClient(
+      supabaseUrl,
+      supabaseKey
+    );
+  } catch (error) {
+    console.error("Supabase initialization error:", error);
+  }
+}
+
+// =====================================
+// LOGIN & SIGNUP MODAL
+// =====================================
 
 let mode = "signup";
 
 const modal = document.querySelector("#modal");
-const msg = document.querySelector("#message");
+const message = document.querySelector("#message");
+const form = document.querySelector("#form");
 
-function auth(m) {
-  mode = m;
+function showMessage(text, type = "error") {
+  if (!message) return;
 
-  document.querySelector("#modalTitle").textContent =
-    m === "signup" ? "Create your account" : "Log in to AIVORA";
+  message.textContent = text;
+  message.style.color =
+    type === "success" ? "#22c55e" : "#ff6464";
+}
 
+function openAuth(selectedMode) {
+  mode = selectedMode;
+
+  const title = document.querySelector("#modalTitle");
   const switchText = document.querySelector("#switchText");
 
-  switchText.innerHTML =
-    m === "signup" ? "Already have an account? " : "New to AIVORA? ";
+  if (!modal || !title || !switchText) return;
 
-  const button = document.createElement("button");
-  button.id = "switch";
-  button.type = "button";
-  button.textContent = m === "signup" ? "Log in" : "Sign up";
+  title.textContent =
+    mode === "signup"
+      ? "Create your account"
+      : "Log in to AIVORA";
 
-  switchText.append(button);
+  switchText.innerHTML = "";
 
-  button.onclick = () =>
-    auth(mode === "signup" ? "login" : "signup");
+  const text = document.createElement("span");
+  text.textContent =
+    mode === "signup"
+      ? "Already have an account? "
+      : "New to AIVORA? ";
 
-  msg.textContent = "";
+  const switchButton = document.createElement("button");
+  switchButton.type = "button";
+  switchButton.textContent =
+    mode === "signup" ? "Log in" : "Sign up";
+
+  switchButton.addEventListener("click", () => {
+    openAuth(mode === "signup" ? "login" : "signup");
+  });
+
+  switchText.append(text, switchButton);
+
+  showMessage("");
   modal.classList.add("open");
 }
 
+// Open signup
 ["signup", "heroSignup", "bottomSignup"].forEach(id => {
-  document.getElementById(id).onclick = () => auth("signup");
+  document.getElementById(id)?.addEventListener("click", () => {
+    openAuth("signup");
+  });
 });
 
-document.querySelector("#login").onclick = () => auth("login");
-document.querySelector("#close").onclick = () =>
-  modal.classList.remove("open");
+// Open login
+document.querySelector("#login")?.addEventListener("click", () => {
+  openAuth("login");
+});
 
-let client = null;
-const config = window.AIVORA_CONFIG || {};
+// Close modal
+document.querySelector("#close")?.addEventListener("click", () => {
+  modal?.classList.remove("open");
+});
 
-if (window.supabase && config.url && config.anonKey) {
-  client = window.supabase.createClient(
-    config.url,
-    config.anonKey
-  );
-}
+// =====================================
+// SUPABASE AUTHENTICATION
+// =====================================
 
-document.querySelector("#form").onsubmit = async event => {
+form?.addEventListener("submit", async event => {
   event.preventDefault();
 
   if (!client) {
-    msg.textContent =
-      "Signup is not connected yet. Configure Supabase using README.md.";
+    showMessage(
+      "Connection unavailable. Please check the Supabase configuration."
+    );
     return;
   }
 
-  const email = document.querySelector("#email").value;
-  const password = document.querySelector("#password").value;
+  const email = document.querySelector("#email")?.value.trim();
+  const password = document.querySelector("#password")?.value;
 
-  const result = mode === "signup"
-    ? await client.auth.signUp({ email, password })
-    : await client.auth.signInWithPassword({ email, password });
+  if (!email || !password) {
+    showMessage("Please enter your email and password.");
+    return;
+  }
 
-  msg.textContent = result.error
-    ? result.error.message
-    : mode === "signup"
-      ? "Signup request sent. Check your email."
-      : "Login successful.";
-};
+  const submitButton = form.querySelector(
+    'button[type="submit"]'
+  );
 
-render();
-                                                    
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Please wait...";
+  }
+
+  showMessage("Connecting...", "success");
+
+  try {
+    let result;
+
+    if (mode === "signup") {
+      result = await client.auth.signUp({
+        email,
+        password
+      });
+    } else {
+      result = await client.auth.signInWithPassword({
+        email,
+        password
+      });
+    }
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    if (mode === "signup") {
+      showMessage(
+        "Account request successful! Check your email if confirmation is required.",
+        "success"
+      );
+    } else {
+      showMessage(
+        "Login successful!",
+        "success"
+      );
+    }
+
+  } catch (error) {
+    console.error("Authentication error:", error);
+
+    showMessage(
+      error.message || "Something went wrong. Please try again."
+    );
+
+  } finally {
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Continue";
+    }
+  }
+});
+
+// =====================================
+// INITIALIZE WEBSITE
+// =====================================
+
+renderTools();
