@@ -1,49 +1,99 @@
-// =====================================
-// AIVORA - Main JavaScript
-// =====================================
 
-// AI Tools Directory
+// ============================================
+// AIVORA — COMPLETE WEBSITE JAVASCRIPT
+// ============================================
+
+// 50 AI TOOLS DIRECTORY
 const items = [
+  // VIDEO
   ["Runway", "Video", "AI video creation; free access may be limited.", "https://runwayml.com/"],
   ["Pika", "Video", "AI video generation with plan limits.", "https://pika.art/"],
-  ["Canva", "Image", "Graphic design and selected AI features.", "https://www.canva.com/"],
-  ["Adobe Firefly", "Image", "AI image tools with limited credits.", "https://firefly.adobe.com/"],
-  ["ElevenLabs", "Audio", "AI voice tools with a limited free plan.", "https://elevenlabs.io/"],
-  ["Suno", "Audio", "AI music with limited free credits.", "https://suno.com/"],
+  ["Kling AI", "Video", "AI video generation; check available credits.", "https://klingai.com/"],
+  ["Luma AI", "Video", "AI video and creative generation.", "https://lumalabs.ai/"],
+  ["InVideo", "Video", "Online AI video creation.", "https://invideo.io/"],
+  ["VEED", "Video", "Online video editing with AI features.", "https://www.veed.io/"],
+  ["HeyGen", "Video", "AI avatar and video creation.", "https://www.heygen.com/"],
+  ["Synthesia", "Video", "AI avatar video creation.", "https://www.synthesia.io/"],
+  ["CapCut", "Video", "Video editing with AI features.", "https://www.capcut.com/"],
+
+  // IMAGE
+  ["Canva", "Image", "Graphic design and AI features.", "https://www.canva.com/"],
+  ["Adobe Firefly", "Image", "AI image generation and editing.", "https://firefly.adobe.com/"],
+  ["Leonardo AI", "Image", "AI image generation.", "https://leonardo.ai/"],
+  ["Ideogram", "Image", "AI image generation and text rendering.", "https://ideogram.ai/"],
+  ["Microsoft Designer", "Image", "AI-powered design and image creation.", "https://designer.microsoft.com/"],
+  ["Krea AI", "Image", "AI image generation and creative tools.", "https://www.krea.ai/"],
+  ["NightCafe", "Image", "AI art generation.", "https://nightcafe.studio/"],
+  ["Playground", "Image", "AI image creation and editing.", "https://playground.com/"],
+  ["remove.bg", "Image", "AI background removal.", "https://www.remove.bg/"],
+
+  // AUDIO
+  ["ElevenLabs", "Audio", "AI voice generation with limited free usage.", "https://elevenlabs.io/"],
+  ["Suno", "Audio", "AI music generation with limited credits.", "https://suno.com/"],
+  ["Udio", "Audio", "AI music creation.", "https://www.udio.com/"],
+  ["Adobe Podcast", "Audio", "AI audio enhancement tools.", "https://podcast.adobe.com/"],
+  ["Murf AI", "Audio", "AI voiceovers and text-to-speech.", "https://murf.ai/"],
+  ["TTSMaker", "Audio", "Text-to-speech generation.", "https://ttsmaker.com/"],
+  ["Auphonic", "Audio", "Automated audio post-production.", "https://auphonic.com/"],
+  ["Descript", "Audio", "Audio and video editing with AI.", "https://www.descript.com/"],
+
+  // WRITING
   ["Grammarly", "Writing", "Writing assistance with free and paid features.", "https://grammarly.com/"],
-  ["QuillBot", "Writing", "Paraphrasing with free usage limits.", "https://quillbot.com/"],
-  ["Notion", "Productivity", "Workspace with free and paid capabilities.", "https://notion.so/"],
-  ["Perplexity", "Productivity", "AI answer and research engine.", "https://perplexity.ai/"],
-  ["Windsurf", "Developer", "AI coding editor; check free plan details.", "https://windsurf.com/"],
-  ["Replit", "Developer", "Online coding workspace.", "https://replit.com/"]
+  ["QuillBot", "Writing", "Paraphrasing and writing assistance.", "https://quillbot.com/"],
+  ["DeepL Write", "Writing", "AI writing improvement.", "https://www.deepl.com/write"],
+  ["Wordtune", "Writing", "Writing and rewriting assistance.", "https://www.wordtune.com/"],
+  ["Rytr", "Writing", "AI writing assistant.", "https://rytr.me/"],
+  ["Copy.ai", "Writing", "AI writing and content workflows.", "https://www.copy.ai/"],
+  ["Writesonic", "Writing", "AI writing and content creation.", "https://writesonic.com/"],
+  ["LanguageTool", "Writing", "Grammar and spelling checker.", "https://languagetool.org/"],
+
+  // PRODUCTIVITY
+  ["ChatGPT", "Productivity", "AI assistant for everyday tasks.", "https://chatgpt.com/"],
+  ["Google Gemini", "Productivity", "Google's AI assistant.", "https://gemini.google.com/"],
+  ["Claude", "Productivity", "AI assistant for writing and analysis.", "https://claude.ai/"],
+  ["Perplexity", "Productivity", "AI-powered research and answers.", "https://perplexity.ai/"],
+  ["Notion", "Productivity", "Workspace with AI features.", "https://notion.so/"],
+  ["NotebookLM", "Productivity", "AI research assistant for your sources.", "https://notebooklm.google.com/"],
+  ["Gamma", "Productivity", "AI presentations and documents.", "https://gamma.app/"],
+  ["Otter.ai", "Productivity", "AI meeting transcription and notes.", "https://otter.ai/"],
+
+  // DEVELOPER
+  ["Windsurf", "Developer", "AI coding editor.", "https://windsurf.com/"],
+  ["Replit", "Developer", "Online coding workspace with AI features.", "https://replit.com/"],
+  ["Cursor", "Developer", "AI-powered code editor.", "https://cursor.com/"],
+  ["GitHub Copilot", "Developer", "AI coding assistant.", "https://github.com/features/copilot"],
+  ["Bolt", "Developer", "AI-powered app and website builder.", "https://bolt.new/"],
+  ["Lovable", "Developer", "AI-powered website and app builder.", "https://lovable.dev/"],
+  ["v0", "Developer", "AI interface and web app generation.", "https://v0.app/"]
 ];
 
-// =====================================
-// DIRECTORY SEARCH & FILTER
-// =====================================
+// ============================================
+// SEARCH AND CATEGORY FILTER
+// ============================================
 
 const grid = document.querySelector("#toolGrid");
 const filter = document.querySelector("#filter");
 const search = document.querySelector("#search");
 
 function renderTools() {
-  if (!grid || !filter || !search) return;
+  if (!grid) return;
 
-  const query = search.value.trim().toLowerCase();
+  const query = (search?.value || "").trim().toLowerCase();
+  const category = filter?.value || "All";
 
-  const filteredItems = items.filter(item => {
-    const categoryMatch =
-      filter.value === "All" || item[1] === filter.value;
+  const filtered = items.filter(item => {
+    const matchesCategory =
+      category === "All" || item[1] === category;
 
-    const searchMatch =
+    const matchesSearch =
       item.join(" ").toLowerCase().includes(query);
 
-    return categoryMatch && searchMatch;
+    return matchesCategory && matchesSearch;
   });
 
-  grid.innerHTML = filteredItems.map(item => `
+  grid.innerHTML = filtered.map(item => `
     <article class="tool">
-      <small>${item[1]} · Free tier / limits</small>
+      <small>${item[1]} · Check free-plan limits</small>
       <h3>${item[0]}</h3>
       <p>${item[2]}</p>
       <a href="${item[3]}" target="_blank" rel="noopener noreferrer">
@@ -70,9 +120,9 @@ document.querySelectorAll("[data-cat]").forEach(button => {
   });
 });
 
-// =====================================
+// ============================================
 // SUPABASE CONNECTION
-// =====================================
+// ============================================
 
 let client = null;
 
@@ -95,13 +145,13 @@ if (
       supabaseKey
     );
   } catch (error) {
-    console.error("Supabase initialization error:", error);
+    console.error("Supabase setup error:", error);
   }
 }
 
-// =====================================
-// LOGIN & SIGNUP MODAL
-// =====================================
+// ============================================
+// LOGIN AND SIGNUP
+// ============================================
 
 let mode = "signup";
 
@@ -132,8 +182,8 @@ function openAuth(selectedMode) {
 
   switchText.innerHTML = "";
 
-  const text = document.createElement("span");
-  text.textContent =
+  const label = document.createElement("span");
+  label.textContent =
     mode === "signup"
       ? "Already have an account? "
       : "New to AIVORA? ";
@@ -147,54 +197,56 @@ function openAuth(selectedMode) {
     openAuth(mode === "signup" ? "login" : "signup");
   });
 
-  switchText.append(text, switchButton);
+  switchText.append(label, switchButton);
 
   showMessage("");
   modal.classList.add("open");
 }
 
-// Open signup
+// Signup buttons
 ["signup", "heroSignup", "bottomSignup"].forEach(id => {
   document.getElementById(id)?.addEventListener("click", () => {
     openAuth("signup");
   });
 });
 
-// Open login
+// Login button
 document.querySelector("#login")?.addEventListener("click", () => {
   openAuth("login");
 });
 
-// Close modal
+// Close button
 document.querySelector("#close")?.addEventListener("click", () => {
   modal?.classList.remove("open");
 });
 
-// =====================================
-// SUPABASE AUTHENTICATION
-// =====================================
+// ============================================
+// AUTHENTICATION FORM
+// ============================================
 
 form?.addEventListener("submit", async event => {
   event.preventDefault();
 
   if (!client) {
     showMessage(
-      "Connection unavailable. Please check the Supabase configuration."
+      "Connection unavailable. Please check Supabase configuration."
     );
     return;
   }
 
-  const email = document.querySelector("#email")?.value.trim();
-  const password = document.querySelector("#password")?.value;
+  const email =
+    document.querySelector("#email")?.value.trim();
+
+  const password =
+    document.querySelector("#password")?.value;
 
   if (!email || !password) {
     showMessage("Please enter your email and password.");
     return;
   }
 
-  const submitButton = form.querySelector(
-    'button[type="submit"]'
-  );
+  const submitButton =
+    form.querySelector('button[type="submit"]');
 
   if (submitButton) {
     submitButton.disabled = true;
@@ -224,14 +276,11 @@ form?.addEventListener("submit", async event => {
 
     if (mode === "signup") {
       showMessage(
-        "Account request successful! Check your email if confirmation is required.",
+        "Signup request successful! Check your email if confirmation is required.",
         "success"
       );
     } else {
-      showMessage(
-        "Login successful!",
-        "success"
-      );
+      showMessage("Login successful!", "success");
     }
 
   } catch (error) {
@@ -249,8 +298,12 @@ form?.addEventListener("submit", async event => {
   }
 });
 
-// =====================================
-// INITIALIZE WEBSITE
-// =====================================
+// ============================================
+// START WEBSITE
+// ============================================
 
 renderTools();
+
+console.log("AIVORA loaded successfully.");
+console.log("Total AI tools:", items.length);
+    
