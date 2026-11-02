@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://muhammadgulsherulhaq-alt.github.io/Aivora/sitemap.xml
