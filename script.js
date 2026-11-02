@@ -1,4 +1,8 @@
+// =====================================
+// AIVORA - Main JavaScript
+// =====================================
 
+// AI Tools Directory
 const items = [
   ["Runway", "Video", "AI video creation; free access may be limited.", "https://runwayml.com/"],
   ["Pika", "Video", "AI video generation with plan limits.", "https://pika.art/"],
