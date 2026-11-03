@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIVORA | Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #080b18;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .dashboard {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+    .welcome {
+      background: linear-gradient(135deg, #171b3d, #24205a);
+      border: 1px solid #6554ff;
+      border-radius: 20px;
+      padding: 35px 25px;
+      margin-bottom: 25px;
+    }
+    .welcome h1 { font-size: 30px; }
+    .email { color: #9c9cff; overflow-wrap: anywhere; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: #14182b;
+      border: 1px solid #343b69;
+      border-radius: 16px;
+      padding: 25px;
+    }
+    .card h2 { color: #a69aff; }
+    .action {
+      display: inline-block;
+      background: linear-gradient(90deg, #704bff, #168bff);
+      color: white;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 9px;
+      text-decoration: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    #status { color: #a69aff; }
+  </style>
+</head>
+<body>
+
+  <main class="dashboard">
+    <div class="welcome">
+      <h1>Welcome to AIVORA 🚀</h1>
+      <p>Your AI journey starts here.</p>
+      <p>Account: <strong id="userEmail">Loading...</strong></p>
+      <p id="status">Checking your account...</p>
+      <a href="index.html" class="action">Explore AI Tools</a>
+      <button id="logout" class="action">Logout</button>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h2>🤖 AI Tools</h2>
+        <p>Explore useful AI tools for your daily work.</p>
+        <a href="index.html" class="action">Explore Tools</a>
+      </div>
+
+      <div class="card">
+        <h2>👤 My Account</h2>
+        <p>You're signed in to your AIVORA account.</p>
+        <p id="accountEmail"></p>
+      </div>
+
+      <div class="card">
+        <h2>✨ Discover</h2>
+        <p>Discover AI tools for writing, images, video and more.</p>
+        <a href="blog.html" class="action">Read Articles</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const client = supabase.createClient(
+      window.AIVORA_CONFIG.url,
+      window.AIVORA_CONFIG.anonKey
+    );
+
+    async function checkUser() {
+      const { data, error } = await client.auth.getSession();
+
+      if (error || !data.session) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const email = data.session.user.email;
+      document.getElementById("userEmail").textContent = email;
+      document.getElementById("accountEmail").textContent = email;
+      document.getElementById("status").textContent = "Account active ✓";
+    }
+
+    document.getElementById("logout").addEventListener("click", async () => {
+      const { error } = await client.auth.signOut();
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      window.location.href = "index.html";
+    });
+
+    checkUser();
+  </script>
+
+</body>
+</html>
