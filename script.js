@@ -60,7 +60,7 @@ const items = [
 
   // DEVELOPER
   ["Windsurf", "Developer", "AI coding editor.", "https://windsurf.com/"],
-  ["Replit", "Developer", "Online coding workspace with AI features.", "https://replit.com/"],
+  ["Replit", "Developer", "Online coding workspace with AI.", "https://replit.com/"],
   ["Cursor", "Developer", "AI-powered code editor.", "https://cursor.com/"],
   ["GitHub Copilot", "Developer", "AI coding assistant.", "https://github.com/features/copilot"],
   ["Bolt", "Developer", "AI-powered app and website builder.", "https://bolt.new/"],
@@ -82,12 +82,10 @@ function renderTools() {
   const query = (search?.value || "").trim().toLowerCase();
   const category = filter?.value || "All";
 
-  const filtered = items.filter(item => {
-    return (
-      (category === "All" || item[1] === category) &&
-      item.join(" ").toLowerCase().includes(query)
-    );
-  });
+  const filtered = items.filter(item =>
+    (category === "All" || item[1] === category) &&
+    item.join(" ").toLowerCase().includes(query)
+  );
 
   grid.innerHTML = filtered.map(item => `
     <article class="tool">
@@ -107,8 +105,10 @@ search?.addEventListener("input", renderTools);
 document.querySelectorAll("[data-cat]").forEach(button => {
   button.addEventListener("click", () => {
     if (!filter) return;
+
     filter.value = button.dataset.cat;
     renderTools();
+
     document.querySelector("#tools")?.scrollIntoView({
       behavior: "smooth"
     });
@@ -232,6 +232,10 @@ function updateAccount(user) {
   }
 }
 
+// ============================================
+// LOGOUT
+// ============================================
+
 logoutButton.addEventListener("click", async () => {
   if (!client) return;
 
@@ -240,7 +244,9 @@ logoutButton.addEventListener("click", async () => {
 
   try {
     const { error } = await client.auth.signOut();
+
     if (error) throw error;
+
     updateAccount(null);
     closeAuth();
   } catch (error) {
@@ -267,6 +273,7 @@ logoutButton.addEventListener("click", async () => {
 });
 
 loginButton?.addEventListener("click", () => openAuth("login"));
+
 document.querySelector("#close")?.addEventListener("click", closeAuth);
 
 modal?.addEventListener("click", event => {
@@ -312,11 +319,12 @@ form?.addEventListener("submit", async event => {
 
     if (mode === "signup") {
       result = await client.auth.signUp({
-  email,
-  password,
-  options: {
-    emailRedirectTo: "https://muhammadgulsherulhaq-alt.github.io/Aivora/"
-  }
+        email,
+        password,
+        options: {
+          emailRedirectTo:
+            "https://muhammadgulsherulhaq-alt.github.io/Aivora/"
+        }
       });
     } else {
       result = await client.auth.signInWithPassword({
@@ -330,7 +338,7 @@ form?.addEventListener("submit", async event => {
     if (mode === "signup") {
       if (result.data.session) {
         updateAccount(result.data.user);
-        showMessage("Account created successfully!", "success");
+        window.location.href = "dashboard.html";
       } else {
         showMessage(
           "Signup successful! Please check your email to verify your account.",
@@ -339,7 +347,7 @@ form?.addEventListener("submit", async event => {
       }
     } else {
       updateAccount(result.data.user);
-      showMessage("Login successful!", "success");
+      window.location.href = "dashboard.html";
     }
 
   } catch (error) {
@@ -389,3 +397,4 @@ initializeAuth();
 
 console.log("AIVORA loaded successfully.");
 console.log("Total AI tools:", items.length);
+  
