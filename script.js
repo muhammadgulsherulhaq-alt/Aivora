@@ -312,8 +312,11 @@ form?.addEventListener("submit", async event => {
 
     if (mode === "signup") {
       result = await client.auth.signUp({
-        email,
-        password
+  email,
+  password,
+  options: {
+    emailRedirectTo: "https://muhammadgulsherulhaq-alt.github.io/Aivora/"
+  }
       });
     } else {
       result = await client.auth.signInWithPassword({
