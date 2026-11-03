@@ -1,6 +1,6 @@
 
 // ============================================
-// AIVORA — COMPLETE WEBSITE JAVASCRIPT
+// AIVORA — WEBSITE JAVASCRIPT
 // ============================================
 
 // 50 AI TOOLS DIRECTORY
@@ -56,6 +56,7 @@ const items = [
   ["NotebookLM", "Productivity", "AI research assistant for your sources.", "https://notebooklm.google.com/"],
   ["Gamma", "Productivity", "AI presentations and documents.", "https://gamma.app/"],
   ["Otter.ai", "Productivity", "AI meeting transcription and notes.", "https://otter.ai/"],
+  ["Zapier", "Productivity", "Workflow automation with AI features.", "https://zapier.com/"],
 
   // DEVELOPER
   ["Windsurf", "Developer", "AI coding editor.", "https://windsurf.com/"],
@@ -68,7 +69,7 @@ const items = [
 ];
 
 // ============================================
-// SEARCH AND CATEGORY FILTER
+// SEARCH AND FILTER
 // ============================================
 
 const grid = document.querySelector("#toolGrid");
@@ -82,13 +83,10 @@ function renderTools() {
   const category = filter?.value || "All";
 
   const filtered = items.filter(item => {
-    const matchesCategory =
-      category === "All" || item[1] === category;
-
-    const matchesSearch =
-      item.join(" ").toLowerCase().includes(query);
-
-    return matchesCategory && matchesSearch;
+    return (
+      (category === "All" || item[1] === category) &&
+      item.join(" ").toLowerCase().includes(query)
+    );
   });
 
   grid.innerHTML = filtered.map(item => `
@@ -106,14 +104,11 @@ function renderTools() {
 filter?.addEventListener("change", renderTools);
 search?.addEventListener("input", renderTools);
 
-// Category buttons
 document.querySelectorAll("[data-cat]").forEach(button => {
   button.addEventListener("click", () => {
     if (!filter) return;
-
     filter.value = button.dataset.cat;
     renderTools();
-
     document.querySelector("#tools")?.scrollIntoView({
       behavior: "smooth"
     });
@@ -125,32 +120,25 @@ document.querySelectorAll("[data-cat]").forEach(button => {
 // ============================================
 
 let client = null;
+let currentUser = null;
 
 const config = window.AIVORA_CONFIG || {};
-
-const supabaseUrl = (config.url || "")
-  .trim()
-  .replace(/\/+$/, "");
-
+const supabaseUrl = (config.url || "").trim().replace(/\/+$/, "");
 const supabaseKey = (config.anonKey || "").trim();
 
-if (
-  window.supabase &&
-  supabaseUrl &&
-  supabaseKey
-) {
+if (window.supabase && supabaseUrl && supabaseKey) {
   try {
     client = window.supabase.createClient(
       supabaseUrl,
       supabaseKey
     );
   } catch (error) {
-    console.error("Supabase setup error:", error);
+    console.error("Supabase error:", error);
   }
 }
 
 // ============================================
-// LOGIN AND SIGNUP
+// AUTH ELEMENTS
 // ============================================
 
 let mode = "signup";
@@ -167,6 +155,10 @@ function showMessage(text, type = "error") {
     type === "success" ? "#22c55e" : "#ff6464";
 }
 
+function closeAuth() {
+  modal?.classList.remove("open");
+}
+
 function openAuth(selectedMode) {
   mode = selectedMode;
 
@@ -176,11 +168,9 @@ function openAuth(selectedMode) {
   if (!modal || !title || !switchText) return;
 
   title.textContent =
-    mode === "signup"
-      ? "Create your account"
-      : "Log in to AIVORA";
+    mode === "signup" ? "Create your account" : "Log in to AIVORA";
 
-  switchText.innerHTML = "";
+  switchText.replaceChildren();
 
   const label = document.createElement("span");
   label.textContent =
@@ -198,55 +188,117 @@ function openAuth(selectedMode) {
   });
 
   switchText.append(label, switchButton);
-
+  form?.reset();
   showMessage("");
   modal.classList.add("open");
 }
 
-// Signup buttons
-["signup", "heroSignup", "bottomSignup"].forEach(id => {
-  document.getElementById(id)?.addEventListener("click", () => {
-    openAuth("signup");
-  });
-});
+// ============================================
+// HEADER ACCOUNT STATUS
+// ============================================
 
-// Login button
-document.querySelector("#login")?.addEventListener("click", () => {
-  openAuth("login");
-});
+const nav = document.querySelector("header nav");
+const loginButton = document.querySelector("#login");
+const signupButton = document.querySelector("#signup");
 
-// Close button
-document.querySelector("#close")?.addEventListener("click", () => {
-  modal?.classList.remove("open");
+const accountLabel = document.createElement("span");
+accountLabel.id = "accountLabel";
+accountLabel.style.cssText =
+  "color:#a78bfa;font-size:13px;max-width:150px;overflow:hidden;text-overflow:ellipsis;";
+
+const logoutButton = document.createElement("button");
+logoutButton.id = "logout";
+logoutButton.type = "button";
+logoutButton.textContent = "Log out";
+logoutButton.style.display = "none";
+
+nav?.append(accountLabel, logoutButton);
+
+function updateAccount(user) {
+  currentUser = user || null;
+
+  if (currentUser) {
+    accountLabel.textContent = currentUser.email || "My account";
+    accountLabel.style.display = "inline";
+    logoutButton.style.display = "inline-block";
+    loginButton && (loginButton.style.display = "none");
+    signupButton && (signupButton.style.display = "none");
+  } else {
+    accountLabel.textContent = "";
+    accountLabel.style.display = "none";
+    logoutButton.style.display = "none";
+    loginButton && (loginButton.style.display = "");
+    signupButton && (signupButton.style.display = "");
+  }
+}
+
+logoutButton.addEventListener("click", async () => {
+  if (!client) return;
+
+  logoutButton.disabled = true;
+  logoutButton.textContent = "Logging out...";
+
+  try {
+    const { error } = await client.auth.signOut();
+    if (error) throw error;
+    updateAccount(null);
+    closeAuth();
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Logout failed. Please try again.");
+  } finally {
+    logoutButton.disabled = false;
+    logoutButton.textContent = "Log out";
+  }
 });
 
 // ============================================
-// AUTHENTICATION FORM
+// OPEN AND CLOSE AUTH
+// ============================================
+
+["signup", "heroSignup", "bottomSignup"].forEach(id => {
+  document.getElementById(id)?.addEventListener("click", () => {
+    if (currentUser) {
+      alert("You are already logged in to AIVORA.");
+    } else {
+      openAuth("signup");
+    }
+  });
+});
+
+loginButton?.addEventListener("click", () => openAuth("login"));
+document.querySelector("#close")?.addEventListener("click", closeAuth);
+
+modal?.addEventListener("click", event => {
+  if (event.target === modal) closeAuth();
+});
+
+// ============================================
+// SIGNUP AND LOGIN
 // ============================================
 
 form?.addEventListener("submit", async event => {
   event.preventDefault();
 
   if (!client) {
-    showMessage(
-      "Connection unavailable. Please check Supabase configuration."
-    );
+    showMessage("Connection unavailable. Check Supabase configuration.");
     return;
   }
 
-  const email =
-    document.querySelector("#email")?.value.trim();
-
-  const password =
-    document.querySelector("#password")?.value;
+  const email = document.querySelector("#email")?.value.trim();
+  const password = document.querySelector("#password")?.value;
 
   if (!email || !password) {
     showMessage("Please enter your email and password.");
     return;
   }
 
-  const submitButton =
-    form.querySelector('button[type="submit"]');
+  if (password.length < 6) {
+    showMessage("Password must contain at least 6 characters.");
+    return;
+  }
+
+  const submitButton = form.querySelector('button[type="submit"]');
 
   if (submitButton) {
     submitButton.disabled = true;
@@ -270,26 +322,26 @@ form?.addEventListener("submit", async event => {
       });
     }
 
-    if (result.error) {
-      throw result.error;
-    }
+    if (result.error) throw result.error;
 
     if (mode === "signup") {
-      showMessage(
-        "Signup request successful! Check your email if confirmation is required.",
-        "success"
-      );
+      if (result.data.session) {
+        updateAccount(result.data.user);
+        showMessage("Account created successfully!", "success");
+      } else {
+        showMessage(
+          "Signup successful! Please check your email to verify your account.",
+          "success"
+        );
+      }
     } else {
+      updateAccount(result.data.user);
       showMessage("Login successful!", "success");
     }
 
   } catch (error) {
     console.error("Authentication error:", error);
-
-    showMessage(
-      error.message || "Something went wrong. Please try again."
-    );
-
+    showMessage(error.message || "Something went wrong. Please try again.");
   } finally {
     if (submitButton) {
       submitButton.disabled = false;
@@ -299,11 +351,38 @@ form?.addEventListener("submit", async event => {
 });
 
 // ============================================
+// RESTORE EXISTING SESSION
+// ============================================
+
+async function initializeAuth() {
+  if (!client) {
+    console.error("Supabase client unavailable.");
+    return;
+  }
+
+  try {
+    const { data, error } = await client.auth.getSession();
+
+    if (error) throw error;
+
+    updateAccount(data.session?.user || null);
+
+    client.auth.onAuthStateChange((event, session) => {
+      updateAccount(session?.user || null);
+      console.log("AIVORA auth event:", event);
+    });
+
+  } catch (error) {
+    console.error("Session error:", error);
+  }
+}
+
+// ============================================
 // START WEBSITE
 // ============================================
 
 renderTools();
+initializeAuth();
 
 console.log("AIVORA loaded successfully.");
 console.log("Total AI tools:", items.length);
-    
