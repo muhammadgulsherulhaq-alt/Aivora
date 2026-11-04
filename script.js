@@ -3,7 +3,7 @@
 // AIVORA — WEBSITE JAVASCRIPT
 // ============================================
 
-// 50 AI TOOLS DIRECTORY
+// AI TOOLS DIRECTORY
 const items = [
   // VIDEO
   ["Runway", "Video", "AI video creation; free access may be limited.", "https://runwayml.com/"],
@@ -105,7 +105,6 @@ search?.addEventListener("input", renderTools);
 document.querySelectorAll("[data-cat]").forEach(button => {
   button.addEventListener("click", () => {
     if (!filter) return;
-
     filter.value = button.dataset.cat;
     renderTools();
 
@@ -121,6 +120,8 @@ document.querySelectorAll("[data-cat]").forEach(button => {
 
 let client = null;
 let currentUser = null;
+let mode = "signup";
+let studioAuthIntent = false;
 
 const config = window.AIVORA_CONFIG || {};
 const supabaseUrl = (config.url || "").trim().replace(/\/+$/, "");
@@ -141,8 +142,6 @@ if (window.supabase && supabaseUrl && supabaseKey) {
 // AUTH ELEMENTS
 // ============================================
 
-let mode = "signup";
-
 const modal = document.querySelector("#modal");
 const message = document.querySelector("#message");
 const form = document.querySelector("#form");
@@ -159,8 +158,12 @@ function closeAuth() {
   modal?.classList.remove("open");
 }
 
-function openAuth(selectedMode) {
+function openAuth(selectedMode, fromStudio = false) {
   mode = selectedMode;
+
+  if (fromStudio) {
+    studioAuthIntent = true;
+  }
 
   const title = document.querySelector("#modalTitle");
   const switchText = document.querySelector("#switchText");
@@ -168,7 +171,9 @@ function openAuth(selectedMode) {
   if (!modal || !title || !switchText) return;
 
   title.textContent =
-    mode === "signup" ? "Create your account" : "Log in to AIVORA";
+    mode === "signup"
+      ? "Create your free AIVORA account"
+      : "Log in to AIVORA";
 
   switchText.replaceChildren();
 
@@ -188,6 +193,7 @@ function openAuth(selectedMode) {
   });
 
   switchText.append(label, switchButton);
+
   form?.reset();
   showMessage("");
   modal.classList.add("open");
@@ -217,6 +223,22 @@ nav?.append(accountLabel, logoutButton);
 function updateAccount(user) {
   currentUser = user || null;
 
+  const prompt = document.querySelector("#videoPrompt");
+  const generateButton = document.querySelector("#generateConcept");
+
+  if (prompt) {
+    prompt.readOnly = !currentUser;
+    prompt.placeholder = currentUser
+      ? "Describe your video idea or paste your script here..."
+      : "Sign up or log in to start typing your video idea...";
+  }
+
+  if (generateButton) {
+    generateButton.textContent = currentUser
+      ? "✦ Prepare Video Brief"
+      : "✦ Sign Up to Continue";
+  }
+
   if (currentUser) {
     accountLabel.textContent = currentUser.email || "My account";
     accountLabel.style.display = "inline";
@@ -233,6 +255,87 @@ function updateAccount(user) {
 }
 
 // ============================================
+// AIVORA AI VIDEO STUDIO
+// ============================================
+
+const videoPrompt = document.querySelector("#videoPrompt");
+const generateConcept = document.querySelector("#generateConcept");
+const studioMessage = document.querySelector("#studioMessage");
+const promptCount = document.querySelector("#promptCount");
+
+function showStudioMessage(text) {
+  if (!studioMessage) return;
+  studioMessage.textContent = text;
+  studioMessage.classList.add("show");
+}
+
+function hideStudioMessage() {
+  studioMessage?.classList.remove("show");
+}
+
+function updatePromptCount() {
+  if (!videoPrompt || !promptCount) return;
+  promptCount.textContent =
+    `${videoPrompt.value.length} / 5000`;
+}
+
+// Visitors cannot type before authentication.
+videoPrompt?.addEventListener("click", () => {
+  if (!currentUser) {
+    openAuth("signup", true);
+  }
+});
+
+videoPrompt?.addEventListener("focus", () => {
+  if (!currentUser) {
+    videoPrompt.blur();
+    openAuth("signup", true);
+  }
+});
+
+videoPrompt?.addEventListener("input", () => {
+  updatePromptCount();
+  hideStudioMessage();
+});
+
+generateConcept?.addEventListener("click", () => {
+  if (!currentUser) {
+    openAuth("signup", true);
+    return;
+  }
+
+  const prompt = videoPrompt?.value.trim();
+
+  if (!prompt) {
+    showStudioMessage("Please enter your video topic or script first.");
+    videoPrompt?.focus();
+    return;
+  }
+
+  const duration =
+    document.querySelector("#videoDuration")?.value;
+
+  const ratio =
+    document.querySelector("#videoRatio")?.value;
+
+  const style =
+    document.querySelector("#videoStyle")?.value;
+
+  const resolution =
+    document.querySelector("#videoResolution")?.value;
+
+  showStudioMessage(
+    `Your video brief is ready!\n\n` +
+    `Topic: ${prompt}\n` +
+    `Duration: ${duration}\n` +
+    `Aspect ratio: ${ratio}\n` +
+    `Style: ${style}\n` +
+    `Resolution: ${resolution}\n\n` +
+    `This is a saved-on-screen preview only. Actual AI video generation is not connected yet.`
+  );
+});
+
+// ============================================
 // LOGOUT
 // ============================================
 
@@ -244,11 +347,13 @@ logoutButton.addEventListener("click", async () => {
 
   try {
     const { error } = await client.auth.signOut();
-
     if (error) throw error;
 
     updateAccount(null);
     closeAuth();
+    studioAuthIntent = false;
+    hideStudioMessage();
+
   } catch (error) {
     console.error(error);
     alert(error.message || "Logout failed. Please try again.");
@@ -338,16 +443,38 @@ form?.addEventListener("submit", async event => {
     if (mode === "signup") {
       if (result.data.session) {
         updateAccount(result.data.user);
-        window.location.href = "dashboard.html";
+        closeAuth();
+
+        if (studioAuthIntent) {
+          studioAuthIntent = false;
+          showStudioMessage(
+            "Welcome to AIVORA! Your Video Studio is now unlocked. Enter your video topic or script."
+          );
+          videoPrompt?.focus();
+        } else {
+          window.location.href = "dashboard.html";
+        }
+
       } else {
         showMessage(
-          "Signup successful! Please check your email to verify your account.",
+          "Signup successful! Please verify your email, then log in to unlock AI Studio.",
           "success"
         );
       }
+
     } else {
       updateAccount(result.data.user);
-      window.location.href = "dashboard.html";
+      closeAuth();
+
+      if (studioAuthIntent) {
+        studioAuthIntent = false;
+        showStudioMessage(
+          "Welcome back! Your Video Studio is now unlocked. Enter your video topic or script."
+        );
+        videoPrompt?.focus();
+      } else {
+        window.location.href = "dashboard.html";
+      }
     }
 
   } catch (error) {
@@ -373,7 +500,6 @@ async function initializeAuth() {
 
   try {
     const { data, error } = await client.auth.getSession();
-
     if (error) throw error;
 
     updateAccount(data.session?.user || null);
@@ -393,6 +519,7 @@ async function initializeAuth() {
 // ============================================
 
 renderTools();
+updatePromptCount();
 initializeAuth();
 
 console.log("AIVORA loaded successfully.");
