@@ -3,13 +3,41 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Discover useful AI tools for video, images, audio, writing, productivity and more with AIVORA.">
-<meta name="robots" content="index,follow">
-<title>AIVORA — Discover AI. Create More.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Free AI Tools for Video, Images, Writing & More | AIVORA</title>
+
+<meta name="description" content="Discover free AI tools for video generation, image creation, audio, writing, productivity and coding. Explore useful AI tools and create more with AIVORA.">
+
+<meta name="keywords" content="free AI tools, AI tools directory, free AI video tools, AI image generator, AI writing tools, AI audio tools, productivity AI, AI coding tools, AIVORA">
+
+<meta name="author" content="AIVORA">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+
+<link rel="canonical" href="https://muhammadgulsherulhaq-alt.github.io/Aivora/">
+
+<meta name="theme-color" content="#080b18">
+<meta name="application-name" content="AIVORA">
+
+<!-- Google Search Console Verification -->
+<meta name="google-site-verification" content="SrHO54jVtBp6BGxyBXFBKlq8zEI1uLc4iOGAaBmQ1ao">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="AIVORA — Free AI Tools for Everyone">
+<meta property="og:description" content="Discover useful AI tools for video, images, audio, writing, productivity and more.">
+<meta property="og:url" content="https://muhammadgulsherulhaq-alt.github.io/Aivora/">
+<meta property="og:site_name" content="AIVORA">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AIVORA — Discover AI. Create More.">
+<meta name="twitter:description" content="Explore free AI tools for video, images, audio, writing and productivity.">
+
 <link rel="stylesheet" href="style.css">
-<meta name="google-site-verification" content="SrHO54jVtBp6BGxyBXFBKlq8zEI1uLc4iOGAaBmQ1ao" />
 </head>
+
 <body>
 
 <header>
@@ -28,19 +56,24 @@
 
 <section class="hero">
 <small>✦ FREE AI TOOLS FOR EVERYONE</small>
+
 <h1>Discover AI.<br><span>Create More.</span></h1>
+
 <p>Your all-in-one place to discover AI tools for video, images, audio, writing and more.</p>
+
 <div class="search">
-<input id="search" placeholder="Search AI tools...">
+<input id="search" type="search" placeholder="Search AI tools..." aria-label="Search AI tools">
 <button onclick="document.querySelector('#tools').scrollIntoView({behavior:'smooth'})">Search</button>
 </div>
+
 <button id="heroSignup">Explore free tools ↗</button>
-<div class="orb">AI</div>
+<div class="orb" aria-hidden="true">AI</div>
 </section>
 
 <section id="categories">
 <small>EXPLORE BY CATEGORY</small>
 <h2>What do you want to create?</h2>
+
 <div class="cards">
 <button data-cat="Video">▶<b>AI Video</b><small>Generate & edit videos</small></button>
 <button data-cat="Image">▧<b>AI Image</b><small>Create stunning images</small></button>
@@ -53,8 +86,9 @@
 
 <section id="tools">
 <small>THE AIVORA DIRECTORY</small>
-<h2>Find your next favourite tool</h2>
-<select id="filter">
+<h2>Find Your Next Favourite AI Tool</h2>
+
+<select id="filter" aria-label="Filter AI tools by category">
 <option>All</option>
 <option>Video</option>
 <option>Image</option>
@@ -63,7 +97,9 @@
 <option>Productivity</option>
 <option>Developer</option>
 </select>
+
 <div id="toolGrid" class="cards"></div>
+
 <p class="note">Free plans may have usage limits or credits. Check provider websites for current terms.</p>
 </section>
 
@@ -76,6 +112,7 @@
 </main>
 
 <footer>
+
 <div class="footer-brand">
 <h2>✦ AIVORA</h2>
 <p>Discover AI. Create More.</p>
@@ -83,6 +120,7 @@
 </div>
 
 <div class="footer-links">
+
 <div>
 <h3>Explore</h3>
 <a href="index.html">Home</a>
@@ -102,25 +140,31 @@
 <a href="terms.html">Terms & Conditions</a>
 <a href="disclaimer.html">Disclaimer</a>
 </div>
+
 </div>
 
 <div class="footer-bottom">
 <p>© 2026 AIVORA. All rights reserved.</p>
 <p>Discover AI. Create More.</p>
 </div>
+
 </footer>
 
 <div class="modal" id="modal">
 <div>
 <button id="close">×</button>
 <h2 id="modalTitle">Create your account</h2>
+
 <form id="form">
-<label>Email</label>
+<label for="email">Email</label>
 <input id="email" type="email" required>
-<label>Password</label>
+
+<label for="password">Password</label>
 <input id="password" type="password" minlength="6" required>
+
 <button type="submit">Continue</button>
 </form>
+
 <p id="message"></p>
 <p id="switchText">Already have an account? <button id="switch">Log in</button></p>
 </div>
@@ -131,4 +175,5 @@
 <script src="script.js"></script>
 
 </body>
-</html>
+  </html>
+  
