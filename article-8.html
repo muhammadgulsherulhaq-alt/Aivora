@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>What Is Machine Learning? A Beginner-Friendly Guide | AIVORA</title>
+  <meta name="description" content="Learn what machine learning is, how it works, its main types, practical applications, benefits, and limitations in this beginner-friendly guide.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://aivora-3sd.pages.dev/article-8.html">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: #eee;
+      line-height: 1.8;
+    }
+
+    header {
+      padding: 20px;
+      background: #151515;
+      border-bottom: 1px solid #292929;
+    }
+
+    .nav {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      color: #ff3b3b;
+      font-size: 25px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    nav a:hover { color: #ff4545; }
+
+    main {
+      max-width: 850px;
+      margin: 45px auto;
+      padding: 0 20px;
+    }
+
+    .category {
+      color: #ff5555;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 43px);
+      line-height: 1.25;
+      margin: 12px 0;
+    }
+
+    .meta {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #ff5555;
+      margin-top: 35px;
+      font-size: 25px;
+    }
+
+    h3 {
+      color: #fff;
+      margin-top: 25px;
+    }
+
+    p, li {
+      color: #ccc;
+      font-size: 16px;
+    }
+
+    a { color: #ff6666; }
+
+    .contents, .note {
+      background: #191919;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 25px 0;
+    }
+
+    .note {
+      border-left: 4px solid #ff3b3b;
+    }
+
+    .contents h2 { margin-top: 0; }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      background: #151515;
+      border-top: 1px solid #292929;
+      color: #999;
+      font-size: 14px;
+    }
+
+    footer a {
+      margin: 0 8px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="index.html">AIVORA</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="category">Artificial Intelligence · Machine Learning</div>
+
+  <h1>What Is Machine Learning? A Beginner-Friendly Guide</h1>
+
+  <div class="meta">By AIVORA Editorial Team · 2026</div>
+
+  <p>
+    Machine learning is one of the important technologies behind many
+    modern artificial intelligence applications. It helps computers
+    identify patterns in data and use those patterns to make predictions
+    or decisions.
+  </p>
+
+  <p>
+    You may encounter machine learning when receiving product
+    recommendations, filtering unwanted emails, translating languages,
+    or using voice recognition features. This guide explains the basic
+    concepts without requiring previous technical knowledge.
+  </p>
+
+  <div class="contents">
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#definition">What is machine learning?</a></li>
+      <li><a href="#working">How does it work?</a></li>
+      <li><a href="#types">Main types of machine learning</a></li>
+      <li><a href="#examples">Real-world applications</a></li>
+      <li><a href="#benefits">Benefits and limitations</a></li>
+      <li><a href="#learning">How beginners can start learning</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </div>
+
+  <h2 id="definition">1. What Is Machine Learning?</h2>
+
+  <p>
+    Machine learning is a branch of artificial intelligence that allows
+    computer systems to learn patterns from data and use them to perform
+    specific tasks.
+  </p>
+
+  <p>
+    In traditional programming, developers usually provide explicit
+    instructions for how a task should be completed. In machine learning,
+    developers provide data and a learning method so that a model can
+    identify useful patterns.
+  </p>
+
+  <p>
+    The resulting model can then be used to classify information,
+    estimate values, recognize patterns, or make predictions.
+  </p>
+
+  <h2 id="working">2. How Does Machine Learning Work?</h2>
+
+  <p>
+    A machine learning project usually involves several stages. The
+    exact process depends on the problem and the type of model being used.
+  </p>
+
+  <h3>Step 1: Collect Data</h3>
+
+  <p>
+    The process begins with gathering relevant information. For example,
+    a system designed to identify different types of flowers may use
+    images and measurements of flower characteristics.
+  </p>
+
+  <h3>Step 2: Prepare the Data</h3>
+
+  <p>
+    Data may contain missing values, errors, or unnecessary information.
+    Preparing it helps make the training process more reliable.
+  </p>
+
+  <h3>Step 3: Train a Model</h3>
+
+  <p>
+    A learning algorithm processes the training data and adjusts the
+    model's internal parameters to identify patterns related to the task.
+  </p>
+
+  <h3>Step 4: Evaluate the Model</h3>
+
+  <p>
+    The model is tested using data that was not used during training.
+    This helps developers understand how well it performs on unfamiliar
+    examples.
+  </p>
+
+  <h3>Step 5: Use the Model</h3>
+
+  <p>
+    Once evaluated, the model may be used in an application to make
+    predictions or assist with a particular task. Its performance
+    should continue to be monitored.
+  </p>
+
+  <h2 id="types">3. Main Types of Machine Learning</h2>
+
+  <h3>Supervised Learning</h3>
+
+  <p>
+    Supervised learning uses examples that include both input data and
+    the correct target answers. The model learns the relationship
+    between them.
+  </p>
+
+  <p>
+    For example, a model can be trained with labeled pictures of cats
+    and dogs to learn how to distinguish between the two categories.
+  </p>
+
+  <h3>Unsupervised Learning</h3>
+
+  <p>
+    Unsupervised learning works with data that does not have predefined
+    target labels. The system attempts to discover structures or
+    similarities within the information.
+  </p>
+
+  <p>
+    A business might use clustering to group customers with similar
+    purchasing patterns.
+  </p>
+
+  <h3>Reinforcement Learning</h3>
+
+  <p>
+    Reinforcement learning involves an agent interacting with an
+    environment and receiving rewards or penalties based on its actions.
+    It learns a strategy that aims to improve its results over time.
+  </p>
+
+  <p>
+    This approach is used in areas such as robotics, simulations,
+    and certain decision-making systems.
+  </p>
+
+  <div class="note">
+    <strong>Remember:</strong> These categories describe different
+    learning approaches. Not every AI application uses all three.
+  </div>
+
+  <h2 id="examples">4. Real-World Applications of Machine Learning</h2>
+
+  <h3>Email Spam Detection</h3>
+
+  <p>
+    Machine learning models can analyze message characteristics and
+    help email services identify unwanted or suspicious messages.
+  </p>
+
+  <h3>Product Recommendations</h3>
+
+  <p>
+    Online platforms can analyze interactions and product preferences
+    to suggest items that may be relevant to a user.
+  </p>
+
+  <h3>Speech Recognition</h3>
+
+  <p>
+    Some voice-enabled applications use machine learning to convert
+    spoken language into text or interpret voice commands.
+  </p>
+
+  <h3>Medical Research</h3>
+
+  <p>
+    Researchers investigate machine learning methods to analyze
+    medical images, identify patterns in datasets, and support
+    scientific research. Such systems require careful validation
+    and professional oversight.
+  </p>
+
+  <h3>Fraud Detection</h3>
+
+  <p>
+    Financial institutions may use machine learning to identify
+    unusual transaction patterns that deserve further review.
+  </p>
+
+  <h2 id="benefits">5. Benefits and Limitations</h2>
+
+  <h3>Benefits</h3>
+
+  <ul>
+    <li>Can identify patterns in large datasets.</li>
+    <li>Can support predictions and classification tasks.</li>
+    <li>Can help automate certain repetitive processes.</li>
+    <li>Can improve specific applications when updated with suitable data.</li>
+    <li>Can support research and data analysis.</li>
+  </ul>
+
+  <h3>Limitations</h3>
+
+  <ul>
+    <li>Results depend heavily on data quality.</li>
+    <li>Models can produce inaccurate predictions.</li>
+    <li>Training may require computing resources and technical expertise.</li>
+    <li>Biased data can lead to unfair outcomes.</li>
+    <li>Some models are difficult to interpret.</li>
+  </ul>
+
+  <h2 id="learning">6. How Beginners Can Start Learning Machine Learning</h2>
+
+  <p>
+    Beginners do not need to understand every advanced concept at once.
+    A gradual learning path makes the subject easier to approach.
+  </p>
+
+  <ol>
+    <li>Learn basic programming concepts, especially Python.</li>
+    <li>Understand basic mathematics and statistics.</li>
+    <li>Learn how datasets, features, and labels work.</li>
+    <li>Explore simple supervised learning examples.</li>
+    <li>Practice with small, publicly available datasets.</li>
+    <li>Evaluate results instead of focusing only on model accuracy.</li>
+  </ol>
+
+  <p>
+    Free educational materials, beginner programming courses, and
+    practical exercises can help learners build a foundation.
+    Always check the current terms of any learning platform.
+  </p>
+
+  <h2 id="conclusion">7. Conclusion</h2>
+
+  <p>
+    Machine learning enables computers to identify patterns from data
+    and use them for tasks such as classification, prediction, and
+    recommendation. It is an important part of many modern AI systems.
+  </p>
+
+  <p>
+    Understanding its basic types and limitations helps beginners
+    make sense of the technology they encounter in everyday life.
+    Start with simple examples and build your knowledge step by step.
+  </p>
+
+  <div class="note">
+    <strong>About AIVORA:</strong> AIVORA publishes educational
+    guides about artificial intelligence, machine learning,
+    digital tools, and technology.
+  </div>
+
+  <p><a href="index.html">← Back to AIVORA Home</a></p>
+
+</main>
+
+<footer>
+  <p>© 2026 AIVORA. All rights reserved.</p>
+  <a href="about.html">About</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="terms.html">Terms</a>
+  <a href="contact.html">Contact</a>
+  <a href="faq.html">FAQ</a>
+</footer>
+
+</body>
+</html>
