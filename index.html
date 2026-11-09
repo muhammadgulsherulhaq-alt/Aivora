@@ -5,42 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Free AI Tools & AI Video Studio | AIVORA</title>
-<meta name="description" content="Discover AI tools and explore the AIVORA AI Video Studio. Create video concepts with custom duration, aspect ratio and style.">
-<meta name="keywords" content="free AI tools, AI video studio, AI video tools, AI image tools, AI writing tools, AIVORA">
+
+<meta name="description" content="Discover useful AI tools for video, images, audio, writing, productivity and more. Explore practical AI guides and resources with AIVORA.">
+
+<meta name="keywords" content="free AI tools, AI video tools, AI image tools, AI writing tools, AI audio tools, AI productivity tools, AIVORA">
+
 <meta name="author" content="AIVORA">
 <meta name="robots" content="index, follow">
 <meta name="googlebot" content="index, follow">
-<link rel="canonical" href="https://muhammadgulsherulhaq-alt.github.io/Aivora/">
+
+<link rel="canonical" href="https://aivora-3sd.pages.dev/">
+
 <meta name="theme-color" content="#080b18">
 <meta name="application-name" content="AIVORA">
 
+<!-- Google Search Console verification -->
 <meta name="google-site-verification" content="SrHO54jVtBp6BGxyBXFBKlq8zEI1uLc4iOGAaBmQ1ao">
-  <meta name="google-site-verification" content="PdmJAUpREkLt4TzbES0Hd6-FEAZePnve--Pr1oY8ixY" />
+<meta name="google-site-verification" content="PdmJAUpREkLt4TzbES0Hd6-FEAZePnve--Pr1oY8ixY">
 
+<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="AIVORA — Discover AI. Create More.">
-<meta property="og:description" content="Discover useful AI tools and explore the AIVORA AI Video Studio.">
-<meta property="og:url" content="https://muhammadgulsherulhaq-alt.github.io/Aivora/">
+<meta property="og:description" content="Discover useful AI tools, explore beginner-friendly AI guides and create with AIVORA.">
+<meta property="og:url" content="https://aivora-3sd.pages.dev/">
 <meta property="og:site_name" content="AIVORA">
 
+<!-- Twitter -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AIVORA — Discover AI. Create More.">
-<meta name="twitter:description" content="Explore AI tools and create your next video concept.">
+<meta name="twitter:description" content="Explore AI tools, guides and creative resources with AIVORA.">
 
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
   <b>✦ AIVORA</b>
+
   <nav>
     <a href="#studio">AI Studio</a>
     <a href="#categories">AI Tools</a>
     <a href="#tools">Explore</a>
+    <a href="blog.html">Blog & Guides</a>
+    <a href="about-author.html">About Author</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
     <a href="faq.html">FAQ</a>
+
     <button id="login" type="button">Log in</button>
     <button id="signup" type="button">Sign Up</button>
   </nav>
@@ -48,38 +62,75 @@
 
 <main>
 
+<!-- HERO SECTION -->
+
 <section class="hero">
+
   <small>✦ FREE AI TOOLS FOR EVERYONE</small>
-  <h1>Discover AI.<br><span>Create More.</span></h1>
-  <p>Your all-in-one place to discover AI tools for video, images, audio, writing and more.</p>
+
+  <h1>
+    Discover AI.<br>
+    <span>Create More.</span>
+  </h1>
+
+  <p>
+    Your all-in-one place to discover AI tools for video,
+    images, audio, writing, productivity and more.
+  </p>
 
   <div class="search">
-    <input id="search" type="search" placeholder="Search AI tools..." aria-label="Search AI tools">
-    <button type="button" onclick="document.querySelector('#tools').scrollIntoView({behavior:'smooth'})">Search</button>
+    <input
+      id="search"
+      type="search"
+      placeholder="Search AI tools..."
+      aria-label="Search AI tools"
+    >
+
+    <button
+      type="button"
+      onclick="document.querySelector('#tools').scrollIntoView({behavior:'smooth'})"
+    >
+      Search
+    </button>
   </div>
 
-  <button id="heroSignup" type="button">Explore free tools ↗</button>
+  <button id="heroSignup" type="button">
+    Explore free tools ↗
+  </button>
+
   <div class="orb" aria-hidden="true">AI</div>
+
 </section>
+
 
 <!-- AIVORA AI VIDEO STUDIO -->
 
 <section id="studio" class="studio-section">
 
   <div class="studio-heading">
+
     <small>✦ AIVORA AI STUDIO</small>
+
     <h2>Create Your Next Video</h2>
-    <p>Describe your idea, choose your video settings and prepare your creative concept.</p>
+
+    <p>
+      Describe your idea, choose your video settings
+      and prepare your creative concept.
+    </p>
+
   </div>
 
   <div class="studio-panel">
 
     <div class="studio-top">
+
       <div>
         <span class="studio-tag">AI VIDEO CREATOR</span>
         <h3>What do you want to create?</h3>
       </div>
+
       <span class="free-tag">FREE ACCESS</span>
+
     </div>
 
     <label for="videoPrompt">Your video topic or script</label>
@@ -99,26 +150,34 @@
     <div class="video-settings">
 
       <div class="setting">
+
         <label for="videoDuration">Video duration</label>
+
         <select id="videoDuration">
           <option value="15 seconds">15 seconds</option>
           <option value="30 seconds" selected>30 seconds</option>
           <option value="60 seconds">60 seconds</option>
           <option value="90 seconds">90 seconds</option>
         </select>
+
       </div>
 
       <div class="setting">
+
         <label for="videoRatio">Aspect ratio</label>
+
         <select id="videoRatio">
           <option value="9:16">9:16 — Portrait</option>
           <option value="16:9">16:9 — Landscape</option>
           <option value="1:1">1:1 — Square</option>
         </select>
+
       </div>
 
       <div class="setting">
+
         <label for="videoStyle">Video style</label>
+
         <select id="videoStyle">
           <option value="Cinematic">Cinematic</option>
           <option value="Realistic">Realistic</option>
@@ -127,14 +186,18 @@
           <option value="Documentary">Documentary</option>
           <option value="Social Media">Social Media</option>
         </select>
+
       </div>
 
       <div class="setting">
+
         <label for="videoResolution">Resolution</label>
+
         <select id="videoResolution">
           <option value="720p">720p HD</option>
           <option value="1080p" selected>1080p Full HD</option>
         </select>
+
       </div>
 
     </div>
@@ -147,35 +210,78 @@
       Video generation is not connected yet. This is the first version of AIVORA Studio.
     </p>
 
-    <div id="studioMessage" class="studio-message" aria-live="polite"></div>
+    <div
+      id="studioMessage"
+      class="studio-message"
+      aria-live="polite"
+    ></div>
 
   </div>
 
 </section>
+
 
 <!-- CATEGORIES -->
 
 <section id="categories">
+
   <small>EXPLORE BY CATEGORY</small>
+
   <h2>What do you want to create?</h2>
 
   <div class="cards">
-    <button data-cat="Video" type="button">▶<b>AI Video</b><small>Generate & edit videos</small></button>
-    <button data-cat="Image" type="button">▧<b>AI Image</b><small>Create stunning images</small></button>
-    <button data-cat="Audio" type="button">♫<b>AI Audio</b><small>Voice, music & sound</small></button>
-    <button data-cat="Writing" type="button">✎<b>AI Writing</b><small>Write and improve</small></button>
-    <button data-cat="Productivity" type="button">ϟ<b>Productivity</b><small>Work smarter</small></button>
-    <button data-cat="Developer" type="button">{ }<b>Developer</b><small>Code & build faster</small></button>
+
+    <button data-cat="Video" type="button">
+      ▶
+      <b>AI Video</b>
+      <small>Generate & edit videos</small>
+    </button>
+
+    <button data-cat="Image" type="button">
+      ▧
+      <b>AI Image</b>
+      <small>Create stunning images</small>
+    </button>
+
+    <button data-cat="Audio" type="button">
+      ♫
+      <b>AI Audio</b>
+      <small>Voice, music & sound</small>
+    </button>
+
+    <button data-cat="Writing" type="button">
+      ✎
+      <b>AI Writing</b>
+      <small>Write and improve</small>
+    </button>
+
+    <button data-cat="Productivity" type="button">
+      ϟ
+      <b>Productivity</b>
+      <small>Work smarter</small>
+    </button>
+
+    <button data-cat="Developer" type="button">
+      { }
+      <b>Developer</b>
+      <small>Code & build faster</small>
+    </button>
+
   </div>
+
 </section>
+
 
 <!-- AI TOOLS DIRECTORY -->
 
 <section id="tools">
+
   <small>THE AIVORA DIRECTORY</small>
+
   <h2>Find Your Next Favourite AI Tool</h2>
 
   <select id="filter" aria-label="Filter AI tools by category">
+
     <option>All</option>
     <option>Video</option>
     <option>Image</option>
@@ -183,19 +289,29 @@
     <option>Writing</option>
     <option>Productivity</option>
     <option>Developer</option>
+
   </select>
 
   <div id="toolGrid" class="cards"></div>
 
-  <p class="note">Free plans may have usage limits or credits. Check provider websites for current terms.</p>
+  <p class="note">
+    Free plans may have usage limits or credits.
+    Check provider websites for current terms.
+  </p>
+
 </section>
 
+
 <!-- AIVORA BEGINNER GUIDE -->
+
 <section id="ai-guide" class="guide-section">
 
   <div class="guide-intro">
+
     <small>THE AIVORA BEGINNER'S GUIDE</small>
+
     <h2>A Simple Guide to Choosing AI Tools</h2>
+
     <p>
       Artificial intelligence tools can help people complete creative,
       educational and everyday tasks. From writing and image creation
@@ -203,12 +319,15 @@
       different purposes. This guide will help you understand the
       main categories and choose tools according to your needs.
     </p>
+
   </div>
 
   <div class="guide-content">
 
     <article>
+
       <h3>What Are AI Tools?</h3>
+
       <p>
         AI tools are software applications that use artificial
         intelligence to assist with specific tasks. They can help
@@ -218,10 +337,14 @@
         improve existing work. AI output should always be reviewed
         for accuracy, originality and quality before you use it.
       </p>
+
     </article>
 
+
     <article>
+
       <h3>How to Choose a Free AI Tool</h3>
+
       <p>
         Start by identifying the task you want to complete. Compare
         tools based on their features, ease of use, output quality
@@ -230,15 +353,19 @@
         upgrades. Always check the provider's current pricing and
         terms because free-plan conditions can change.
       </p>
+
       <p>
         Before uploading files, check the service's privacy policy.
         Avoid sharing passwords, confidential documents or sensitive
         personal information with tools unless you understand how
         the provider handles that data.
       </p>
+
     </article>
 
+
     <article>
+
       <h3>Explore Different AI Tool Categories</h3>
 
       <p>
@@ -282,10 +409,14 @@
         and help identify errors. Always test and review code
         before using it in a project.
       </p>
+
     </article>
 
+
     <article>
+
       <h3>How to Use AIVORA</h3>
+
       <p>
         Browse the categories on AIVORA or use the search feature
         to find tools related to your task. Open the provider's
@@ -293,15 +424,20 @@
         Compare suitable options and try them with a simple,
         non-sensitive example before choosing one.
       </p>
+
       <p>
         AIVORA is an independent discovery directory. Third-party
         tools are operated by their respective providers, and
         their features and availability may change.
       </p>
+
     </article>
 
+
     <article>
+
       <h3>What Can AIVORA AI Studio Do?</h3>
+
       <p>
         AIVORA AI Studio currently helps users prepare video
         concepts by entering a topic and selecting settings such
@@ -309,10 +445,14 @@
         generate or export a finished video file. The concept can
         be used as a starting point when planning a video project.
       </p>
+
     </article>
 
+
     <article>
+
       <h3>Use Artificial Intelligence Responsibly</h3>
+
       <p>
         AI-generated information can contain mistakes. Verify
         important facts and use reliable sources when accuracy
@@ -320,6 +460,7 @@
         service. Do not use AI output to mislead people or
         misrepresent someone else's work.
       </p>
+
     </article>
 
   </div>
@@ -331,82 +472,200 @@
   </p>
 
 </section>
-<!-- END AIVORA BEGINNER GUIDE -->
-  
+
+
+<!-- BLOG AND ARTICLES FEATURE -->
+
+<section id="blog-preview" class="guide-section">
+
+  <div class="guide-intro">
+
+    <small>✦ LEARN WITH AIVORA</small>
+
+    <h2>Explore AI Guides & Articles</h2>
+
+    <p>
+      Learn how AI tools work, discover useful features
+      and explore practical guides for beginners.
+      Visit our article library to find all 15 published guides.
+    </p>
+
+    <p>
+      <a href="blog.html">Explore All 15 Articles ↗</a>
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- AUTHOR FEATURE -->
+
+<section id="author-preview" class="guide-section">
+
+  <div class="guide-intro">
+
+    <small>ABOUT THE CREATOR</small>
+
+    <h2>Meet the Author Behind AIVORA</h2>
+
+    <p>
+      Learn more about the person behind AIVORA,
+      the purpose of this platform and its mission
+      to make AI discovery easier.
+    </p>
+
+    <p>
+      <a href="about-author.html">Read About the Author ↗</a>
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- CALL TO ACTION -->
+
 <section class="cta">
+
   <h2>Explore. Create. Share.</h2>
-  <p>Create an AIVORA account and start discovering AI tools.</p>
-  <button id="bottomSignup" type="button">Sign Up Now ↗</button>
+
+  <p>
+    Create an AIVORA account and start discovering AI tools.
+  </p>
+
+  <button id="bottomSignup" type="button">
+    Sign Up Now ↗
+  </button>
+
 </section>
 
 </main>
 
+
+<!-- FOOTER -->
+
 <footer>
 
   <div class="footer-brand">
+
     <h2>✦ AIVORA</h2>
+
     <p>Discover AI. Create More.</p>
-    <p>Your destination for discovering useful AI tools and resources.</p>
+
+    <p>
+      Your destination for discovering useful AI tools
+      and resources.
+    </p>
+
   </div>
+
 
   <div class="footer-links">
 
     <div>
+
       <h3>Explore</h3>
+
       <a href="index.html">Home</a>
       <a href="#studio">AI Studio</a>
       <a href="#categories">AI Categories</a>
       <a href="#tools">Explore Tools</a>
+      <a href="blog.html">Blog & Guides</a>
       <a href="faq.html">Frequently Asked Questions</a>
+
     </div>
 
+
     <div>
+
       <h3>Company</h3>
+
       <a href="about.html">About Us</a>
+      <a href="about-author.html">About Author</a>
       <a href="contact.html">Contact Us</a>
       <a href="faq.html">FAQs</a>
+
     </div>
 
+
     <div>
+
       <h3>Legal</h3>
+
       <a href="privacy-policy.html">Privacy Policy</a>
       <a href="terms.html">Terms & Conditions</a>
       <a href="disclaimer.html">Disclaimer</a>
+
     </div>
 
   </div>
 
+
   <div class="footer-bottom">
+
     <p>© 2026 AIVORA. All rights reserved.</p>
+
     <p>Discover AI. Create More.</p>
+
   </div>
 
 </footer>
 
+
 <!-- AUTHENTICATION MODAL -->
 
 <div class="modal" id="modal">
+
   <div>
+
     <button id="close" type="button">×</button>
+
     <h2 id="modalTitle">Create your account</h2>
 
     <form id="form">
+
       <label for="email">Email</label>
-      <input id="email" type="email" required autocomplete="email">
+
+      <input
+        id="email"
+        type="email"
+        required
+        autocomplete="email"
+      >
 
       <label for="password">Password</label>
-      <input id="password" type="password" minlength="6" required autocomplete="current-password">
+
+      <input
+        id="password"
+        type="password"
+        minlength="6"
+        required
+        autocomplete="current-password"
+      >
 
       <button type="submit">Continue</button>
+
     </form>
 
     <p id="message"></p>
-    <p id="switchText">Already have an account? <button id="switch" type="button">Log in</button></p>
+
+    <p id="switchText">
+      Already have an account?
+      <button id="switch" type="button">Log in</button>
+    </p>
+
   </div>
+
 </div>
 
+
+<!-- SCRIPTS -->
+
 <script src="config.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="script.js"></script>
 
 </body>
