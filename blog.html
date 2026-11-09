@@ -1,15 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore practical beginner-friendly guides to AI writing, image and video tools, and choosing the right AI tools.">
-  <meta name="robots" content="index, follow">
+
   <title>AI Guides & Articles | AIVORA</title>
-  <link rel="canonical" href="https://muhammadgulsherulhaq-alt.github.io/Aivora/blog.html">
+
+  <meta name="description" content="Explore 15 practical AI guides covering AI tools, writing, image generation, machine learning, chatbots, productivity and more.">
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://aivora-3sd.pages.dev/blog.html">
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -17,6 +24,7 @@
       color: #f2f4ff;
       line-height: 1.7;
     }
+
     header {
       padding: 22px 7%;
       display: flex;
@@ -26,49 +34,141 @@
       gap: 15px;
       border-bottom: 1px solid #20294b;
     }
+
     .logo {
       font-size: 27px;
       font-weight: bold;
       color: #a78bfa;
       text-decoration: none;
     }
+
     nav a {
       color: #d4d9f5;
       text-decoration: none;
-      margin-left: 18px;
+      margin-left: 16px;
       font-size: 14px;
     }
-    nav a:hover, .read:hover { color: #22d3ee; }
-    main { max-width: 1050px; margin: auto; padding: 55px 20px; }
-    .intro { text-align: center; margin-bottom: 42px; }
+
+    nav a:hover,
+    .read:hover {
+      color: #22d3ee;
+    }
+
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 55px 20px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
     .intro h1 {
       font-size: clamp(32px, 6vw, 48px);
       line-height: 1.2;
       background: linear-gradient(90deg, #a78bfa, #22d3ee);
       color: transparent;
       background-clip: text;
+      -webkit-background-clip: text;
     }
-    .intro p { color: #b7c0df; max-width: 650px; margin: auto; }
+
+    .intro p {
+      color: #b7c0df;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .section-title {
+      color: #c4b5fd;
+      font-size: 25px;
+      margin-bottom: 22px;
+    }
+
     .articles {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 22px;
     }
+
     .article {
       background: #111a35;
       border: 1px solid #29365e;
       border-radius: 15px;
-      padding: 25px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      transition: 0.25s ease;
     }
-    .article h2 { color: #c4b5fd; font-size: 21px; }
-    .article p { color: #b7c0df; font-size: 14px; }
+
+    .article:hover {
+      transform: translateY(-4px);
+      border-color: #8b5cf6;
+    }
+
+    .number {
+      color: #22d3ee;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+    }
+
+    .article h2 {
+      color: #c4b5fd;
+      font-size: 20px;
+      line-height: 1.4;
+      margin: 12px 0;
+    }
+
+    .article p {
+      color: #b7c0df;
+      font-size: 14px;
+      flex-grow: 1;
+    }
+
     .read {
       display: inline-block;
-      margin-top: 12px;
+      margin-top: 15px;
       color: #22d3ee;
       text-decoration: none;
       font-weight: bold;
+      font-size: 14px;
     }
+
+    .author-box {
+      margin-top: 55px;
+      padding: 30px;
+      background: #111a35;
+      border: 1px solid #29365e;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .author-box h2 {
+      color: #c4b5fd;
+      margin-top: 0;
+    }
+
+    .author-box p {
+      color: #b7c0df;
+    }
+
+    .author-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 11px 22px;
+      background: #7c3aed;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .author-link:hover {
+      background: #6d28d9;
+    }
+
     footer {
       text-align: center;
       padding: 28px 15px;
@@ -76,53 +176,201 @@
       color: #9ca8ca;
       font-size: 13px;
     }
-    footer a { color: #22d3ee; text-decoration: none; margin: 0 8px; }
+
+    footer a {
+      color: #22d3ee;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    @media(max-width: 600px) {
+      header {
+        justify-content: center;
+      }
+
+      nav {
+        text-align: center;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 5px 8px;
+      }
+
+      main {
+        padding: 35px 15px;
+      }
+
+      .article {
+        padding: 21px;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <header>
-    <a class="logo" href="index.html">AIVORA</a>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="blog.html">Guides</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="intro">
-      <h1>AI Guides & Articles</h1>
-      <p>Explore practical guides to understand AI tools, improve your workflow, and make better use of artificial intelligence.</p>
-    </section>
+<header>
+  <a class="logo" href="index.html">AIVORA</a>
 
-    <section class="articles">
-      <article class="article">
-        <h2>How to Choose the Best AI Tool: A Beginner's Guide</h2>
-        <p>A practical guide to comparing AI tools, understanding their features, checking pricing, and finding the right option for your needs.</p>
-        <a class="read" href="article-1.html">Read Full Guide →</a>
-      </article>
-
-      <article class="article">
-        <h2>How to Use AI Writing Tools Effectively</h2>
-        <p>Learn practical ways to write better prompts, review AI-generated drafts, and improve your writing workflow.</p>
-        <a class="read" href="article-2.html">Read Full Guide →</a>
-      </article>
-
-      <article class="article">
-        <h2>Understanding AI Image and Video Tools</h2>
-        <p>Explore how AI image and video tools work, their creative uses, and important limitations to consider.</p>
-        <a class="read" href="article-3.html">Read Full Guide →</a>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2026 AIVORA. All rights reserved.</p>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms</a>
-    <a href="disclaimer.html">Disclaimer</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="blog.html">Guides</a>
+    <a href="about.html">About</a>
+    <a href="about-author.html">Author</a>
     <a href="contact.html">Contact</a>
-  </footer>
+  </nav>
+</header>
+
+<main>
+
+  <section class="intro">
+    <h1>AI Guides & Articles</h1>
+
+    <p>
+      Explore practical, beginner-friendly guides to artificial
+      intelligence. Learn about AI tools, creative technologies,
+      productivity, machine learning and the future of AI.
+    </p>
+  </section>
+
+  <h2 class="section-title">Explore Our 15 AI Guides</h2>
+
+  <section class="articles">
+
+    <article class="article">
+      <span class="number">ARTICLE 01</span>
+      <h2>How to Choose the Best AI Tool: A Beginner's Guide</h2>
+      <p>Learn how to compare AI platforms, evaluate features, understand pricing and select the right tool for your needs.</p>
+      <a class="read" href="article-1.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 02</span>
+      <h2>How to Use AI Writing Tools Effectively</h2>
+      <p>Discover practical prompting techniques, editing methods and ways to improve your AI-assisted writing workflow.</p>
+      <a class="read" href="article-2.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 03</span>
+      <h2>Understanding AI Image and Video Tools</h2>
+      <p>Explore how AI image and video generators work and how beginners can use them for creative projects.</p>
+      <a class="read" href="article-3.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 04</span>
+      <h2>How to Use AI Tools for Free in 2026</h2>
+      <p>Explore free AI tools, understand their usage limits and learn how to make better use of free plans.</p>
+      <a class="read" href="article-4.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 05</span>
+      <h2>How to Use AI for Content Creation</h2>
+      <p>Learn how AI can assist with content ideas, writing, visuals and digital content workflows.</p>
+      <a class="read" href="article-5.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 06</span>
+      <h2>10 Practical Ways AI Is Used in Everyday Life</h2>
+      <p>Discover common applications of artificial intelligence in communication, education, shopping and productivity.</p>
+      <a class="read" href="article-6.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 07</span>
+      <h2>AI vs Traditional Software: Key Differences Explained</h2>
+      <p>Understand the differences between traditional software and AI-powered systems through practical examples.</p>
+      <a class="read" href="article-7.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 08</span>
+      <h2>What Is Machine Learning? A Beginner-Friendly Guide</h2>
+      <p>Learn the basic concepts of machine learning, how it works and where it is used.</p>
+      <a class="read" href="article-8.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 09</span>
+      <h2>What Is Generative AI? A Complete Beginner's Guide</h2>
+      <p>Explore generative AI, how it creates content and its applications in modern technology.</p>
+      <a class="read" href="article-9.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 10</span>
+      <h2>What Is an AI Chatbot? How It Works and How to Use One</h2>
+      <p>Understand AI chatbots, their capabilities, limitations and practical everyday uses.</p>
+      <a class="read" href="article-10.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 11</span>
+      <h2>What Is Natural Language Processing (NLP)?</h2>
+      <p>Discover how AI systems understand and process human language through NLP technology.</p>
+      <a class="read" href="article-11.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 12</span>
+      <h2>How Does AI Image Generation Work? A Beginner's Guide</h2>
+      <p>Learn the basics of AI image generation, prompts and how text descriptions become visual content.</p>
+      <a class="read" href="article-12.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 13</span>
+      <h2>Best Ways to Use Free AI Tools for Small Businesses</h2>
+      <p>Explore how small businesses can use AI for marketing, customer communication and productivity.</p>
+      <a class="read" href="article-13.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 14</span>
+      <h2>How to Choose the Right AI Tool for Your Needs</h2>
+      <p>Compare AI tools based on your goals, features, usability and practical requirements.</p>
+      <a class="read" href="article-14.html">Read Full Guide →</a>
+    </article>
+
+    <article class="article">
+      <span class="number">ARTICLE 15</span>
+      <h2>The Future of Artificial Intelligence: Trends and Challenges</h2>
+      <p>Explore emerging AI trends, future opportunities and important challenges surrounding responsible AI development.</p>
+      <a class="read" href="article-15.html">Read Full Guide →</a>
+    </article>
+
+  </section>
+
+  <section class="author-box">
+    <h2>Meet the Founder & Author</h2>
+
+    <p>
+      Discover the person behind AIVORA, his background,
+      education, skills and vision for making AI easier to explore.
+    </p>
+
+    <a class="author-link" href="about-author.html">
+      About the Author →
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 AIVORA. All rights reserved.</p>
+
+  <a href="about.html">About</a>
+  <a href="about-author.html">About Author</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="terms.html">Terms</a>
+  <a href="disclaimer.html">Disclaimer</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact</a>
+</footer>
+
 </body>
-</html>
+  </html>
