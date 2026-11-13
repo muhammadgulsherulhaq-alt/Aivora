@@ -3,96 +3,52 @@
 
   <url>
     <loc>https://aivora-3sd.pages.dev/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://aivora-3sd.pages.dev/reel-studio.html</loc>
+    <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/about.html</loc>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/contact.html</loc>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/privacy-policy.html</loc>
+    <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/terms.html</loc>
+    <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/disclaimer.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/faq.html</loc>
+    <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/blog.html</loc>
-  </url>
-<url>
-  <loc>https://aivora-3sd.pages.dev/about-author.html</loc>
-</url>
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-1.html</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/article-2.html</loc>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://aivora-3sd.pages.dev/article-3.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-4.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-5.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-6.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-7.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-8.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-9.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-10.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-11.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-12.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-13.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-14.html</loc>
-  </url>
-
-  <url>
-    <loc>https://aivora-3sd.pages.dev/article-15.html</loc>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
