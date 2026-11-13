@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free Reel &amp; Shorts Maker (9:16) | AIVORA</title>
+<meta name="description" content="Free tool that turns your own long videos into 9:16 shorts or Twitter-style reels with a rounded video box, verified-style header and hook caption. Runs in your browser; nothing is uploaded.">
+<meta name="theme-color" content="#080b18">
+<style>
+:root{--bg:#080b18;--fg:#eef0f8;--mu:#9aa0b8;--card:#12172b;--ac:#7c5cff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--fg);font:16px system-ui,sans-serif;padding:14px;max-width:560px;margin:auto}
+h1{font-size:22px;margin:4px 0 12px}label{display:block;font-size:13px;color:var(--mu);margin:10px 0 4px}
+input,select,textarea,button{width:100%;font:inherit;padding:11px;border-radius:10px;border:1px solid #8884;background:var(--card);color:var(--fg)}
+button{background:var(--ac);color:#fff;border:0;font-weight:600;margin-top:10px}button.g{background:var(--card);color:var(--fg);border:1px solid #8884}
+button:disabled{opacity:.5}.tabs{display:flex;gap:8px}.tabs button{margin:0}.row{display:flex;gap:8px}.row>*{flex:1}
+.chips button{width:auto;margin:4px 4px 0 0;padding:8px 10px;font-size:13px;text-align:left}
+a{color:#a99bff}header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px}header a{text-decoration:none;font-weight:700}nav a{font-weight:400;margin-left:12px;font-size:14px}footer,.txt{font-size:14px;color:var(--mu);line-height:1.6}footer{margin:30px 0 10px;border-top:1px solid #8883;padding-top:14px}.txt h2{font-size:17px;color:var(--fg);margin:20px 0 6px}
+canvas{width:100%;border-radius:12px;background:#000;margin-top:12px;max-height:70vh;object-fit:contain}
+.s{font-size:13px;color:var(--mu);margin-top:8px}video#v{display:none}video#o{width:100%;margin-top:12px;border-radius:12px}
+</style></head><body>
+<header><a href="index.html">✦ AIVORA</a><nav><a href="index.html#tools">AI Tools</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header>
+<h1>Free Reel &amp; Shorts Maker</h1>
+<p class="s">Turn your own long videos into vertical 9:16 shorts, or into a Twitter-style video with a rounded video box, channel header and hook caption. It runs inside your browser, so your files stay on your device.</p>
+<div class="tabs"><button id="t1">9:16 Shorts</button><button id="t2" class="g">Twitter-style</button></div>
+
+<label>1. Pick your video (downloaded long video from your phone)</label>
+<input id="f" type="file" accept="video/*">
+<video id="v" playsinline preload="auto"></video>
+
+<label>Start – End (seconds or mm:ss)</label>
+<div class="row"><input id="a" value="0"><input id="b" value="45"></div>
+
+<label>Number of reels (the range above is split equally)</label><input id="nn" type="number" min="1" max="20" value="1">
+<div id="ps">
+<label>Layout</label><select id="lay"><option value="blur">Full video + blurred background</option><option value="fill">Fill screen (crop sides)</option></select>
+<label>Crop position (Fill only)</label><input id="pos" type="range" min="0" max="100" value="50">
+</div>
+
+<div id="pt" hidden>
+<label>Channel picture</label><input id="pf" type="file" accept="image/*">
+<div class="row"><div><label>Channel name</label><input id="nm" value="Your Channel"></div><div><label>@username</label><input id="hd" value="@yourchannel"></div></div>
+<div class="row"><div><label>Theme</label><select id="th"><option value="d">Black</option><option value="l">White</option></select></div>
+<div><label>Video border</label><select id="bd"><option value="w">White</option><option value="b">Black</option><option value="n">None</option></select></div></div>
+<label>Hook caption (write your own)</label><textarea id="hk" rows="2">Nobody tells you this about success…</textarea>
+<div class="row"><input id="tp" placeholder="Your topic, e.g. saving money"><button class="g" id="hi" style="margin-top:0">Hook ideas</button></div><div class="chips" id="ch"></div>
+</div>
+
+<label>AI captions &amp; hooks (free, runs on your phone, needs internet the first time)</label>
+<div class="row"><select id="ln"><option value="">Auto language</option><option value="english">English</option><option value="urdu">Urdu</option><option value="hindi">Hindi</option></select><select id="md"><option value="Xenova/whisper-tiny">Fast (tiny, ~40 MB)</option><option value="Xenova/whisper-base">Better (base, ~75 MB)</option></select></div>
+<button id="tx" class="g">Listen to the video: make captions and hooks</button>
+<label style="display:flex;gap:8px;align-items:center;color:var(--fg)"><input id="cc" type="checkbox" checked style="width:auto"> Burn captions into the reels</label>
+<canvas id="cv"></canvas>
+<button id="go" disabled>Make video</button>
+<div class="s" id="st">Pick a video to start. The video is processed on your phone and never uploaded. Keep the screen on while it renders (it runs in real time).</div>
+<div id="res"></div>
+
+<div class="txt">
+<h2>How to use it</h2>
+<p>1. Save the long video to your phone or computer. 2. Pick it above and set the start and end time of the part you want. 3. Choose the 9:16 Shorts tab, or the Twitter-style tab and add your channel picture, name and hook caption. 4. Press Make video, wait for it to finish (it records in real time), then save the result.</p>
+<h2>Good to know</h2>
+<p>Keep the screen on while the video renders. Use only videos you own or have permission to edit and share. The tool does not download videos from other websites. Your video and picture are processed on your own device and are not uploaded to AIVORA.</p>
+<h2>About the AI captions</h2>
+<p>The first time you use AI captions, a small speech model is downloaded and then runs on your own device. Your video is not uploaded. It works best for clear speech in English; Urdu and Hindi are experimental. Always check the captions before posting.</p>
+<h2>Which file will I get?</h2>
+<p>Most phones and browsers save an MP4 file. Some browsers can only create WebM, which still plays on most devices. The original audio of your video is kept.</p>
+</div>
+<footer>© 2026 AIVORA · <a href="privacy-policy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="disclaimer.html">Disclaimer</a> · <a href="faq.html">FAQ</a></footer>
+<script>
+const $=i=>document.getElementById(i),W=720,H=1280,cv=$('cv'),cx=cv.getContext('2d'),v=$('v');
+cv.width=W;cv.height=H;let mode='s',pfp=null,blob=null,ext='mp4',ac,dest,busy=false;
+const tm=s=>{s=String(s).trim();if(s.includes(':')){return s.split(':').reduce((x,y)=>x*60+(+y||0),0)}return +s||0},
+fm=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function tab(m){mode=m;$('t1').className=m=='s'?'':'g';$('t2').className=m=='t'?'':'g';$('ps').hidden=m!='s';$('pt').hidden=m!='t';draw()}
+$('t1').onclick=()=>tab('s');$('t2').onclick=()=>tab('t');
+$('f').onchange=e=>{const f=e.target.files[0];if(!f)return;v.src=URL.createObjectURL(f);v.onloadedmetadata=()=>{v.currentTime=.1;$('b').value=Math.min(45,Math.floor(v.duration));$('go').disabled=false;$('st').textContent='Video length '+fm(v.duration)+'. Set start/end and press Make video.'};v.onseeked=()=>{if(!busy)draw()}};
+$('pf').onchange=e=>{const f=e.target.files[0];if(!f)return;const i=new Image();i.onload=()=>{pfp=i;draw()};i.src=URL.createObjectURL(f)};
+['lay','pos','nm','hd','th','bd','hk'].forEach(i=>$(i).oninput=()=>{if(!busy)draw()});
+function cover(im,x,y,w,h,ox=.5){const iw=im.videoWidth||im.width,ih=im.videoHeight||im.height;if(!iw)return;const s=Math.max(w/iw,h/ih),sw=w/s,sh=h/s;cx.drawImage(im,(iw-sw)*ox,(ih-sh)/2,sw,sh,x,y,w,h)}
+function rr(x,y,w,h,r){cx.beginPath();cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h)}
+function draw(){
+ if(mode=='s'){cx.fillStyle='#000';cx.fillRect(0,0,W,H);if(!v.videoWidth)return;
+  if($('lay').value=='fill')cover(v,0,0,W,H,$('pos').value/100);
+  else{cx.save();cx.filter='blur(24px) brightness(.6)';cover(v,-40,-40,W+80,H+80);cx.restore();const h=W*v.videoHeight/v.videoWidth;cx.drawImage(v,0,(H-h)/2,W,h)}cap(930);return}
+ const d=$('th').value=='d',fg=d?'#fff':'#000';cx.fillStyle=d?'#000':'#fff';cx.fillRect(0,0,W,H);
+ const px=40,py=70,pr=44;cx.save();cx.beginPath();cx.arc(px+pr,py+pr,pr,0,7);cx.clip();
+ if(pfp)cover(pfp,px,py,pr*2,pr*2);else{cx.fillStyle='#888';cx.fillRect(px,py,pr*2,pr*2)}cx.restore();
+ const tx=px+pr*2+18;cx.textBaseline='alphabetic';cx.fillStyle=fg;cx.font='bold 34px system-ui,sans-serif';cx.fillText($('nm').value,tx,py+36);
+ const nw=cx.measureText($('nm').value).width,tcx=tx+nw+24,tcy=py+25;
+ cx.fillStyle='#1d9bf0';cx.beginPath();cx.arc(tcx,tcy,15,0,7);cx.fill();cx.strokeStyle='#fff';cx.lineWidth=3.5;cx.lineCap='round';cx.lineJoin='round';
+ cx.beginPath();cx.moveTo(tcx-6,tcy);cx.lineTo(tcx-1.5,tcy+5);cx.lineTo(tcx+7,tcy-5);cx.stroke();
+ cx.fillStyle='#71767b';cx.font='28px system-ui,sans-serif';cx.fillText($('hd').value,tx,py+76);
+ cx.fillStyle=fg;cx.font='bold 44px system-ui,sans-serif';let y=py+pr*2+70,line='',n=0;
+ for(const w of $('hk').value.split(/\s+/)){const t=line?line+' '+w:w;if(cx.measureText(t).width>640&&line){cx.fillText(line,40,y);y+=56;line=w;if(++n>=6)break}else line=t}
+ if(n<6){cx.fillText(line,40,y)}y+=30;
+ if(!v.videoWidth)return;let bw=648,bh=bw*v.videoHeight/v.videoWidth;if(bh>780){bh=780;bw=bh*v.videoWidth/v.videoHeight}
+ const bx=(W-bw)/2,by=Math.max(y,(H-bh)/2);cx.save();rr(bx,by,bw,bh,28);cx.clip();cx.drawImage(v,bx,by,bw,bh);cx.restore();
+ const b=$('bd').value;if(b!='n'){cx.strokeStyle=b=='w'?'#fff':'#000';cx.lineWidth=6;rr(bx,by,bw,bh,28);cx.stroke()}
+cap(Math.min(by+bh+100,H-140));
+}
+async function rend(s,e,i,n){
+ v.currentTime=s;await new Promise(r=>{v.onseeked=r});v.onseeked=()=>{if(!busy)draw()};
+ const mt=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+ const ms=new MediaStream([...cv.captureStream(30).getVideoTracks(),...dest.stream.getAudioTracks()]);
+ const rec=new MediaRecorder(ms,{mimeType:mt,videoBitsPerSecond:5e6}),ch=[];rec.ondataavailable=x=>x.data.size&&ch.push(x.data);
+ const done=new Promise(r=>rec.onstop=r);rec.start(500);await v.play();
+ await new Promise(r=>{const L=()=>{draw();const p=(v.currentTime-s)/(e-s);$('st').textContent='Reel '+i+' of '+n+': recording… '+Math.min(99,Math.round(p*100))+'%';if(v.currentTime>=e||v.ended)r();else requestAnimationFrame(L)};L()});
+ v.pause();rec.stop();await done;return{b:new Blob(ch,{type:mt.split(';')[0]}),x:mt.includes('mp4')?'mp4':'webm'}}
+function addRes(r,i){const d=document.createElement('div'),p=document.createElement('video'),a=document.createElement('button');
+ p.src=URL.createObjectURL(r.b);p.controls=true;p.playsInline=true;p.style.cssText='width:100%;margin-top:12px;border-radius:12px';a.textContent='Save reel '+i;
+ a.onclick=()=>{const l=document.createElement('a');l.href=p.src;l.download='reel_'+i+'_'+Date.now()+'.'+r.x;document.body.appendChild(l);l.click();l.remove()};d.append(p,a);$('res').append(d)}
+$('go').onclick=async()=>{
+ const s=tm($('a').value),e=Math.min(tm($('b').value),v.duration),n=Math.min(20,Math.max(1,Math.floor(+$('nn').value)||1)),L=(e-s)/n;
+ if(L<1)return $('st').textContent='Each reel must be at least 1 second. Check start, end and number of reels.';
+ $('res').replaceChildren();busy=true;$('go').disabled=true;
+ try{ac=ac||new AudioContext();if(!dest){dest=ac.createMediaStreamDestination();ac.createMediaElementSource(v).connect(dest)}await ac.resume();
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen')}catch(_){}
+  for(let i=0;i<n;i++)addRes(await rend(s+i*L,s+(i+1)*L,i+1,n),i+1);
+  $('st').textContent='Done! '+n+' reel'+(n>1?'s':'')+' ready, with the original audio. Press Save under each one (or press and hold the video and choose Download).';
+ }catch(err){$('st').textContent='Could not render: '+(err.message||err)}
+ busy=false;$('go').disabled=false;draw()};
+const TP=['Nobody tells you the truth about X…','Stop doing X this way','X: what I wish I knew sooner','3 things about X that will surprise you','The biggest mistake people make with X','Watch this before you try X','Why X is harder than it looks','This changed how I think about X'];
+function showHooks(a){$('ch').replaceChildren(...a.map(h=>{const b=document.createElement('button');b.className='g';b.textContent=h;b.onclick=()=>{$('hk').value=h;draw()};return b}))}
+$('hi').onclick=()=>{const t=($('tp').value.trim()||'this').toLowerCase();showHooks(TP.map(x=>x.replace(/X/g,t)))};
+const K=['nm','hd','th','bd','hk','lay','tp'];try{K.forEach(k=>{const x=localStorage.getItem('rs_'+k);if(x!==null)$(k).value=x});K.forEach(k=>$(k).addEventListener('input',()=>localStorage.setItem('rs_'+k,$(k).value)))}catch(_){}
+let words=[],asr=null,asrK='';
+function cap(y){if(!words.length||!$('cc').checked)return;const t=v.currentTime,i=words.findIndex(x=>t>=x.s&&t<x.e+.25);if(i<0)return;
+ const g=i-i%3,gr=words.slice(g,g+3).map(x=>x.w.toUpperCase());let fs=60;cx.font='bold '+fs+'px system-ui,sans-serif';const m=()=>gr.map(x=>cx.measureText(x).width);let ws=m(),sp=cx.measureText(' ').width,tot=ws.reduce((p,q)=>p+q,0)+sp*(gr.length-1);
+ if(tot>W-60){fs=Math.floor(fs*(W-60)/tot);cx.font='bold '+fs+'px system-ui,sans-serif';ws=m();sp=cx.measureText(' ').width;tot=ws.reduce((p,q)=>p+q,0)+sp*(gr.length-1)}
+ let x=(W-tot)/2;cx.textAlign='left';cx.lineJoin='round';cx.lineWidth=12;cx.strokeStyle='#000';
+ gr.forEach((o,k)=>{cx.strokeText(o,x,y);cx.fillStyle=g+k==i?'#ffe600':'#fff';cx.fillText(o,x,y);x+=ws[k]+sp})}
+function hooksFrom(txt){const S=(txt.match(/[^.!?]+[.!?]?/g)||[]).map(x=>x.trim()).filter(x=>x.split(/\s+/).length>=4),
+ K=['secret','mistake','never','always','truth','nobody','biggest','worst','best','why','how','stop','crazy','free','money','lesson','problem','must','need'],
+ sc=x=>{const l=x.toLowerCase();return K.filter(k=>l.includes(k)).length*2+(x.includes('?')?2:0)+(/\d/.test(x)?1:0)-Math.abs(x.length-70)/50};
+ showHooks(S.sort((a,b)=>sc(b)-sc(a)).slice(0,6).map(x=>x.length>90?x.slice(0,88).replace(/\s\S*$/,'')+'…':x))}
+$('tx').onclick=async()=>{const f=$('f').files[0];if(!f)return $('st').textContent='Pick a video first.';
+ const s=tm($('a').value),e=Math.min(tm($('b').value),v.duration);$('tx').disabled=true;$('go').disabled=true;
+ try{$('st').textContent='Loading the AI model (first time it downloads 40–75 MB)…';
+  const T=await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2'),mk=$('md').value;
+  if(!asr||asrK!=mk){asr=await T.pipeline('automatic-speech-recognition',mk,{progress_callback:p=>{if(p.status=='progress')$('st').textContent='Downloading AI model… '+Math.round(p.progress)+'%'}});asrK=mk}
+  $('st').textContent='Reading the audio…';const c=new AudioContext({sampleRate:16000}),buf=await c.decodeAudioData(await f.arrayBuffer());
+  const audio=buf.getChannelData(0).slice(Math.floor(s*16000),Math.floor(e*16000));c.close();
+  $('st').textContent='Listening to the video… this can take a few minutes on a phone. Keep this page open.';const ln=$('ln').value;
+  const r=await asr(audio,{chunk_length_s:30,stride_length_s:5,return_timestamps:'word',...(ln?{language:ln,task:'transcribe'}:{})});
+  words=r.chunks.map(c=>({w:c.text.trim(),s:s+c.timestamp[0],e:s+(c.timestamp[1]??c.timestamp[0]+.4)})).filter(x=>x.w);
+  hooksFrom(r.text);tab('t');$('st').textContent='Done! '+words.length+' words found. Captions are on, and hook ideas from your video are in the Twitter-style tab. Check the captions on the preview, then press Make video.'}
+ catch(err){$('st').textContent='Could not make captions: '+(err.message||err)+'. Try the Fast model, a shorter range, or a smaller video.'}
+ $('tx').disabled=false;$('go').disabled=false;draw()};
+tab('s');
+</script></body></html>
