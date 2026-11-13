@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://muhammadgulsherulhaq-alt.github.io/Aivora/sitemap.xml
+Sitemap: https://aivora-3sd.pages.dev/sitemap.xml
