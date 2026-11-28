@@ -819,3 +819,105 @@ reject(err);
 }
 });
   }
+
+/* =========================================
+   AIVORA REEL STUDIO — EXPORT HANDLER
+========================================= */
+
+$('makeVideo').addEventListener('click', async () => {
+    if (rendering) return;
+
+    const start = Number($('startTime').value);
+    const end = Number($('endTime').value);
+    const count = Math.floor(Number($('clipCount').value));
+
+    if (!video.src || !Number.isFinite(video.duration)) {
+        $('renderStatus').textContent = 'Please select a video first.';
+        return;
+    }
+
+    if (!Number.isFinite(start) || !Number.isFinite(end) ||
+        start < 0 || end <= start || end > video.duration) {
+        $('renderStatus').textContent = 'Invalid start or end time.';
+        return;
+    }
+
+    if (!Number.isInteger(count) || count < 1 || count > 10) {
+        $('renderStatus').textContent = 'Choose between 1 and 10 clips.';
+        return;
+    }
+
+    if (!canvas.captureStream || !window.MediaRecorder) {
+        $('renderStatus').textContent = 'Your browser does not support video export.';
+        return;
+    }
+
+    rendering = true;
+    $('makeVideo').disabled = true;
+    $('downloads').replaceChildren();
+
+    try {
+        const duration = (end - start) / count;
+
+        for (let i = 0; i < count; i++) {
+            const clipStart = start + i * duration;
+            const clipEnd = i === count - 1
+                ? end
+                : start + (i + 1) * duration;
+
+            $('renderStatus').textContent =
+                `Creating clip ${i + 1} of ${count}...`;
+
+            const blob = await recordOne(clipStart, clipEnd);
+
+            if (!blob || !blob.size) {
+                throw new Error('Export produced an empty video.');
+            }
+
+            const url = URL.createObjectURL(blob);
+            const item = document.createElement('div');
+            item.className = 'download-item';
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `AIVORA-Clip-${i + 1}.webm`;
+            link.textContent = `⬇ Download Clip ${i + 1}`;
+
+            item.appendChild(link);
+            $('downloads').appendChild(item);
+
+            // Start the download.
+            link.click();
+
+            // Keep the link usable for two minutes.
+            setTimeout(() => URL.revokeObjectURL(url), 120000);
+        }
+
+        $('renderStatus').textContent =
+            `Successfully created ${count} clip(s)!`;
+
+    } catch (err) {
+        console.error(err);
+        $('renderStatus').textContent =
+            err.message || 'Export failed. Try a shorter video.';
+    } finally {
+        rendering = false;
+        $('makeVideo').disabled = false;
+        draw();
+    }
+});
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
+refreshProfiles();
+setMode('shorts');
+
+$('makeVideo').disabled = true;
+$('renderStatus').textContent = 'Choose a video to begin.';
+
+</script>
+</body>
+</html>
