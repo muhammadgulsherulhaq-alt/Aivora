@@ -929,4 +929,189 @@ function waitForVideoEnd(start, end, reelNumber, total) {
       if (stopped) return;
       stopped = true;
 
-      cancelAnimationFrame(animation
+      
+      cancelAnimationFrame(animationFrame);
+      v.removeEventListener('ended', finish);
+      resolve();
+    };
+
+    const frame = () => {
+      if (stopped) return;
+
+      draw();
+
+      const progress = (v.currentTime - start) / (end - start);
+
+      $('st').textContent =
+        'Rendering reel ' + reelNumber + ' of ' + total +
+        ' · ' + Math.min(99, Math.round(progress * 100)) + '%';
+
+      if (v.currentTime >= end || v.ended) {
+        finish();
+        return;
+      }
+
+      animationFrame = requestAnimationFrame(frame);
+    };
+
+    v.addEventListener('ended', finish);
+    frame();
+  });
+}
+
+async function renderReel(start, end, reelNumber, total) {
+  await seekVideo(start);
+
+  if (!audioContext) {
+    audioContext = new AudioContext();
+    audioDestination = audioContext.createMediaStreamDestination();
+
+    const source = audioContext.createMediaElementSource(v);
+    source.connect(audioDestination);
+  }
+
+  await audioContext.resume();
+
+  const stream = new MediaStream([
+    ...cv.captureStream(30).getVideoTracks(),
+    ...audioDestination.stream.getAudioTracks()
+  ]);
+
+  const supportedTypes = [
+    'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+    'video/mp4',
+    'video/webm;codecs=vp9,opus',
+    'video/webm'
+  ];
+
+  const mimeType = supportedTypes.find(type =>
+    MediaRecorder.isTypeSupported(type)
+  );
+
+  if (!mimeType) {
+    throw new Error('Video recording is not supported by this browser.');
+  }
+
+  const recorder = new MediaRecorder(stream, {
+    mimeType,
+    videoBitsPerSecond: 5000000
+  });
+
+  const chunks = [];
+
+  recorder.ondataavailable = event => {
+    if (event.data.size) chunks.push(event.data);
+  };
+
+  const stopped = new Promise(resolve => {
+    recorder.onstop = resolve;
+  });
+
+  recorder.start(500);
+
+  await v.play();
+  await waitForVideoEnd(start, end, reelNumber, total);
+
+  v.pause();
+  recorder.stop();
+
+  await stopped;
+
+  return {
+    blob: new Blob(chunks, { type: mimeType.split(';')[0] }),
+    extension: mimeType.includes('mp4') ? 'mp4' : 'webm'
+  };
+}
+
+function addResult(result, number) {
+  const container = document.createElement('div');
+  const preview = document.createElement('video');
+  const download = document.createElement('button');
+
+  const url = URL.createObjectURL(result.blob);
+
+  preview.src = url;
+  preview.controls = true;
+  preview.playsInline = true;
+  preview.className = 'output-video';
+
+  download.textContent = 'Save reel ' + number;
+
+  download.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download =
+      'AIVORA_reel_' + number + '.' + result.extension;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  });
+
+  container.append(preview, download);
+  $('res').append(container);
+}
+
+$('go').addEventListener('click', async () => {
+  if (!v.src || !Number.isFinite(v.duration)) {
+    $('st').textContent = 'Please select a video first.';
+    return;
+  }
+
+  const start = timeValue($('a').value);
+  const end = Math.min(timeValue($('b').value), v.duration);
+  const count = Math.min(
+    20,
+    Math.max(1, Math.floor(Number($('nn').value) || 1))
+  );
+
+  const segmentLength = (end - start) / count;
+
+  if (start < 0 || end <= start || segmentLength < 1) {
+    $('st').textContent =
+      'Check your start time, end time and number of reels.';
+    return;
+  }
+
+  $('res').replaceChildren();
+  busy = true;
+  $('go').disabled = true;
+
+  try {
+    for (let index = 0; index < count; index++) {
+      const reelStart = start + index * segmentLength;
+      const reelEnd = index === count - 1
+        ? end
+        : start + (index + 1) * segmentLength;
+
+      const result = await renderReel(
+        reelStart,
+        reelEnd,
+        index + 1,
+        count
+      );
+
+      addResult(result, index + 1);
+    }
+
+    $('st').textContent =
+      'Finished! Your videos are ready. Save each video below.';
+
+  } catch (error) {
+    $('st').textContent =
+      'Could not render video: ' + (error.message || error);
+
+  } finally {
+    v.pause();
+    busy = false;
+    $('go').disabled = false;
+    draw();
+  }
+});
+
+draw();
+</script>
+
+</body>
+</html>
+
