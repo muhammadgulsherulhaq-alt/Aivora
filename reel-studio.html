@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,7 +104,6 @@ h1{font-size:25px}
 
 <main>
 <div class="workspace">
-
 <section class="controls">
 <h1>AIVORA <span>Reel Studio</span></h1>
 <p class="intro">Create vertical Shorts or social-style videos. Add your channel identity, profile picture and hook.</p>
@@ -145,7 +145,6 @@ h1{font-size:25px}
 
 <section id="channelSettings" class="panel hidden">
 <div class="panel-title"><span>♥</span> Channel identity</div>
-
 <label>Channel profile picture</label>
 <div class="profile-row">
 <img id="avatarPreview" class="avatar-preview" alt="Channel profile picture">
@@ -232,7 +231,6 @@ Burn hook caption into Shorts
 </div>
 <p class="preview-note">Preview updates as you change the settings.</p>
 </section>
-
 </div>
 
 <footer>
@@ -243,6 +241,9 @@ Burn hook caption into Shorts
 <a href="faq.html">FAQ</a>
 </footer>
 </main>
+
+<!-- WebM duration metadata repair library -->
+<script src="https://cdn.jsdelivr.net/npm/fix-webm-duration@1.0.6/fix-webm-duration.js"></script>
 
 <script>
 'use strict';
@@ -255,10 +256,9 @@ const video=$('sourceVideo');
 const PROFILE_KEY='aivora_reel_channel_profiles_v4';
 const W=720,SHORT_H=1280;
 
-// ---- Social card video window (wide 9:16 box) ----
-const VID_X=15;                       // side margin
-const VID_W=W-VID_X*2;                // 690 px wide (almost full card width)
-const VID_H=Math.round(VID_W*16/9);   // 1227 px tall (true 9:16)
+const VID_X=15;
+const VID_W=W-VID_X*2;
+const VID_H=Math.round(VID_W*16/9);
 const VID_BOTTOM_GAP=30;
 
 let mode='shorts';
@@ -337,7 +337,6 @@ y+=lh;
 return y;
 }
 
-// counts caption lines without drawing (same rules as wrap)
 function countLines(text,mw,max=4){
 let line='',n=0;
 for(const word of text.split(/\s+/)){
@@ -358,7 +357,6 @@ const bg=dark?'#000':'#fff';
 const fg=dark?'#fff':'#080808';
 const hook=$('hookText').value.trim()||'Your video caption goes here...';
 
-// 1) measure caption to know where the video window starts
 canvas.width=W;
 canvas.height=2000;
 ctx.font='bold 43px Arial';
@@ -366,16 +364,14 @@ const lines=countLines(hook,635,4);
 const bottom=218+lines*57;
 const vy=Math.max(310,bottom+18);
 
-// 2) final canvas size = header + 9:16 video window
 let H=vy+VID_H+VID_BOTTOM_GAP;
-H+=H%2; // keep even number for encoders
+H+=H%2;
 canvas.width=W;
 canvas.height=H;
 
 ctx.fillStyle=bg;
 ctx.fillRect(0,0,W,H);
 
-// ---- header: same position as before (pfp, name, tick, username) ----
 avatar();
 
 const name=$('channelName').value.trim()||'Your Channel';
@@ -399,7 +395,6 @@ ctx.fillStyle=fg;
 ctx.font='bold 43px Arial';
 wrap(hook,42,218,635,57,4);
 
-// ---- video window: wide 9:16 ----
 const x=VID_X,y=vy,w=VID_W,h=VID_H;
 
 ctx.save();
@@ -689,6 +684,8 @@ return[
 ].find(t=>MediaRecorder.isTypeSupported(t))||'';
 }
 
+/* UPDATED EXPORT FUNCTION: captures from the selected start time,
+   records the clip, then repairs WebM duration metadata. */
 function recordOne(start,end){
 return new Promise(async(resolve,reject)=>{
 const mime=mimeType();
@@ -698,64 +695,109 @@ reject(new Error('Video export is not supported in this browser. Update Chrome.'
 return;
 }
 
-const stream=canvas.captureStream(30);
+let stream=null;
 let audio=null;
+let rec=null;
+let startedAt=0;
+let finished=false;
+let rafId=0;
+let safetyTimer=0;
 
 try{
+video.pause();
+video.currentTime=start;
+
+await new Promise((ok,no)=>{
+const onSeek=()=>{cleanup();ok();};
+const onError=()=>{cleanup();no(new Error('Could not seek to the selected start time.'));};
+
+const cleanup=()=>{
+video.removeEventListener('seeked',onSeek);
+video.removeEventListener('error',onError);
+};
+
+video.addEventListener('seeked',onSeek,{once:true});
+video.addEventListener('error',onError,{once:true});
+
+if(Math.abs(video.currentTime-start)<0.02&&video.readyState>=2){
+onSeek();
+}
+});
+
+draw();
+stream=canvas.captureStream(30);
+
 if(video.captureStream){
 audio=video.captureStream();
 audio.getAudioTracks().forEach(t=>stream.addTrack(t));
 }
 
-const rec=new MediaRecorder(stream,{
+rec=new MediaRecorder(stream,{
 mimeType:mime,
 videoBitsPerSecond:5000000
 });
 
 const chunks=[];
-let finished=false;
 
 rec.ondataavailable=e=>{
 if(e.data&&e.data.size)chunks.push(e.data);
 };
 
+function cleanupTracks(){
+if(rafId)cancelAnimationFrame(rafId);
+if(safetyTimer)clearTimeout(safetyTimer);
+if(stream)stream.getTracks().forEach(t=>t.stop());
+if(audio)audio.getTracks().forEach(t=>t.stop());
+}
+
 rec.onerror=()=>{
+cleanupTracks();
 reject(new Error('Recording failed. Try a shorter clip.'));
 };
 
 rec.onstop=()=>{
-stream.getTracks().forEach(t=>t.stop());
-if(audio)audio.getTracks().forEach(t=>t.stop());
-resolve(new Blob(chunks,{type:mime}));
+const elapsed=Math.max(100,performance.now()-startedAt);
+cleanupTracks();
+
+const blob=new Blob(chunks,{type:mime});
+
+if(typeof window.fixWebmDuration==='function'){
+try{
+window.fixWebmDuration(blob,elapsed,fixedBlob=>{
+resolve(fixedBlob&&fixedBlob.size?fixedBlob:blob);
+});
+}catch{
+resolve(blob);
+}
+}else{
+resolve(blob);
+}
 };
 
 const stop=()=>{
 if(finished)return;
 finished=true;
-cancelAnimationFrame(raf);
 video.pause();
-if(rec.state!=='inactive')rec.stop();
+
+if(rec.state!=='inactive'){
+rec.stop();
+}
 };
 
 rec.start(250);
-video.pause();
-video.currentTime=start;
-
-await new Promise((ok,no)=>{
-video.onseeked=ok;
-video.onerror=()=>no(new Error('Could not seek to the selected start time.'));
-});
-video.onseeked=draw;
+startedAt=performance.now();
 
 const frame=()=>{
 if(finished)return;
+
 draw();
 
 if(video.currentTime>=end||video.ended){
 stop();
 return;
 }
-raf=requestAnimationFrame(frame);
+
+rafId=requestAnimationFrame(frame);
 };
 
 try{
@@ -766,85 +808,14 @@ stop();
 reject(new Error('Browser could not play this video. Try MP4.'));
 }
 
-setTimeout(()=>{
+safetyTimer=setTimeout(()=>{
 if(!finished)stop();
-},(end-start+5)*1000);
+},(end-start+8)*1000);
 
 }catch(err){
-stream.getTracks().forEach(t=>t.stop());
+if(stream)stream.getTracks().forEach(t=>t.stop());
 if(audio)audio.getTracks().forEach(t=>t.stop());
 reject(err);
 }
 });
-}
-
-$('makeVideo').onclick=async()=>{
-if(rendering)return;
-
-if(!video.src||!Number.isFinite(video.duration)){
-$('renderStatus').textContent='Please select a valid video first.';
-return;
-}
-
-const start=Math.max(0,Number($('startTime').value)||0);
-const end=Math.min(video.duration,Number($('endTime').value)||video.duration);
-
-if(end<=start){
-$('renderStatus').textContent='End time must be greater than start time.';
-return;
-}
-
-if(end-start>180){
-$('renderStatus').textContent='Maximum export duration is 3 minutes.';
-return;
-}
-
-const count=Math.max(1,Math.min(10,parseInt($('clipCount').value,10)||1));
-
-rendering=true;
-$('makeVideo').disabled=true;
-$('downloads').replaceChildren();
-
-try{
-for(let i=0;i<count;i++){
-const a=start+(end-start)*i/count;
-const b=start+(end-start)*(i+1)/count;
-
-$('renderStatus').textContent=`Creating clip ${i+1} of ${count}...`;
-
-const blob=await recordOne(a,b);
-const url=URL.createObjectURL(blob);
-
-const item=document.createElement('div');
-item.className='download-item';
-
-const title=document.createElement('div');
-title.textContent=`Clip ${i+1} ready · WebM`;
-
-const link=document.createElement('a');
-link.href=url;
-link.download=`aivora-clip-${i+1}.webm`;
-link.textContent='Download video';
-
-item.append(title,link);
-$('downloads').appendChild(item);
-}
-
-$('renderStatus').textContent='Done! Your clips are ready to download.';
-
-}catch(err){
-$('renderStatus').textContent=err.message||'Export failed. Try another video.';
-}finally{
-rendering=false;
-$('makeVideo').disabled=false;
-video.pause();
-draw();
-}
-};
-
-refreshProfiles();
-draw();
-
-</script>
-</body>
-</html>
+  }
