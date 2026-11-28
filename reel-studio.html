@@ -1215,4 +1215,32 @@ try {
 
 } catch(_){}
 
-/* AI 
+
+
+/* AI captions */
+let words = [];
+
+function cap(y) {
+  if (!words.length) return;
+
+  const t = v.currentTime;
+  const item = words.find(x => t >= x.s && t <= x.e);
+
+  if (!item) return;
+
+  cx.save();
+  cx.font = 'bold 54px system-ui,sans-serif';
+  cx.textAlign = 'center';
+  cx.lineJoin = 'round';
+  cx.lineWidth = 10;
+  cx.strokeStyle = '#000';
+  cx.strokeText(item.w.toUpperCase(), W/2, y);
+  cx.fillStyle = '#ffe600';
+  cx.fillText(item.w.toUpperCase(), W/2, y);
+  cx.restore();
+}
+
+/* End of AIVORA Reel Studio */
+</script>
+</body>
+</html>
