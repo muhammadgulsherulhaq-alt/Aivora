@@ -11,7 +11,11 @@
 <link rel="apple-touch-icon" href="aivora-icon.svg">
 
 <style>
-:root{--bg:#080b18;--panel:#121a30;--panel2:#19223c;--border:#293451;--text:#f5f6ff;--muted:#a5aec8;--purple:#7951ff;--purple2:#966fff}
+:root{
+--bg:#080b18;--panel:#121a30;--panel2:#19223c;
+--border:#293451;--text:#f5f6ff;--muted:#a5aec8;
+--purple:#7951ff;--purple2:#966fff
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,system-ui,sans-serif}
 header{min-height:68px;padding:10px 4%;border-bottom:1px solid #ffffff18;display:flex;justify-content:space-between;align-items:center;gap:15px}
@@ -67,8 +71,8 @@ footer a{color:#bbaaff;text-decoration:none}
 
 @media(max-width:900px){
 .workspace{grid-template-columns:1fr;gap:20px}
-.preview-column{position:static;max-width:680px;width:100%;margin:auto;order:1}
-.controls{max-width:680px;width:100%;margin:auto;order:2}
+.preview-column{position:static;max-width:680px;width:100%;margin:auto;order:2}
+.controls{max-width:680px;width:100%;margin:auto;order:1}
 h1{font-size:29px}
 }
 @media(max-width:520px){
@@ -90,6 +94,7 @@ h1{font-size:25px}
 </head>
 
 <body>
+
 <header>
 <a class="logo" href="index.html">
 <img src="aivora-logo.svg" alt="AIVORA">
@@ -104,13 +109,14 @@ h1{font-size:25px}
 
 <main>
 <div class="workspace">
+
 <section class="controls">
 <h1>AIVORA <span>Reel Studio</span></h1>
 <p class="intro">Create vertical Shorts or social-style videos. Add your channel identity, profile picture and hook.</p>
 
 <div class="tabs">
 <button id="shortsTab" class="active" type="button">▶ 9:16 Shorts</button>
-<button id="twitterTab" type="button">Social card</button>
+<button id="twitterTab" type="button">Social Card</button>
 </div>
 
 <label for="videoFile">Select video</label>
@@ -132,7 +138,7 @@ h1{font-size:25px}
 <input id="clipCount" type="number" min="1" max="10" value="1">
 
 <section id="shortSettings" class="panel">
-<div class="panel-title"><span>▣</span> Shorts settings</div>
+<div class="panel-title"><span>▣</span> Shorts Settings</div>
 <label for="shortLayout">Video layout</label>
 <select id="shortLayout">
 <option value="blur">Blurred background</option>
@@ -140,11 +146,11 @@ h1{font-size:25px}
 </select>
 <label for="cropPosition">Horizontal crop position</label>
 <input id="cropPosition" type="range" min="0" max="100" value="50">
-<div class="status">Adjust the video position inside the vertical frame.</div>
+<div class="status">Adjust video position inside the vertical frame.</div>
 </section>
 
 <section id="channelSettings" class="panel hidden">
-<div class="panel-title"><span>♥</span> Channel identity</div>
+<div class="panel-title"><span>♥</span> Channel Identity</div>
 <label>Channel profile picture</label>
 <div class="profile-row">
 <img id="avatarPreview" class="avatar-preview" alt="Channel profile picture">
@@ -184,7 +190,7 @@ Show blue verification tick
 </div>
 </div>
 
-<label for="hookText">Hook / caption</label>
+<label for="hookText">Hook / Caption</label>
 <textarea id="hookText" rows="2">Nobody tells you this about success...</textarea>
 </section>
 
@@ -203,10 +209,10 @@ Show blue verification tick
 </section>
 
 <section id="hookPanel" class="panel hidden">
-<div class="panel-title"><span>✦</span> Hook ideas</div>
+<div class="panel-title"><span>✦</span> Hook Ideas</div>
 <div class="row">
 <input id="hookTopic" placeholder="Topic (optional)">
-<button class="primary small-button" id="generateHooks" type="button">✦ Hook ideas</button>
+<button class="primary small-button" id="generateHooks" type="button">✦ Hook Ideas</button>
 </div>
 <div id="hookIdeas"></div>
 </section>
@@ -229,8 +235,9 @@ Burn hook caption into Shorts
 <div class="preview-shell">
 <canvas id="previewCanvas" width="720" height="1280"></canvas>
 </div>
-<p class="preview-note">Preview updates as you change the settings.</p>
+<p class="preview-note">Preview updates as you change settings.</p>
 </section>
+
 </div>
 
 <footer>
@@ -242,7 +249,6 @@ Burn hook caption into Shorts
 </footer>
 </main>
 
-<!-- WebM duration metadata repair library -->
 <script src="https://cdn.jsdelivr.net/npm/fix-webm-duration@1.0.6/fix-webm-duration.js"></script>
 
 <script>
@@ -255,29 +261,28 @@ const video=$('sourceVideo');
 
 const PROFILE_KEY='aivora_reel_channel_profiles_v4';
 const W=720,SHORT_H=1280;
-
-const VID_X=15;
-const VID_W=W-VID_X*2;
+const VID_X=15,VID_W=W-VID_X*2;
 const VID_H=Math.round(VID_W*16/9);
 const VID_BOTTOM_GAP=30;
 
 let mode='shorts';
 let profileImage=null;
+let profileImageURL='';
 let videoURL='';
 let rendering=false;
-let raf=0;
+let activeRecorder=null;
+
+function dims(source){
+return{
+w:source.videoWidth||source.naturalWidth||source.width,
+h:source.videoHeight||source.naturalHeight||source.height
+};
+}
 
 function path(x,y,w,h,r){
 ctx.beginPath();
 if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);
 else ctx.rect(x,y,w,h);
-}
-
-function dims(source){
-return {
-w:source.videoWidth||source.naturalWidth||source.width,
-h:source.videoHeight||source.naturalHeight||source.height
-};
 }
 
 function cover(source,x,y,w,h,pos=.5){
@@ -324,9 +329,7 @@ for(const word of text.split(/\s+/)){
 const test=line?line+' '+word:word;
 if(ctx.measureText(test).width>mw&&line){
 ctx.fillText(line,x,y);
-y+=lh;
-n++;
-line=word;
+y+=lh;n++;line=word;
 if(n>=max)break;
 }else line=test;
 }
@@ -342,8 +345,7 @@ let line='',n=0;
 for(const word of text.split(/\s+/)){
 const test=line?line+' '+word:word;
 if(ctx.measureText(test).width>mw&&line){
-n++;
-line=word;
+n++;line=word;
 if(n>=max)return max;
 }else line=test;
 }
@@ -363,12 +365,11 @@ ctx.font='bold 43px Arial';
 const lines=countLines(hook,635,4);
 const bottom=218+lines*57;
 const vy=Math.max(310,bottom+18);
-
 let H=vy+VID_H+VID_BOTTOM_GAP;
 H+=H%2;
+
 canvas.width=W;
 canvas.height=H;
-
 ctx.fillStyle=bg;
 ctx.fillRect(0,0,W,H);
 
@@ -416,8 +417,7 @@ ctx.textAlign='left';
 }
 ctx.restore();
 
-const b=$('videoBorder').value;
-ctx.strokeStyle=b==='black'?'#000':'#fff';
+ctx.strokeStyle=$('videoBorder').value==='black'?'#000':'#fff';
 ctx.lineWidth=5;
 path(x,y,w,h,30);
 ctx.stroke();
@@ -490,6 +490,7 @@ if(videoURL)URL.revokeObjectURL(videoURL);
 videoURL=URL.createObjectURL(f);
 video.src=videoURL;
 video.load();
+$('makeVideo').disabled=true;
 
 video.onloadedmetadata=()=>{
 $('startTime').max=video.duration;
@@ -497,12 +498,11 @@ $('endTime').max=video.duration;
 $('endTime').value=Math.min(45,video.duration).toFixed(1);
 $('makeVideo').disabled=false;
 $('renderStatus').textContent=`Video loaded · ${video.duration.toFixed(1)} seconds`;
-video.currentTime=.05;
+video.currentTime=0;
 draw();
 };
 
 video.onseeked=draw;
-
 video.onerror=()=>{
 $('renderStatus').textContent='Could not open this video. Try an MP4 (H.264) file.';
 };
@@ -516,6 +516,8 @@ const url=URL.createObjectURL(f);
 const img=new Image();
 
 img.onload=()=>{
+if(profileImageURL)URL.revokeObjectURL(profileImageURL);
+profileImageURL=url;
 profileImage=img;
 $('avatarPreview').src=url;
 $('avatarPreview').style.display='block';
@@ -523,9 +525,9 @@ draw();
 };
 
 img.onerror=()=>{
+URL.revokeObjectURL(url);
 $('profileStatus').textContent='Could not load this image.';
 };
-
 img.src=url;
 });
 
@@ -541,9 +543,7 @@ function profiles(){
 try{
 const a=JSON.parse(localStorage.getItem(PROFILE_KEY)||'[]');
 return Array.isArray(a)?a:[];
-}catch{
-return [];
-}
+}catch{return[];}
 }
 
 function refreshProfiles(sel=''){
@@ -555,18 +555,12 @@ l.value=sel;
 
 function picData(){
 if(!profileImage)return'';
-
 const c=document.createElement('canvas');
 c.width=c.height=256;
-
 const w=profileImage.naturalWidth;
 const h=profileImage.naturalHeight;
 const s=Math.min(w,h);
-
-c.getContext('2d').drawImage(
-profileImage,(w-s)/2,(h-s)/2,s,s,0,0,256,256
-);
-
+c.getContext('2d').drawImage(profileImage,(w-s)/2,(h-s)/2,s,s,0,0,256,256);
 return c.toDataURL('image/jpeg',.7);
 }
 
@@ -574,7 +568,6 @@ $('saveChannel').onclick=()=>{
 try{
 const a=profiles();
 const id=$('profileList').value||'channel_'+Date.now();
-
 const p={
 id,
 name:$('channelName').value.trim()||'Your Channel',
@@ -585,11 +578,8 @@ border:$('videoBorder').value,
 hook:$('hookText').value,
 picture:picData()
 };
-
 const i=a.findIndex(x=>x.id===id);
-if(i>=0)a[i]=p;
-else a.push(p);
-
+if(i>=0)a[i]=p;else a.push(p);
 localStorage.setItem(PROFILE_KEY,JSON.stringify(a));
 refreshProfiles(id);
 $('profileStatus').textContent='Channel saved successfully.';
@@ -600,7 +590,6 @@ $('profileStatus').textContent='Could not save. Try a smaller profile picture.';
 
 $('loadChannel').onclick=()=>{
 const p=profiles().find(x=>x.id===$('profileList').value);
-
 if(!p){
 $('profileStatus').textContent='Select a saved channel first.';
 return;
@@ -610,10 +599,12 @@ $('channelName').value=p.name||'';
 $('channelHandle').value=p.handle||'';
 $('blueTick').checked=p.verified!==false;
 $('cardTheme').value=p.theme||'light';
-$('videoBorder').value=(p.border==='black')?'black':'white';
+$('videoBorder').value=p.border==='black'?'black':'white';
 $('hookText').value=p.hook||'';
 
 profileImage=null;
+if(profileImageURL)URL.revokeObjectURL(profileImageURL);
+profileImageURL='';
 $('profileFile').value='';
 $('avatarPreview').style.display='none';
 
@@ -633,17 +624,11 @@ $('profileStatus').textContent='Channel loaded.';
 
 $('deleteChannel').onclick=()=>{
 const id=$('profileList').value;
-
 if(!id){
 $('profileStatus').textContent='Select a saved channel first.';
 return;
 }
-
-localStorage.setItem(
-PROFILE_KEY,
-JSON.stringify(profiles().filter(p=>p.id!==id))
-);
-
+localStorage.setItem(PROFILE_KEY,JSON.stringify(profiles().filter(p=>p.id!==id)));
 refreshProfiles();
 $('profileStatus').textContent='Channel deleted.';
 };
@@ -684,52 +669,76 @@ return[
 ].find(t=>MediaRecorder.isTypeSupported(t))||'';
 }
 
-/* UPDATED EXPORT FUNCTION: captures from the selected start time,
-   records the clip, then repairs WebM duration metadata. */
+/* =========================================
+   RECORDING ENGINE
+========================================= */
+
 function recordOne(start,end){
 return new Promise(async(resolve,reject)=>{
 const mime=mimeType();
 
 if(!mime){
-reject(new Error('Video export is not supported in this browser. Update Chrome.'));
+reject(new Error('WebM recording is not supported in this browser.'));
 return;
 }
 
 let stream=null;
 let audio=null;
 let rec=null;
-let startedAt=0;
-let finished=false;
 let rafId=0;
 let safetyTimer=0;
+let finished=false;
+let startedAt=0;
+
+const cleanup=()=>{
+if(rafId)cancelAnimationFrame(rafId);
+if(safetyTimer)clearTimeout(safetyTimer);
+if(stream)stream.getTracks().forEach(t=>t.stop());
+if(audio)audio.getTracks().forEach(t=>t.stop());
+};
 
 try{
 video.pause();
-video.currentTime=start;
 
 await new Promise((ok,no)=>{
-const onSeek=()=>{cleanup();ok();};
-const onError=()=>{cleanup();no(new Error('Could not seek to the selected start time.'));};
+let settled
+=false;
 
-const cleanup=()=>{
+const done=(success,error)=>{
+if(settled)return;
+settled=true;
 video.removeEventListener('seeked',onSeek);
 video.removeEventListener('error',onError);
+if(success)ok();
+else no(error);
 };
 
-video.addEventListener('seeked',onSeek,{once:true});
-video.addEventListener('error',onError,{once:true});
+const onSeek=()=>done(true);
+const onError=()=>done(false,new Error('Unable to seek video.'));
+
+video.addEventListener('seeked',onSeek);
+video.addEventListener('error',onError);
+video.currentTime=start;
 
 if(Math.abs(video.currentTime-start)<0.02&&video.readyState>=2){
-onSeek();
+done(true);
 }
 });
 
+if(video.readyState<2){
+await new Promise((ok,no)=>{
+video.addEventListener('canplay',ok,{once:true});
+video.addEventListener('error',()=>no(new Error('Video cannot be decoded.')),{once:true});
+});
+}
+
 draw();
+
 stream=canvas.captureStream(30);
 
 if(video.captureStream){
 audio=video.captureStream();
-audio.getAudioTracks().forEach(t=>stream.addTrack(t));
+audio.getAudioTracks().forEach(track=>stream.addTrack(track));
 }
 
 rec=new MediaRecorder(stream,{
@@ -737,192 +746,197 @@ mimeType:mime,
 videoBitsPerSecond:5000000
 });
 
+activeRecorder=rec;
 const chunks=[];
 
 rec.ondataavailable=e=>{
-if(e.data&&e.data.size)chunks.push(e.data);
+if(e.data&&e.data.size>0)chunks.push(e.data);
 };
 
-function cleanupTracks(){
-if(rafId)cancelAnimationFrame(rafId);
-if(safetyTimer)clearTimeout(safetyTimer);
-if(stream)stream.getTracks().forEach(t=>t.stop());
-if(audio)audio.getTracks().forEach(t=>t.stop());
-}
-
 rec.onerror=()=>{
-cleanupTracks();
+cleanup();
+activeRecorder=null;
 reject(new Error('Recording failed. Try a shorter clip.'));
 };
 
 rec.onstop=()=>{
-const elapsed=Math.max(100,performance.now()-startedAt);
-cleanupTracks();
+cleanup();
+activeRecorder=null;
 
+const elapsed=Math.max(100,performance.now()-startedAt);
 const blob=new Blob(chunks,{type:mime});
 
+if(!blob.size){
+reject(new Error('Empty video generated.'));
+return;
+}
+
 if(typeof window.ysFixWebmDuration==='function'){
-    try{
-        window.ysFixWebmDuration(blob, elapsed, fixedBlob=>{
-            resolve(fixedBlob && fixedBlob.size ? fixedBlob : blob);
-        });
-    }catch(error){
-        console.error('Duration repair failed:', error);
-        resolve(blob);
-    }
-}else{
-    console.error('WebM duration repair library not loaded.');
-    resolve(blob);
-   }
-}else{
+let repaired=false;
+
+const fallback=setTimeout(()=>{
+if(!repaired){
+repaired=true;
 resolve(blob);
 }
-};
+},5000);
 
-const stop=()=>{
-if(finished)return;
-finished=true;
-video.pause();
-
-if(rec.state!=='inactive'){
-rec.stop();
+try{
+window.ysFixWebmDuration(blob,elapsed,fixedBlob=>{
+if(repaired)return;
+repaired=true;
+clearTimeout(fallback);
+resolve(fixedBlob&&fixedBlob.size?fixedBlob:blob);
+});
+}catch(error){
+clearTimeout(fallback);
+console.error('Duration repair failed:',error);
+resolve(blob);
+}
+}else{
+console.warn('Duration repair library unavailable.');
+resolve(blob);
 }
 };
 
 rec.start(250);
 startedAt=performance.now();
 
+const stop=()=>{
+if(finished)return;
+finished=true;
+video.pause();
+if(rec.state!=='inactive')rec.stop();
+};
+
 const frame=()=>{
 if(finished)return;
-
 draw();
 
 if(video.currentTime>=end||video.ended){
 stop();
 return;
 }
-
 rafId=requestAnimationFrame(frame);
 };
-
-try{
-await video.play();
-frame();
-}catch{
-stop();
-reject(new Error('Browser could not play this video. Try MP4.'));
-}
 
 safetyTimer=setTimeout(()=>{
 if(!finished)stop();
 },(end-start+8)*1000);
 
-}catch(err){
-if(stream)stream.getTracks().forEach(t=>t.stop());
-if(audio)audio.getTracks().forEach(t=>t.stop());
-reject(err);
+try{
+await video.play();
+frame();
+}catch(error){
+if(!finished){
+finished=true;
+if(rec.state!=='inactive')rec.stop();
+}
+reject(new Error('Browser could not play this video. Try MP4.'));
+}
+
+}catch(error){
+cleanup();
+activeRecorder=null;
+if(rec&&rec.state!=='inactive'){
+try{rec.stop();}catch(e){}
+}
+reject(error);
 }
 });
-  }
+}
 
 /* =========================================
-   AIVORA REEL STUDIO — EXPORT HANDLER
+   EXPORT HANDLER
 ========================================= */
 
-$('makeVideo').addEventListener('click', async () => {
-    if (rendering) return;
+$('makeVideo').addEventListener('click',async()=>{
+if(rendering)return;
 
-    const start = Number($('startTime').value);
-    const end = Number($('endTime').value);
-    const count = Math.floor(Number($('clipCount').value));
+const start=Number($('startTime').value);
+const end=Number($('endTime').value);
+const count=Math.floor(Number($('clipCount').value));
 
-    if (!video.src || !Number.isFinite(video.duration)) {
-        $('renderStatus').textContent = 'Please select a video first.';
-        return;
-    }
+if(!video.src||!Number.isFinite(video.duration)){
+$('renderStatus').textContent='Please select a video first.';
+return;
+}
 
-    if (!Number.isFinite(start) || !Number.isFinite(end) ||
-        start < 0 || end <= start || end > video.duration) {
-        $('renderStatus').textContent = 'Invalid start or end time.';
-        return;
-    }
+if(!Number.isFinite(start)||!Number.isFinite(end)||start<0||end<=start||end>video.duration){
+$('renderStatus').textContent='Invalid start or end time.';
+return;
+}
 
-    if (!Number.isInteger(count) || count < 1 || count > 10) {
-        $('renderStatus').textContent = 'Choose between 1 and 10 clips.';
-        return;
-    }
+if(!Number.isInteger(count)||count<1||count>10){
+$('renderStatus').textContent='Choose between 1 and 10 clips.';
+return;
+}
 
-    if (!canvas.captureStream || !window.MediaRecorder) {
-        $('renderStatus').textContent = 'Your browser does not support video export.';
-        return;
-    }
+if(!canvas.captureStream||!window.MediaRecorder||!mimeType()){
+$('renderStatus').textContent='Your browser does not support video export.';
+return;
+}
 
-    rendering = true;
-    $('makeVideo').disabled = true;
-    $('downloads').replaceChildren();
+rendering=true;
+$('makeVideo').disabled=true;
+$('downloads').replaceChildren();
 
-    try {
-        const duration = (end - start) / count;
+try{
+const duration=(end-start)/count;
 
-        for (let i = 0; i < count; i++) {
-            const clipStart = start + i * duration;
-            const clipEnd = i === count - 1
-                ? end
-                : start + (i + 1) * duration;
+for(let i=0;i<count;i++){
+const clipStart=start+i*duration;
+const clipEnd=i===count-1?end:start+(i+1)*duration;
 
-            $('renderStatus').textContent =
-                `Creating clip ${i + 1} of ${count}...`;
+$('renderStatus').textContent=`Creating clip ${i+1} of ${count}...`;
 
-            const blob = await recordOne(clipStart, clipEnd);
+const blob=await recordOne(clipStart,clipEnd);
 
-            if (!blob || !blob.size) {
-                throw new Error('Export produced an empty video.');
-            }
+if(!blob||!blob.size){
+throw new Error('Export produced an empty video.');
+}
 
-            const url = URL.createObjectURL(blob);
-            const item = document.createElement('div');
-            item.className = 'download-item';
+const url=URL.createObjectURL(blob);
+const item=document.createElement('div');
+item.className='download-item';
 
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `AIVORA-Clip-${i + 1}.webm`;
-            link.textContent = `⬇ Download Clip ${i + 1}`;
+const link=document.createElement('a');
+link.href=url;
+link.download=`AIVORA-Clip-${i+1}.webm`;
+link.textContent=`⬇ Download Clip ${i+1}`;
 
-            item.appendChild(link);
-            $('downloads').appendChild(item);
+item.appendChild(link);
+$('downloads').appendChild(item);
+link.click();
 
-            // Start the download.
-            link.click();
+setTimeout(()=>URL.revokeObjectURL(url),120000);
+}
 
-            // Keep the link usable for two minutes.
-            setTimeout(() => URL.revokeObjectURL(url), 120000);
-        }
+$('renderStatus').textContent=`Successfully created ${count} clip(s)!`;
 
-        $('renderStatus').textContent =
-            `Successfully created ${count} clip(s)!`;
+}catch(error){
+console.error('AIVORA export error:',error);
+$('renderStatus').textContent=error.message||'Export failed. Try a shorter video.';
 
-    } catch (err) {
-        console.error(err);
-        $('renderStatus').textContent =
-            err.message || 'Export failed. Try a shorter video.';
-    } finally {
-        rendering = false;
-        $('makeVideo').disabled = false;
-        draw();
-    }
+}finally{
+rendering=false;
+$('makeVideo').disabled=false;
+activeRecorder=null;
+draw();
+}
 });
 
-
 /* =========================================
-   INITIALIZE
+   INITIALIZATION
 ========================================= */
 
 refreshProfiles();
 setMode('shorts');
-
-$('makeVideo').disabled = true;
-$('renderStatus').textContent = 'Choose a video to begin.';
+$('makeVideo').disabled=true;
+$('renderStatus').textContent='Choose a video to begin.';
 
 </script>
 </body>
 </html>
+
+   
