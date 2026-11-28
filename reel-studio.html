@@ -181,7 +181,6 @@ Show blue verification tick
 <select id="videoBorder">
 <option value="white">White</option>
 <option value="black">Black</option>
-<option value="none">None</option>
 </select>
 </div>
 </div>
@@ -254,7 +253,13 @@ const ctx=canvas.getContext('2d');
 const video=$('sourceVideo');
 
 const PROFILE_KEY='aivora_reel_channel_profiles_v4';
-const W=720,SHORT_H=1280,CARD_H=1800;
+const W=720,SHORT_H=1280;
+
+// ---- Social card video window (wide 9:16 box) ----
+const VID_X=15;                       // side margin
+const VID_W=W-VID_X*2;                // 690 px wide (almost full card width)
+const VID_H=Math.round(VID_W*16/9);   // 1227 px tall (true 9:16)
+const VID_BOTTOM_GAP=30;
 
 let mode='shorts';
 let profileImage=null;
@@ -332,16 +337,45 @@ y+=lh;
 return y;
 }
 
+// counts caption lines without drawing (same rules as wrap)
+function countLines(text,mw,max=4){
+let line='',n=0;
+for(const word of text.split(/\s+/)){
+const test=line?line+' '+word:word;
+if(ctx.measureText(test).width>mw&&line){
+n++;
+line=word;
+if(n>=max)return max;
+}else line=test;
+}
+if(line&&n<max)n++;
+return n;
+}
+
 function drawCard(){
 const dark=$('cardTheme').value==='dark';
 const bg=dark?'#000':'#fff';
 const fg=dark?'#fff':'#080808';
+const hook=$('hookText').value.trim()||'Your video caption goes here...';
 
+// 1) measure caption to know where the video window starts
 canvas.width=W;
-canvas.height=CARD_H;
-ctx.fillStyle=bg;
-ctx.fillRect(0,0,W,CARD_H);
+canvas.height=2000;
+ctx.font='bold 43px Arial';
+const lines=countLines(hook,635,4);
+const bottom=218+lines*57;
+const vy=Math.max(310,bottom+18);
 
+// 2) final canvas size = header + 9:16 video window
+let H=vy+VID_H+VID_BOTTOM_GAP;
+H+=H%2; // keep even number for encoders
+canvas.width=W;
+canvas.height=H;
+
+ctx.fillStyle=bg;
+ctx.fillRect(0,0,W,H);
+
+// ---- header: same position as before (pfp, name, tick, username) ----
 avatar();
 
 const name=$('channelName').value.trim()||'Your Channel';
@@ -363,23 +397,18 @@ ctx.fillText(handle,155,124);
 
 ctx.fillStyle=fg;
 ctx.font='bold 43px Arial';
+wrap(hook,42,218,635,57,4);
 
-const bottom=wrap(
-$('hookText').value.trim()||'Your video caption goes here...',
-42,218,635,57,4
-);
-
-// Expanded video viewport; no engagement icons.
-const x=10;
-const y=Math.max(310,bottom+18);
-const w=700;
-const h=CARD_H-y-35;
+// ---- video window: wide 9:16 ----
+const x=VID_X,y=vy,w=VID_W,h=VID_H;
 
 ctx.save();
 path(x,y,w,h,30);
 ctx.clip();
 
 if(video.videoWidth){
+ctx.fillStyle='#000';
+ctx.fillRect(x,y,w,h);
 cover(video,x,y,w,h,.5);
 }else{
 ctx.fillStyle='#080b18';
@@ -393,12 +422,10 @@ ctx.textAlign='left';
 ctx.restore();
 
 const b=$('videoBorder').value;
-if(b!=='none'){
-ctx.strokeStyle=b==='white'?'#fff':'#000';
+ctx.strokeStyle=b==='black'?'#000':'#fff';
 ctx.lineWidth=5;
 path(x,y,w,h,30);
 ctx.stroke();
-}
 }
 
 function drawShorts(){
@@ -478,6 +505,8 @@ $('renderStatus').textContent=`Video loaded · ${video.duration.toFixed(1)} seco
 video.currentTime=.05;
 draw();
 };
+
+video.onseeked=draw;
 
 video.onerror=()=>{
 $('renderStatus').textContent='Could not open this video. Try an MP4 (H.264) file.';
@@ -586,7 +615,7 @@ $('channelName').value=p.name||'';
 $('channelHandle').value=p.handle||'';
 $('blueTick').checked=p.verified!==false;
 $('cardTheme').value=p.theme||'light';
-$('videoBorder').value=p.border||'white';
+$('videoBorder').value=(p.border==='black')?'black':'white';
 $('hookText').value=p.hook||'';
 
 profileImage=null;
@@ -716,6 +745,7 @@ await new Promise((ok,no)=>{
 video.onseeked=ok;
 video.onerror=()=>no(new Error('Could not seek to the selected start time.'));
 });
+video.onseeked=draw;
 
 const frame=()=>{
 if(finished)return;
