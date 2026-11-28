@@ -761,14 +761,19 @@ cleanupTracks();
 
 const blob=new Blob(chunks,{type:mime});
 
-if(typeof window.fixWebmDuration==='function'){
-try{
-window.fixWebmDuration(blob,elapsed,fixedBlob=>{
-resolve(fixedBlob&&fixedBlob.size?fixedBlob:blob);
-});
-}catch{
-resolve(blob);
-}
+if(typeof window.ysFixWebmDuration==='function'){
+    try{
+        window.ysFixWebmDuration(blob, elapsed, fixedBlob=>{
+            resolve(fixedBlob && fixedBlob.size ? fixedBlob : blob);
+        });
+    }catch(error){
+        console.error('Duration repair failed:', error);
+        resolve(blob);
+    }
+}else{
+    console.error('WebM duration repair library not loaded.');
+    resolve(blob);
+   }
 }else{
 resolve(blob);
 }
