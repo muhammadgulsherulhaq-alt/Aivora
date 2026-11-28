@@ -3,212 +3,289 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-<title>AIVORA Reel Studio | Free Video Editor</title>
-<meta name="description" content="Create vertical shorts and Twitter-style videos with AIVORA Reel Studio.">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIVORA Reel Studio | Video Creator</title>
+<meta name="description" content="Create vertical Shorts and Twitter-style videos with AIVORA Reel Studio.">
 <meta name="theme-color" content="#080b18">
-<meta name="application-name" content="AIVORA">
-
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="aivora-icon.svg">
 
 <style>
-:root {
+:root{
   --bg:#080b18;
-  --fg:#eef0f8;
-  --mu:#9aa0b8;
-  --card:#12172b;
-  --ac:#7c5cff;
+  --panel:#121a30;
+  --panel2:#19223c;
+  --border:#293451;
+  --text:#f5f6ff;
+  --muted:#a5aec8;
+  --purple:#7951ff;
+  --purple2:#966fff;
 }
-
-* {box-sizing:border-box}
-
-html,body {margin:0;min-height:100%}
-
-body {
+*{box-sizing:border-box}
+body{
+  margin:0;
   background:var(--bg);
-  color:var(--fg);
-  font:16px system-ui,sans-serif;
-  padding:14px;
-  max-width:600px;
-  margin:auto;
+  color:var(--text);
+  font-family:Arial,system-ui,sans-serif;
 }
-
-h1 {font-size:23px;margin:12px 0}
-
-label {
-  display:block;
-  font-size:13px;
-  color:var(--mu);
-  margin:12px 0 5px;
-}
-
-input,select,textarea,button {
-  width:100%;
-  font:inherit;
-  padding:11px;
-  border-radius:11px;
-  border:1px solid #8884;
-  background:var(--card);
-  color:var(--fg);
-}
-
-input[type="checkbox"] {
-  width:auto;
-  accent-color:var(--ac);
-}
-
-input[type="range"] {padding:5px}
-
-button {
-  background:var(--ac);
-  color:white;
-  border:0;
-  font-weight:650;
-  margin-top:10px;
-  cursor:pointer;
-}
-
-button.g {
-  background:var(--card);
-  color:var(--fg);
-  border:1px solid #8884;
-}
-
-button:disabled {opacity:.5;cursor:not-allowed}
-
-.tabs {display:flex;gap:8px}
-.tabs button {margin:0}
-
-.row {display:flex;gap:8px}
-.row>* {flex:1;min-width:0}
-
-.chips button {
-  width:auto;
-  margin:4px 4px 0 0;
-  padding:8px 10px;
-  font-size:13px;
-}
-
-a {color:#a99bff}
-
-header {
+header{
+  height:72px;
+  padding:0 4%;
+  border-bottom:1px solid #ffffff18;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:15px;
+  gap:15px;
 }
-
-.brand-logo {
-  display:inline-flex;
-  align-items:center;
-  text-decoration:none;
-}
-
-.brand-logo img {
-  display:block;
-  width:145px;
-  max-height:42px;
+.logo img{
+  width:170px;
+  max-height:46px;
   object-fit:contain;
 }
-
-nav a {
-  font-size:13px;
-  margin-left:9px;
+nav{display:flex;gap:26px}
+nav a{
+  color:#d8dcf0;
   text-decoration:none;
+  font-size:14px;
 }
-
-.s {
-  font-size:13px;
-  color:var(--mu);
-  margin-top:8px;
-  line-height:1.5;
+main{
+  width:min(1500px,96%);
+  margin:24px auto 50px;
 }
-
-video#v {display:none}
-
-video.output-video {
-  width:100%;
-  margin-top:12px;
-  border-radius:16px;
-  background:#000;
+.workspace{
+  display:grid;
+  grid-template-columns:minmax(390px, .88fr) minmax(480px,1.12fr);
+  gap:30px;
+  align-items:start;
 }
-
-canvas {
+h1{
+  font-size:36px;
+  margin:0 0 9px;
+  letter-spacing:-1px;
+}
+h1 span{color:var(--purple2)}
+.intro{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:15px;
+  margin:0 0 20px;
+}
+.tabs{
+  display:flex;
+  gap:7px;
+  padding:5px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:17px;
+}
+button,input,select,textarea{font:inherit}
+button{
+  cursor:pointer;
+  border:0;
+}
+.tabs button{
+  flex:1;
+  padding:12px 8px;
+  color:#dce0f2;
+  background:transparent;
+  border-radius:10px;
+  font-weight:700;
+}
+.tabs button.active{
+  background:var(--purple);
+  color:white;
+}
+label{
   display:block;
+  font-size:13px;
+  color:#e0e4f5;
+  font-weight:600;
+  margin:13px 0 7px;
+}
+input,select,textarea{
   width:100%;
-  height:auto;
-  aspect-ratio:9/16;
-  border-radius:24px;
-  background:#000;
-  margin:18px auto;
-  box-shadow:0 12px 35px #0005;
+  background:var(--panel);
+  color:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:11px 12px;
+  outline:none;
+  min-width:0;
 }
-
-.profile-manager {
-  margin-top:16px;
-  padding:15px;
-  border:1px solid #ffffff20;
-  border-radius:17px;
-  background:#10162a;
+input:focus,select:focus,textarea:focus{
+  border-color:var(--purple2);
 }
-
-.profile-manager label {margin-top:8px}
-.profile-manager button {font-size:14px}
-
-.profile-status {
-  color:var(--mu);
-  font-size:12px;
-  line-height:1.5;
-  margin-bottom:0;
+input[type=file]{font-size:13px}
+input[type=checkbox]{
+  width:17px;
+  height:17px;
+  accent-color:var(--purple);
 }
-
-.profile-picture-preview {
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid var(--ac);
-  display:none;
+input[type=range]{padding:4px}
+.row{
+  display:flex;
+  gap:10px;
+}
+.row>*{flex:1;min-width:0}
+.panel{
+  background:linear-gradient(145deg,#151e35,#10172a);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  margin-top:13px;
+}
+.panel-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:9px;
+}
+.panel-title span{color:#bbaaff}
+.secondary{
+  background:var(--panel2)!important;
+  border:1px solid var(--border)!important;
+  color:white!important;
+}
+.primary{
+  background:linear-gradient(100deg,var(--purple),#8c52ff);
+  color:white;
+  font-weight:750;
+}
+.action{
+  width:100%;
+  border-radius:12px;
+  padding:14px;
   margin-top:10px;
+  font-weight:750;
 }
-
-.check-label {
+.small-button{
+  border-radius:9px;
+  padding:10px;
+  font-size:13px;
+  font-weight:700;
+}
+button:disabled{opacity:.5;cursor:not-allowed}
+.check{
   display:flex;
   align-items:center;
   gap:9px;
-  color:var(--fg);
-  margin:12px 0;
+  margin:13px 0 4px;
+  font-size:13px;
+  color:#e9ebf7;
 }
-
-footer,.txt {
-  font-size:14px;
-  color:var(--mu);
-  line-height:1.6;
+.profile-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
-
-footer {
-  margin:30px 0 10px;
-  border-top:1px solid #8883;
-  padding-top:14px;
+.avatar-preview{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--purple);
+  background:#343a4d;
+  display:none;
 }
+.status{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+#hookIdeas{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+#hookIdeas button{
+  background:#242d4c;
+  color:#e5e0ff;
+  border:1px solid #55478d;
+  padding:7px 9px;
+  border-radius:20px;
+  font-size:11px;
+}
+.hidden{display:none!important}
 
-.txt h2 {
+/* Preview */
+.preview-column{
+  position:sticky;
+  top:15px;
+  min-width:0;
+}
+.preview-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.preview-heading h2{
   font-size:17px;
-  color:var(--fg);
-  margin:20px 0 6px;
+  margin:0;
 }
+.preview-heading span{
+  font-size:12px;
+  color:var(--muted);
+}
+.preview-shell{
+  background:#fff;
+  color:#111;
+  border-radius:27px;
+  padding:22px;
+  box-shadow:0 15px 50px #0005;
+  overflow:hidden;
+}
+#previewCanvas{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.preview-note{
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+  margin-top:10px;
+}
+#sourceVideo{display:none}
+#downloads video{
+  width:100%;
+  margin-top:15px;
+  border-radius:14px;
+  background:#000;
+}
+.download-item button{margin-top:8px}
+footer{
+  border-top:1px solid #ffffff1b;
+  margin-top:35px;
+  padding:18px 0;
+  color:var(--muted);
+  font-size:12px;
+}
+footer a{color:#bbaaff;text-decoration:none}
+#makeVideo{font-size:17px;padding:16px}
+#renderStatus{min-height:20px}
 
-@media(max-width:420px) {
-  body {padding:12px}
-  .brand-logo img {width:125px}
-  nav a {margin-left:5px;font-size:12px}
-  canvas {border-radius:21px}
-  .profile-manager {padding:12px}
+@media(max-width:900px){
+  .workspace{grid-template-columns:1fr;gap:25px}
+  .preview-column{position:static;max-width:650px;width:100%;margin:auto}
+  .controls{max-width:650px;width:100%;margin:auto}
+  h1{font-size:29px}
+}
+@media(max-width:520px){
+  header{height:62px;padding:0 13px}
+  .logo img{width:125px}
+  nav{gap:10px}
+  nav a{font-size:11px}
+  main{width:94%;margin-top:18px}
+  .preview-shell{padding:12px;border-radius:20px}
+  .panel{padding:12px}
+  .row{gap:7px}
+  h1{font-size:26px}
 }
 </style>
 </head>
@@ -216,168 +293,159 @@ footer {
 <body>
 
 <header>
-  <a class="brand-logo" href="index.html">
+  <a class="logo" href="index.html">
     <img src="aivora-logo.svg" alt="AIVORA">
   </a>
-
   <nav>
-    <a href="index.html#tools">AI Tools</a>
+    <a href="index.html">Home</a>
     <a href="blog.html">Blog</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
   </nav>
 </header>
 
-<h1>Free Reel &amp; Shorts Maker</h1>
+<main>
+<div class="workspace">
 
-<p class="s">
-Create vertical 9:16 shorts or Twitter-style videos.
-Add your channel identity, profile picture and hook.
-Your video is processed locally in your browser.
-</p>
+<section class="controls">
 
-<div class="tabs">
-  <button id="t1">9:16 Shorts</button>
-  <button id="t2" class="g">Twitter-style</button>
-</div>
+  <h1>AIVORA <span>Reel Studio</span></h1>
+  <p class="intro">
+    Create vertical Shorts or Twitter-style videos. Add your channel identity,
+    profile picture and hook.
+  </p>
 
-<label>1. Pick your video</label>
-<input id="f" type="file" accept="video/*">
+  <div class="tabs">
+    <button id="shortsTab" class="active">9:16 Shorts</button>
+    <button id="twitterTab">Twitter-style</button>
+  </div>
 
-<video id="v" playsinline preload="auto"></video>
-
-<label>Start – End (seconds or mm:ss)</label>
-<div class="row">
-  <input id="a" value="0" aria-label="Start time">
-  <input id="b" value="45" aria-label="End time">
-</div>
-
-<label>Number of reels</label>
-<input id="nn" type="number" min="1" max="20" value="1">
-
-<div id="ps">
-  <label>Shorts layout</label>
-  <select id="lay">
-    <option value="blur">Full video + blurred background</option>
-    <option value="fill">Fill screen (crop sides)</option>
-  </select>
-
-  <label>Crop position</label>
-  <input id="pos" type="range" min="0" max="100" value="50">
-</div>
-
-<div id="pt" hidden>
-
-  <h3 style="margin:18px 0 5px">Twitter-style channel design</h3>
-
-  <label>Channel picture (PFP)</label>
-  <input id="pf" type="file" accept="image/*">
-  <img id="pfPreview" class="profile-picture-preview" alt="Channel picture preview">
+  <label>Select video</label>
+  <input id="videoFile" type="file" accept="video/*">
+  <video id="sourceVideo" playsinline preload="auto"></video>
 
   <div class="row">
     <div>
-      <label>Channel name</label>
-      <input id="nm" value="Voxifact" maxlength="35">
+      <label>Start time (seconds)</label>
+      <input id="startTime" value="0" type="text">
     </div>
     <div>
-      <label>@username</label>
-      <input id="hd" value="@voxifact" maxlength="35">
+      <label>End time (seconds)</label>
+      <input id="endTime" value="45" type="text">
     </div>
   </div>
 
-  <label class="check-label">
-    <input id="verified" type="checkbox" checked>
-    Show blue verification tick
+  <label>Number of clips</label>
+  <input id="clipCount" type="number" min="1" max="10" value="1">
+
+  <section id="shortSettings" class="panel">
+    <div class="panel-title"><span>▣</span> Shorts settings</div>
+    <label>Video layout</label>
+    <select id="shortLayout">
+      <option value="blur">Blurred background</option>
+      <option value="crop">Fill screen (crop sides)</option>
+    </select>
+    <label>Horizontal crop position</label>
+    <input id="cropPosition" type="range" min="0" max="100" value="50">
+    <div class="status">Adjust the video position inside the vertical frame.</div>
+  </section>
+
+  <section id="channelSettings" class="panel hidden">
+    <div class="panel-title"><span>♥</span> Channel identity</div>
+
+    <label>Channel profile picture</label>
+    <div class="profile-row">
+      <img id="avatarPreview" class="avatar-preview" alt="Channel PFP">
+      <input id="profileFile" type="file" accept="image/*">
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Channel name</label>
+        <input id="channelName" value="Voxifact" maxlength="40">
+      </div>
+      <div>
+        <label>Username</label>
+        <input id="channelHandle" value="@voxifact" maxlength="40">
+      </div>
+    </div>
+
+    <label class="check">
+      <input id="blueTick" type="checkbox" checked>
+      Show blue verification tick
+    </label>
+
+    <div class="row">
+      <div>
+        <label>Card theme</label>
+        <select id="cardTheme">
+          <option value="light">White</option>
+          <option value="dark">Black</option>
+        </select>
+      </div>
+      <div>
+        <label>Video border</label>
+        <select id="videoBorder">
+          <option value="white">White</option>
+          <option value="black">Black</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+    </div>
+
+    <label>Hook / caption</label>
+    <textarea id="hookText" rows="2">Nobody tells you this about success...</textarea>
+
+    <div class="row">
+      <input id="hookTopic" placeholder="Topic (optional)">
+      <button class="primary small-button" id="generateHooks" type="button">✦ Hook ideas</button>
+    </div>
+    <div id="hookIdeas"></div>
+  </section>
+
+  <section id="savedSettings" class="panel hidden">
+    <div class="panel-title"><span>▣</span> Saved Channels</div>
+    <label>Select saved channel</label>
+    <div class="row">
+      <select id="profileList">
+        <option value="">Select channel</option>
+      </select>
+      <button id="loadChannel" class="secondary small-button" type="button">Load</button>
+    </div>
+    <div class="row">
+      <button id="saveChannel" class="primary small-button" type="button">▣ Save Channel</button>
+      <button id="deleteChannel" class="secondary small-button" type="button">Delete</button>
+    </div>
+    <p class="status" id="profileStatus">
+      Saved channels are stored in this browser.
+    </p>
+  </section>
+
+  <label class="check">
+    <input id="captions" type="checkbox" checked>
+    Burn captions into reels (if available)
   </label>
 
-  <div class="row">
-    <div>
-      <label>Card theme</label>
-      <select id="th">
-        <option value="l">White</option>
-        <option value="d">Black</option>
-      </select>
-    </div>
+  <button id="makeVideo" class="action primary" disabled>▶ Make video</button>
+  <p class="status" id="renderStatus">Choose a video to begin.</p>
+  <div id="downloads"></div>
 
-    <div>
-      <label>Video border</label>
-      <select id="bd">
-        <option value="w">White</option>
-        <option value="b">Black</option>
-        <option value="n">None</option>
-      </select>
-    </div>
+</section>
+
+<section class="preview-column">
+  <div class="preview-heading">
+    <h2>Live Preview</h2>
+    <span>Updates automatically</span>
   </div>
 
-  <label>Hook caption</label>
-  <textarea id="hk" rows="2">Nobody tells you this about success...</textarea>
-
-  <div class="row">
-    <input id="tp" placeholder="Topic, e.g. success">
-    <button class="g" id="hi" type="button" style="margin-top:0">
-      Hook ideas
-    </button>
+  <div class="preview-shell">
+    <canvas id="previewCanvas" width="720" height="1800"></canvas>
   </div>
-
-  <div class="chips" id="ch"></div>
-
-  <div class="profile-manager">
-    <h3 style="font-size:16px;margin:0 0 10px">
-      Your Saved Channels
-    </h3>
-
-    <label for="savedProfile">Choose saved channel</label>
-    <div class="row">
-      <select id="savedProfile">
-        <option value="">Select a channel</option>
-      </select>
-      <button type="button" class="g" id="loadProfile">Load</button>
-    </div>
-
-    <div class="row">
-      <button type="button" id="saveProfile">Save Channel</button>
-      <button type="button" class="g" id="deleteProfile">Delete</button>
-    </div>
-
-    <p class="profile-status" id="profileStatus" aria-live="polite">
-      Save your channel identity and reuse it whenever you create a video.
-    </p>
-  </div>
-</div>
-
-<label>Captions</label>
-<label class="check-label">
-  <input id="cc" type="checkbox" checked>
-  Burn captions into reels (when caption data is available)
-</label>
-
-<canvas id="cv" width="720" height="1280"></canvas>
-
-<button id="go" disabled>Make video</button>
-
-<div class="s" id="st">
-  Pick a video to start. Your video is processed on your device.
-</div>
-
-<div id="res"></div>
-
-<div class="txt">
-  <h2>How to use it</h2>
-  <p>
-    1. Select your video.<br>
-    2. Set start and end time.<br>
-    3. Choose Shorts or Twitter-style.<br>
-    4. Add your channel details and profile picture.<br>
-    5. Save your channel profile if you want to reuse it.<br>
-    6. Press Make video and save the result.
+  <p class="preview-note">
+    Your final video will use the selected layout and channel identity.
   </p>
+</section>
 
-  <h2>Good to know</h2>
-  <p>
-    Keep your screen on while the video renders.
-    Use videos you own or have permission to edit.
-    Your videos and channel pictures are processed on your device.
-  </p>
 </div>
 
 <footer>
@@ -387,731 +455,464 @@ Your video is processed locally in your browser.
   <a href="disclaimer.html">Disclaimer</a> ·
   <a href="faq.html">FAQ</a>
 </footer>
+</main>
 
 <script>
 'use strict';
 
 const $ = id => document.getElementById(id);
+const canvas = $('previewCanvas');
+const ctx = canvas.getContext('2d');
+const video = $('sourceVideo');
+
+const PROFILE_KEY = 'aivora_reel_channel_profiles_v3';
+
+let mode = 'shorts';
+let profileImage = null;
+let audioContext = null;
+let audioSource = null;
+let audioDestination = null;
+let busy = false;
+let animationId = 0;
 
 const W = 720;
-const H = 1280;
+const SHORT_H = 1280;
+const TWITTER_H = 1800;
 
-const cv = $('cv');
-const cx = cv.getContext('2d');
-const v = $('v');
-
-let mode = 's';
-let pfp = null;
-let busy = false;
-let audioContext = null;
-let audioDestination = null;
-let animationFrame = null;
-
-const PROFILE_KEY = 'aivora_reel_channel_profiles_v1';
-
-function timeValue(value) {
-  const s = String(value).trim();
-
-  if (s.includes(':')) {
-    return s.split(':').reduce((total, part) =>
-      total * 60 + (Number(part) || 0), 0
-    );
-  }
-
-  return Number(s) || 0;
+function rounded(x,y,w,h,r){
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(x,y,w,h,r);
+  else ctx.rect(x,y,w,h);
 }
 
-function formatTime(seconds) {
-  return Math.floor(seconds / 60) + ':' +
-    String(Math.floor(seconds % 60)).padStart(2, '0');
-}
+function cover(source,x,y,w,h,position=.5){
+  const sw=source.videoWidth||source.naturalWidth||source.width;
+  const sh=source.videoHeight||source.naturalHeight||source.height;
+  if(!sw||!sh)return;
 
-function roundedRect(x, y, w, h, r) {
-  cx.beginPath();
+  const scale=Math.max(w/sw,h/sh);
+  const cw=w/scale;
+  const ch=h/scale;
 
-  if (cx.roundRect) {
-    cx.roundRect(x, y, w, h, r);
-  } else {
-    cx.rect(x, y, w, h);
-  }
-}
-
-function coverImage(image, x, y, width, height, offset = 0.5) {
-  const iw = image.videoWidth || image.naturalWidth || image.width;
-  const ih = image.videoHeight || image.naturalHeight || image.height;
-
-  if (!iw || !ih) return;
-
-  const scale = Math.max(width / iw, height / ih);
-  const sw = width / scale;
-  const sh = height / scale;
-
-  cx.drawImage(
-    image,
-    (iw - sw) * offset,
-    (ih - sh) / 2,
-    sw,
-    sh,
-    x, y, width, height
+  ctx.drawImage(
+    source,
+    (sw-cw)*position,
+    (sh-ch)/2,
+    cw,ch,
+    x,y,w,h
   );
 }
 
-function drawShorts() {
-  cx.fillStyle = '#000';
-  cx.fillRect(0, 0, W, H);
+function avatar(){
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(88,88,44,0,Math.PI*2);
+  ctx.clip();
 
-  if (!v.videoWidth) return;
-
-  if ($('lay').value === 'fill') {
-    coverImage(v, 0, 0, W, H, Number($('pos').value) / 100);
-  } else {
-    cx.save();
-    cx.filter = 'blur(25px) brightness(.55)';
-    coverImage(v, -35, -35, W + 70, H + 70);
-    cx.restore();
-
-    const videoHeight = W * v.videoHeight / v.videoWidth;
-    const y = (H - videoHeight) / 2;
-
-    cx.drawImage(v, 0, y, W, videoHeight);
+  if(profileImage){
+    cover(profileImage,44,44,88,88);
+  }else{
+    ctx.fillStyle='#858585';
+    ctx.fillRect(44,44,88,88);
   }
+  ctx.restore();
 }
 
-function drawVerificationTick(x, y) {
-  cx.fillStyle = '#1d9bf0';
-  cx.beginPath();
-  cx.arc(x, y, 15, 0, Math.PI * 2);
-  cx.fill();
+function tick(x,y){
+  ctx.fillStyle='#1d9bf0';
+  ctx.beginPath();
+  ctx.arc(x,y,15,0,Math.PI*2);
+  ctx.fill();
 
-  cx.strokeStyle = '#fff';
-  cx.lineWidth = 3.5;
-  cx.lineCap = 'round';
-  cx.lineJoin = 'round';
-
-  cx.beginPath();
-  cx.moveTo(x - 6, y);
-  cx.lineTo(x - 1.5, y + 5);
-  cx.lineTo(x + 7, y - 5);
-  cx.stroke();
+  ctx.strokeStyle='#fff';
+  ctx.lineWidth=3.5;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.beginPath();
+  ctx.moveTo(x-6,y);
+  ctx.lineTo(x-1,y+5);
+  ctx.lineTo(x+7,y-5);
+  ctx.stroke();
 }
 
-function drawTwitterStyle() {
-  const isDark = $('th').value === 'd';
-  const foreground = isDark ? '#fff' : '#000';
-  const background = isDark ? '#000' : '#fff';
+function wrapText(text,x,y,maxWidth,lineHeight,maxLines=4){
+  const words=text.split(/\s+/);
+  let line='';
+  let lines=0;
 
-  cx.fillStyle = background;
-  cx.fillRect(0, 0, W, H);
+  for(let i=0;i<words.length;i++){
+    const test=line?line+' '+words[i]:words[i];
 
-  const avatarX = 38;
-  const avatarY = 54;
-  const avatarSize = 88;
-
-  cx.save();
-  cx.beginPath();
-  cx.arc(
-    avatarX + avatarSize / 2,
-    avatarY + avatarSize / 2,
-    avatarSize / 2,
-    0,
-    Math.PI * 2
-  );
-  cx.clip();
-
-  if (pfp) {
-    coverImage(pfp, avatarX, avatarY, avatarSize, avatarSize);
-  } else {
-    cx.fillStyle = '#888';
-    cx.fillRect(avatarX, avatarY, avatarSize, avatarSize);
-  }
-
-  cx.restore();
-
-  const name = $('nm').value.trim() || 'Your Channel';
-  const username = $('hd').value.trim() || '@yourchannel';
-  const nameX = 145;
-  const nameY = 94;
-
-  cx.textBaseline = 'alphabetic';
-  cx.fillStyle = foreground;
-  cx.font = 'bold 34px Arial, sans-serif';
-  cx.fillText(name, nameX, nameY);
-
-  const nameWidth = cx.measureText(name).width;
-
-  if ($('verified').checked) {
-    const tickX = Math.min(nameX + nameWidth + 24, 675);
-    drawVerificationTick(tickX, 80);
-  }
-
-  cx.fillStyle = '#858585';
-  cx.font = '28px Arial, sans-serif';
-  cx.fillText(username, nameX, 132);
-
-  // Hook caption
-  const hook = $('hk').value.trim();
-  cx.fillStyle = foreground;
-  cx.font = 'bold 43px Arial, sans-serif';
-
-  const words = hook.split(/\s+/);
-  let line = '';
-  let y = 220;
-  let lines = 0;
-
-  for (const word of words) {
-    const test = line ? line + ' ' + word : word;
-
-    if (cx.measureText(test).width > 645 && line) {
-      cx.fillText(line, 38, y);
-      y += 55;
-      line = word;
+    if(ctx.measureText(test).width>maxWidth&&line){
+      ctx.fillText(line,x,y);
+      y+=lineHeight;
       lines++;
-
-      if (lines >= 3) break;
-    } else {
-      line = test;
+      line=words[i];
+      if(lines>=maxLines)break;
+    }else{
+      line=test;
     }
   }
 
-  if (line && lines < 4) {
-    cx.fillText(line, 38, y);
-    y += 55;
+  if(line&&lines<maxLines){
+    ctx.fillText(line,x,y);
+    y+=lineHeight;
   }
 
-  y += 12;
+  return y;
+}
 
-  // Large video preview
-  if (!v.videoWidth) {
-    cx.fillStyle = '#888';
-    cx.font = '24px Arial';
-    cx.textAlign = 'center';
-    cx.fillText('Your video preview will appear here', W / 2, y + 70);
-    cx.textAlign = 'left';
+function drawTwitter(){
+  const dark=$('cardTheme').value==='dark';
+  const bg=dark?'#000':'#fff';
+  const fg=dark?'#fff':'#080808';
+
+  canvas.width=W;
+  canvas.height=TWITTER_H;
+
+  ctx.fillStyle=bg;
+  ctx.fillRect(0,0,W,TWITTER_H);
+
+  // Profile area
+  avatar();
+
+  const name=$('channelName').value.trim()||'Your Channel';
+  const handle=$('channelHandle').value.trim()||'@yourchannel';
+
+  ctx.textAlign='left';
+  ctx.textBaseline='alphabetic';
+  ctx.fillStyle=fg;
+  ctx.font='bold 35px Arial,sans-serif';
+  ctx.fillText(name,155,83);
+
+  if($('blueTick').checked){
+    tick(Math.min(155+ctx.measureText(name).width+23,680),68);
+  }
+
+  ctx.fillStyle='#858585';
+  ctx.font='28px Arial,sans-serif';
+  ctx.fillText(handle,155,124);
+
+  // Three-dot post menu
+  ctx.fillStyle='#777';
+  ctx.font='bold 35px Arial';
+  ctx.fillText('•••',650,75);
+
+  // Hook
+  ctx.fillStyle=fg;
+  ctx.font='bold 43px Arial,sans-serif';
+
+  const hook=$('hookText').value.trim()||'Your video caption goes here...';
+  const hookBottom=wrapText(hook,42,218,635,57,4);
+
+  // Large video area
+  const x=25;
+  const y=Math.max(350,hookBottom+38);
+  const width=670;
+  const height=TWITTER_H-y-95;
+
+  if(!video.videoWidth){
+    ctx.fillStyle='#999';
+    ctx.font='24px Arial';
+    ctx.textAlign='center';
+    ctx.fillText('Your video preview will appear here',360,y+100);
+    ctx.textAlign='left';
+    drawEngagement(dark);
     return;
   }
 
-  const maxWidth = 680;
-  const maxHeight = Math.min(950, H - y - 35);
+  ctx.save();
+  rounded(x,y,width,height,30);
+  ctx.clip();
+  cover(video,x,y,width,height,.5);
+  ctx.restore();
 
-  const scale = Math.min(
-    maxWidth / v.videoWidth,
-    maxHeight / v.videoHeight
-  );
+  const border=$('videoBorder').value;
+  if(border!=='none'){
+    ctx.strokeStyle=border==='white'?'#fff':'#000';
+    ctx.lineWidth=5;
+    rounded(x,y,width,height,30);
+    ctx.stroke();
+  }
 
-  const videoWidth = v.videoWidth * scale;
-  const videoHeight = v.videoHeight * scale;
+  drawEngagement(dark);
+}
 
-  const x = (W - videoWidth) / 2;
-  const videoY = y;
+function drawEngagement(dark){
+  const y=1755;
+  const color=dark?'#ddd':'#344054';
 
-  cx.save();
-  roundedRect(x, videoY, videoWidth, videoHeight, 32);
-  cx.clip();
-  cx.drawImage(v, x, videoY, videoWidth, videoHeight);
-  cx.restore();
+  ctx.fillStyle=color;
+  ctx.font='25px Arial';
+  ctx.textAlign='left';
+  ctx.fillText('♡   432',45,y);
+  ctx.fillText('↻   1.2K',225,y);
+  ctx.fillText('♡   8.7K',435,y);
+  ctx.fillText('♧',650,y);
+}
 
-  const border = $('bd').value;
+function drawShorts(){
+  canvas.width=W;
+  canvas.height=SHORT_H;
 
-  if (border !== 'n') {
-    cx.strokeStyle = border === 'w' ? '#fff' : '#000';
-    cx.lineWidth = 6;
-    roundedRect(x, videoY, videoWidth, videoHeight, 32);
-    cx.stroke();
+  ctx.fillStyle='#000';
+  ctx.fillRect(0,0,W,SHORT_H);
+
+  if(!video.videoWidth)return;
+
+  if($('shortLayout').value==='crop'){
+    cover(video,0,0,W,SHORT_H,Number($('cropPosition').value)/100);
+  }else{
+    ctx.save();
+    ctx.filter='blur(25px) brightness(.55)';
+    cover(video,-35,-35,W+70,SHORT_H+70);
+    ctx.restore();
+
+    const h=W*video.videoHeight/video.videoWidth;
+    ctx.drawImage(video,0,(SHORT_H-h)/2,W,h);
   }
 }
 
-function draw() {
-  if (mode === 's') {
-    drawShorts();
-  } else {
-    drawTwitterStyle();
-  }
+function draw(){
+  if(mode==='twitter')drawTwitter();
+  else drawShorts();
 }
 
-function setMode(nextMode) {
-  mode = nextMode;
+function setMode(next){
+  mode=next;
 
-  $('t1').className = mode === 's' ? '' : 'g';
-  $('t2').className = mode === 't' ? '' : 'g';
+  $('shortsTab').classList.toggle('active',mode==='shorts');
+  $('twitterTab').classList.toggle('active',mode==='twitter');
 
-  $('ps').hidden = mode !== 's';
-  $('pt').hidden = mode !== 't';
+  $('shortSettings').classList.toggle('hidden',mode!=='shorts');
+  $('channelSettings').classList.toggle('hidden',mode!=='twitter');
+  $('savedSettings').classList.toggle('hidden',mode!=='twitter');
 
   draw();
 }
 
-$('t1').addEventListener('click', () => setMode('s'));
-$('t2').addEventListener('click', () => setMode('t'));
+$('shortsTab').addEventListener('click',()=>setMode('shorts'));
+$('twitterTab').addEventListener('click',()=>setMode('twitter'));
 
-$('f').addEventListener('change', event => {
-  const file = event.target.files[0];
-  if (!file) return;
+$('videoFile').addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file)return;
 
-  if (v.src) URL.revokeObjectURL(v.src);
+  if(video.src)URL.revokeObjectURL(video.src);
+  video.src=URL.createObjectURL(file);
+  video.load();
 
-  v.src = URL.createObjectURL(file);
-  v.load();
-
-  v.onloadedmetadata = () => {
-    $('b').value = Math.min(45, Math.floor(v.duration));
-    $('go').disabled = false;
-
-    $('st').textContent =
-      'Video length: ' + formatTime(v.duration) +
-      '. Set your start and end time.';
-
-    v.currentTime = 0.1;
+  video.onloadedmetadata=()=>{
+    $('endTime').value=Math.min(45,Math.floor(video.duration));
+    $('makeVideo').disabled=false;
+    $('renderStatus').textContent=
+      'Video loaded · '+video.duration.toFixed(1)+' seconds';
+    video.currentTime=0.1;
   };
 
-  v.onseeked = () => {
-    if (!busy) draw();
+  video.onseeked=()=>{
+    if(!busy)draw();
   };
 });
 
-$('pf').addEventListener('change', event => {
-  const file = event.target.files[0];
-  if (!file) return;
+$('profileFile').addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file)return;
 
-  const image = new Image();
+  const url=URL.createObjectURL(file);
+  const img=new Image();
 
-  image.onload = () => {
-    pfp = image;
-    $('pfPreview').src = image.src;
-    $('pfPreview').style.display = 'block';
+  img.onload=()=>{
+    profileImage=img;
+    $('avatarPreview').src=url;
+    $('avatarPreview').style.display='block';
     draw();
   };
 
-  image.src = URL.createObjectURL(file);
+  img.src=url;
 });
 
 [
-  'lay', 'pos', 'nm', 'hd', 'verified',
-  'th', 'bd', 'hk'
-].forEach(id => {
-  $(id).addEventListener('input', () => {
-    if (!busy) draw();
-  });
-
-  $(id).addEventListener('change', () => {
-    if (!busy) draw();
-  });
+  'channelName','channelHandle','blueTick','cardTheme',
+  'videoBorder','hookText','shortLayout','cropPosition'
+].forEach(id=>{
+  $(id).addEventListener('input',draw);
+  $(id).addEventListener('change',draw);
 });
 
 // Saved channel profiles
-function readProfiles() {
-  try {
-    const data = JSON.parse(localStorage.getItem(PROFILE_KEY) || '[]');
-    return Array.isArray(data) ? data : [];
-  } catch {
+function profiles(){
+  try{
+    const data=JSON.parse(localStorage.getItem(PROFILE_KEY)||'[]');
+    return Array.isArray(data)?data:[];
+  }catch{
     return [];
   }
 }
 
-function refreshProfiles(selected = '') {
-  const select = $('savedProfile');
+function refreshProfiles(selected=''){
+  const list=$('profileList');
+  list.replaceChildren(new Option('Select channel',''));
 
-  select.replaceChildren(new Option('Select a channel', ''));
-
-  readProfiles().forEach(profile => {
-    select.add(new Option(
-      profile.name + ' · ' + profile.handle,
-      profile.id
-    ));
+  profiles().forEach(p=>{
+    list.add(new Option(p.name+' · '+p.handle,p.id));
   });
 
-  select.value = selected;
+  list.value=selected;
 }
 
-function getProfilePicture() {
-  if (!pfp) return '';
+function profilePictureData(){
+  if(!profileImage)return '';
 
-  const width = pfp.naturalWidth || pfp.width;
-  const height = pfp.naturalHeight || pfp.height;
-  const side = Math.min(width, height);
+  const temp=document.createElement('canvas');
+  temp.width=256;
+  temp.height=256;
 
-  const temp = document.createElement('canvas');
-  temp.width = 256;
-  temp.height = 256;
+  const w=profileImage.naturalWidth;
+  const h=profileImage.naturalHeight;
+  const side=Math.min(w,h);
 
   temp.getContext('2d').drawImage(
-    pfp,
-    (width - side) / 2,
-    (height - side) / 2,
-    side,
-    side,
-    0, 0, 256, 256
+    profileImage,
+    (w-side)/2,(h-side)/2,side,side,
+    0,0,256,256
   );
 
-  return temp.toDataURL('image/jpeg', 0.75);
+  return temp.toDataURL('image/jpeg',.72);
 }
 
-$('saveProfile').addEventListener('click', () => {
-  try {
-    const profiles = readProfiles();
-    const selectedId = $('savedProfile').value;
-    const id = selectedId || ('channel_' + Date.now());
+$('saveChannel').addEventListener('click',()=>{
+  try{
+    const list=profiles();
+    const oldId=$('profileList').value;
+    const id=oldId||'channel_'+Date.now();
 
-    const profile = {
+    const p={
       id,
-      name: $('nm').value.trim() || 'Your Channel',
-      handle: $('hd').value.trim() || '@yourchannel',
-      verified: $('verified').checked,
-      theme: $('th').value,
-      border: $('bd').value,
-      hook: $('hk').value,
-      picture: getProfilePicture()
+      name:$('channelName').value.trim()||'Your Channel',
+      handle:$('channelHandle').value.trim()||'@yourchannel',
+      verified:$('blueTick').checked,
+      theme:$('cardTheme').value,
+      border:$('videoBorder').value,
+      hook:$('hookText').value,
+      picture:profilePictureData()
     };
 
-    const index = profiles.findIndex(item => item.id === id);
+    const i=list.findIndex(x=>x.id===id);
+    if(i>=0)list[i]=p;
+    else list.push(p);
 
-    if (index >= 0) {
-      profiles[index] = profile;
-    } else {
-      profiles.push(profile);
-    }
-
-    localStorage.setItem(PROFILE_KEY, JSON.stringify(profiles));
+    localStorage.setItem(PROFILE_KEY,JSON.stringify(list));
     refreshProfiles(id);
-
-    $('profileStatus').textContent = 'Channel saved successfully!';
-  } catch (error) {
-    $('profileStatus').textContent =
-      'Could not save. Your browser storage may be full. Try a smaller PFP.';
+    $('profileStatus').textContent='Channel saved successfully!';
+  }catch(err){
+    $('profileStatus').textContent=
+      'Could not save. Try a smaller profile picture.';
   }
 });
 
-$('loadProfile').addEventListener('click', () => {
-  const profile = readProfiles().find(
-    item => item.id === $('savedProfile').value
-  );
+$('loadChannel').addEventListener('click',()=>{
+  const p=profiles().find(x=>x.id===$('profileList').value);
 
-  if (!profile) {
-    $('profileStatus').textContent = 'Select a saved channel first.';
+  if(!p){
+    $('profileStatus').textContent='Select a saved channel first.';
     return;
   }
 
-  $('nm').value = profile.name || '';
-  $('hd').value = profile.handle || '';
-  $('verified').checked = profile.verified !== false;
-  $('th').value = profile.theme || 'l';
-  $('bd').value = profile.border || 'w';
-  $('hk').value = profile.hook || '';
+  $('channelName').value=p.name||'';
+  $('channelHandle').value=p.handle||'';
+  $('blueTick').checked=p.verified!==false;
+  $('cardTheme').value=p.theme||'light';
+  $('videoBorder').value=p.border||'white';
+  $('hookText').value=p.hook||'';
 
-  pfp = null;
-  $('pf').value = '';
-  $('pfPreview').style.display = 'none';
+  profileImage=null;
+  $('profileFile').value='';
+  $('avatarPreview').style.display='none';
 
-  if (profile.picture) {
-    const image = new Image();
-
-    image.onload = () => {
-      pfp = image;
-      $('pfPreview').src = profile.picture;
-      $('pfPreview').style.display = 'block';
+  if(p.picture){
+    const img=new Image();
+    img.onload=()=>{
+      profileImage=img;
+      $('avatarPreview').src=p.picture;
+      $('avatarPreview').style.display='block';
       draw();
     };
+    img.src=p.picture;
+  }else draw();
 
-    image.src = profile.picture;
-  } else {
-    draw();
-  }
-
-  $('profileStatus').textContent = 'Channel loaded successfully!';
+  $('profileStatus').textContent='Channel loaded successfully!';
 });
 
-$('deleteProfile').addEventListener('click', () => {
-  const id = $('savedProfile').value;
+$('deleteChannel').addEventListener('click',()=>{
+  const id=$('profileList').value;
 
-  if (!id) {
-    $('profileStatus').textContent = 'Select a saved channel first.';
+  if(!id){
+    $('profileStatus').textContent='Select a saved channel first.';
     return;
   }
 
-  const profiles = readProfiles().filter(item => item.id !== id);
+  localStorage.setItem(
+    PROFILE_KEY,
+    JSON.stringify(profiles().filter(p=>p.id!==id))
+  );
 
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(profiles));
   refreshProfiles();
-
-  $('profileStatus').textContent = 'Saved channel deleted.';
+  $('profileStatus').textContent='Channel deleted.';
 });
 
-refreshProfiles();
-
-// Hook ideas
-const HOOKS = [
-  'Nobody tells you the truth about X...',
-  'Stop doing X this way',
-  'X: what I wish I knew sooner',
-  '3 things about X that will surprise you',
-  'The biggest mistake people make with X',
-  'Watch this before you try X',
-  'Why X is harder than it looks',
-  'This changed how I think about X'
+// Hook suggestions
+const hookTemplates=[
+  'Nobody tells you this about TOPIC...',
+  'Stop doing TOPIC this way',
+  'The truth about TOPIC...',
+  '3 things about TOPIC that may surprise you',
+  'The biggest mistake people make with TOPIC',
+  'What nobody explains about TOPIC',
+  'This changed how I think about TOPIC'
 ];
 
-$('hi').addEventListener('click', () => {
-  const topic = $('tp').value.trim() || 'this';
+$('generateHooks').addEventListener('click',()=>{
+  const topic=$('hookTopic').value.trim()||'success';
+  const area=$('hookIdeas');
+  area.replaceChildren();
 
-  $('ch').replaceChildren(
-    ...HOOKS.map(text => {
-      const button = document.createElement('button');
-      button.className = 'g';
-      button.type = 'button';
-      button.textContent = text.replace(/X/g, topic);
+  hookTemplates.forEach(template=>{
+    const b=document.createElement('button');
+        const b = document.createElement('button');
 
-      button.addEventListener('click', () => {
-        $('hk').value = button.textContent;
-        draw();
-      });
+    b.type = 'button';
+    b.className = 'hook-suggestion';
+    b.textContent = template.replace(/TOPIC/g, topic);
 
-      return button;
-    })
-  );
-});
-
-// Restore basic editor settings
-const SETTINGS = ['nm', 'hd', 'verified', 'th', 'bd', 'hk', 'lay', 'tp'];
-
-try {
-  SETTINGS.forEach(id => {
-    const saved = localStorage.getItem('aivora_rs_' + id);
-
-    if (saved !== null) {
-      if (id === 'verified') {
-        $(id).checked = saved === 'true';
-      } else {
-        $(id).value = saved;
-      }
-    }
-
-    $(id).addEventListener('change', () => {
-      const value = id === 'verified' ? $(id).checked : $(id).value;
-      localStorage.setItem('aivora_rs_' + id, String(value));
-    });
-  });
-} catch {}
-
-// Video rendering helpers
-function seekVideo(time) {
-  return new Promise((resolve, reject) => {
-    const onSeeked = () => {
-      cleanup();
-      resolve();
-    };
-
-    const onError = () => {
-      cleanup();
-      reject(new Error('Could not seek to the selected video time.'));
-    };
-
-    const cleanup = () => {
-      v.removeEventListener('seeked', onSeeked);
-      v.removeEventListener('error', onError);
-    };
-
-    v.addEventListener('seeked', onSeeked);
-    v.addEventListener('error', onError);
-
-    v.currentTime = time;
-
-    if (Math.abs(v.currentTime - time) < 0.01 && !v.seeking) {
-      cleanup();
-      resolve();
-    }
-  });
-}
-
-function waitForVideoEnd(start, end, reelNumber, total) {
-  return new Promise((resolve, reject) => {
-    let stopped = false;
-
-    const finish = () => {
-      if (stopped) return;
-      stopped = true;
-
-      
-      cancelAnimationFrame(animationFrame);
-      v.removeEventListener('ended', finish);
-      resolve();
-    };
-
-    const frame = () => {
-      if (stopped) return;
-
+    b.addEventListener('click', () => {
+      $('hookText').value = b.textContent;
       draw();
 
-      const progress = (v.currentTime - start) / (end - start);
+      $('profileStatus').textContent =
+        'Hook selected. Your preview has been updated.';
+    });
 
-      $('st').textContent =
-        'Rendering reel ' + reelNumber + ' of ' + total +
-        ' · ' + Math.min(99, Math.round(progress * 100)) + '%';
-
-      if (v.currentTime >= end || v.ended) {
-        finish();
-        return;
-      }
-
-      animationFrame = requestAnimationFrame(frame);
-    };
-
-    v.addEventListener('ended', finish);
-    frame();
+    area.appendChild(b);
   });
-}
-
-async function renderReel(start, end, reelNumber, total) {
-  await seekVideo(start);
-
-  if (!audioContext) {
-    audioContext = new AudioContext();
-    audioDestination = audioContext.createMediaStreamDestination();
-
-    const source = audioContext.createMediaElementSource(v);
-    source.connect(audioDestination);
-  }
-
-  await audioContext.resume();
-
-  const stream = new MediaStream([
-    ...cv.captureStream(30).getVideoTracks(),
-    ...audioDestination.stream.getAudioTracks()
-  ]);
-
-  const supportedTypes = [
-    'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
-    'video/mp4',
-    'video/webm;codecs=vp9,opus',
-    'video/webm'
-  ];
-
-  const mimeType = supportedTypes.find(type =>
-    MediaRecorder.isTypeSupported(type)
-  );
-
-  if (!mimeType) {
-    throw new Error('Video recording is not supported by this browser.');
-  }
-
-  const recorder = new MediaRecorder(stream, {
-    mimeType,
-    videoBitsPerSecond: 5000000
-  });
-
-  const chunks = [];
-
-  recorder.ondataavailable = event => {
-    if (event.data.size) chunks.push(event.data);
-  };
-
-  const stopped = new Promise(resolve => {
-    recorder.onstop = resolve;
-  });
-
-  recorder.start(500);
-
-  await v.play();
-  await waitForVideoEnd(start, end, reelNumber, total);
-
-  v.pause();
-  recorder.stop();
-
-  await stopped;
-
-  return {
-    blob: new Blob(chunks, { type: mimeType.split(';')[0] }),
-    extension: mimeType.includes('mp4') ? 'mp4' : 'webm'
-  };
-}
-
-function addResult(result, number) {
-  const container = document.createElement('div');
-  const preview = document.createElement('video');
-  const download = document.createElement('button');
-
-  const url = URL.createObjectURL(result.blob);
-
-  preview.src = url;
-  preview.controls = true;
-  preview.playsInline = true;
-  preview.className = 'output-video';
-
-  download.textContent = 'Save reel ' + number;
-
-  download.addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download =
-      'AIVORA_reel_' + number + '.' + result.extension;
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  });
-
-  container.append(preview, download);
-  $('res').append(container);
-}
-
-$('go').addEventListener('click', async () => {
-  if (!v.src || !Number.isFinite(v.duration)) {
-    $('st').textContent = 'Please select a video first.';
-    return;
-  }
-
-  const start = timeValue($('a').value);
-  const end = Math.min(timeValue($('b').value), v.duration);
-  const count = Math.min(
-    20,
-    Math.max(1, Math.floor(Number($('nn').value) || 1))
-  );
-
-  const segmentLength = (end - start) / count;
-
-  if (start < 0 || end <= start || segmentLength < 1) {
-    $('st').textContent =
-      'Check your start time, end time and number of reels.';
-    return;
-  }
-
-  $('res').replaceChildren();
-  busy = true;
-  $('go').disabled = true;
-
-  try {
-    for (let index = 0; index < count; index++) {
-      const reelStart = start + index * segmentLength;
-      const reelEnd = index === count - 1
-        ? end
-        : start + (index + 1) * segmentLength;
-
-      const result = await renderReel(
-        reelStart,
-        reelEnd,
-        index + 1,
-        count
-      );
-
-      addResult(result, index + 1);
-    }
-
-    $('st').textContent =
-      'Finished! Your videos are ready. Save each video below.';
-
-  } catch (error) {
-    $('st').textContent =
-      'Could not render video: ' + (error.message || error);
-
-  } finally {
-    v.pause();
-    busy = false;
-    $('go').disabled = false;
-    draw();
-  }
 });
 
-draw();
-</script>
+// Update preview when channel details change
+[
+  'channelName',
+  'channelHandle',
+  'blueTick',
+  'cardTheme',
+  'videoBorder',
+  'hookText'
+].forEach(id => {
+  $(id).addEventListener('input', draw);
+  $(id).addEventListener('change', draw);
+});
 
+// Initial preview
+draw();
+
+</script>
 </body>
 </html>
-
