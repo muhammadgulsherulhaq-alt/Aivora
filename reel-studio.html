@@ -1,915 +1,818 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIVORA Reel Studio | Video Creator</title>
-<meta name="description" content="Create vertical Shorts and Twitter-style videos with AIVORA Reel Studio.">
+<title>AIVORA Reel Studio</title>
+<meta name="description" content="Create vertical Shorts and social-style videos with AIVORA Reel Studio.">
 <meta name="theme-color" content="#080b18">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="aivora-icon.svg">
 
 <style>
-:root{
-  --bg:#080b18;
-  --panel:#121a30;
-  --panel2:#19223c;
-  --border:#293451;
-  --text:#f5f6ff;
-  --muted:#a5aec8;
-  --purple:#7951ff;
-  --purple2:#966fff;
-}
+:root{--bg:#080b18;--panel:#121a30;--panel2:#19223c;--border:#293451;--text:#f5f6ff;--muted:#a5aec8;--purple:#7951ff;--purple2:#966fff}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,system-ui,sans-serif;
-}
-header{
-  height:72px;
-  padding:0 4%;
-  border-bottom:1px solid #ffffff18;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-.logo img{
-  width:170px;
-  max-height:46px;
-  object-fit:contain;
-}
-nav{display:flex;gap:26px}
-nav a{
-  color:#d8dcf0;
-  text-decoration:none;
-  font-size:14px;
-}
-main{
-  width:min(1500px,96%);
-  margin:24px auto 50px;
-}
-.workspace{
-  display:grid;
-  grid-template-columns:minmax(390px, .88fr) minmax(480px,1.12fr);
-  gap:30px;
-  align-items:start;
-}
-h1{
-  font-size:36px;
-  margin:0 0 9px;
-  letter-spacing:-1px;
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,system-ui,sans-serif}
+header{min-height:68px;padding:10px 4%;border-bottom:1px solid #ffffff18;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.logo img{width:155px;max-height:44px;object-fit:contain}
+nav{display:flex;gap:22px}
+nav a{color:#d8dcf0;text-decoration:none;font-size:14px}
+main{width:min(1500px,96%);margin:22px auto 40px}
+.workspace{display:grid;grid-template-columns:minmax(340px,.88fr) minmax(420px,1.12fr);gap:26px;align-items:start}
+h1{font-size:34px;margin:0 0 8px;letter-spacing:-1px}
 h1 span{color:var(--purple2)}
-.intro{
-  color:var(--muted);
-  line-height:1.6;
-  font-size:15px;
-  margin:0 0 20px;
-}
-.tabs{
-  display:flex;
-  gap:7px;
-  padding:5px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  margin-bottom:17px;
-}
+.intro{color:var(--muted);line-height:1.55;font-size:14px;margin:0 0 16px}
 button,input,select,textarea{font:inherit}
-button{
-  cursor:pointer;
-  border:0;
-}
-.tabs button{
-  flex:1;
-  padding:12px 8px;
-  color:#dce0f2;
-  background:transparent;
-  border-radius:10px;
-  font-weight:700;
-}
-.tabs button.active{
-  background:var(--purple);
-  color:white;
-}
-label{
-  display:block;
-  font-size:13px;
-  color:#e0e4f5;
-  font-weight:600;
-  margin:13px 0 7px;
-}
-input,select,textarea{
-  width:100%;
-  background:var(--panel);
-  color:white;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:11px 12px;
-  outline:none;
-  min-width:0;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:var(--purple2);
-}
+button{cursor:pointer;border:0}
+.tabs{display:flex;gap:7px;padding:5px;background:var(--panel);border:1px solid var(--border);border-radius:13px;margin-bottom:14px}
+.tabs button{flex:1;padding:11px 8px;color:#dce0f2;background:transparent;border-radius:9px;font-weight:700}
+.tabs button.active{background:var(--purple);color:white}
+label{display:block;font-size:13px;color:#e0e4f5;font-weight:600;margin:12px 0 6px}
+input,select,textarea{width:100%;background:var(--panel);color:white;border:1px solid var(--border);border-radius:10px;padding:10px 11px;outline:none;min-width:0}
+input:focus,select:focus,textarea:focus{border-color:var(--purple2)}
 input[type=file]{font-size:13px}
-input[type=checkbox]{
-  width:17px;
-  height:17px;
-  accent-color:var(--purple);
-}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--purple)}
 input[type=range]{padding:4px}
-.row{
-  display:flex;
-  gap:10px;
-}
+.row{display:flex;gap:9px}
 .row>*{flex:1;min-width:0}
-.panel{
-  background:linear-gradient(145deg,#151e35,#10172a);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
-  margin-top:13px;
-}
-.panel-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  font-size:15px;
-  font-weight:700;
-  margin-bottom:9px;
-}
+.panel{background:linear-gradient(145deg,#151e35,#10172a);border:1px solid var(--border);border-radius:15px;padding:13px;margin-top:12px}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:15px;font-weight:700;margin-bottom:8px}
 .panel-title span{color:#bbaaff}
-.secondary{
-  background:var(--panel2)!important;
-  border:1px solid var(--border)!important;
-  color:white!important;
-}
-.primary{
-  background:linear-gradient(100deg,var(--purple),#8c52ff);
-  color:white;
-  font-weight:750;
-}
-.action{
-  width:100%;
-  border-radius:12px;
-  padding:14px;
-  margin-top:10px;
-  font-weight:750;
-}
-.small-button{
-  border-radius:9px;
-  padding:10px;
-  font-size:13px;
-  font-weight:700;
-}
+.secondary{background:var(--panel2)!important;border:1px solid var(--border)!important;color:white!important}
+.primary{background:linear-gradient(100deg,var(--purple),#8c52ff);color:white;font-weight:750}
+.action{width:100%;border-radius:12px;padding:14px;margin-top:10px;font-weight:750}
+.small-button{border-radius:9px;padding:10px;font-size:13px;font-weight:700}
 button:disabled{opacity:.5;cursor:not-allowed}
-.check{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  margin:13px 0 4px;
-  font-size:13px;
-  color:#e9ebf7;
-}
-.profile-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.avatar-preview{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid var(--purple);
-  background:#343a4d;
-  display:none;
-}
-.status{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
-}
-#hookIdeas{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:8px;
-}
-#hookIdeas button{
-  background:#242d4c;
-  color:#e5e0ff;
-  border:1px solid #55478d;
-  padding:7px 9px;
-  border-radius:20px;
-  font-size:11px;
-}
+.check{display:flex;align-items:center;gap:9px;margin:12px 0 4px;font-size:13px;color:#e9ebf7}
+.profile-row{display:flex;align-items:center;gap:12px}
+.avatar-preview{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid var(--purple);background:#343a4d;display:none}
+.status{color:var(--muted);font-size:12px;line-height:1.5;min-height:17px}
+#hookIdeas{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+#hookIdeas button{background:#242d4c;color:#e5e0ff;border:1px solid #55478d;padding:7px 9px;border-radius:20px;font-size:11px}
 .hidden{display:none!important}
-
-/* Preview */
-.preview-column{
-  position:sticky;
-  top:15px;
-  min-width:0;
-}
-.preview-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-.preview-heading h2{
-  font-size:17px;
-  margin:0;
-}
-.preview-heading span{
-  font-size:12px;
-  color:var(--muted);
-}
-.preview-shell{
-  background:#fff;
-  color:#111;
-  border-radius:27px;
-  padding:22px;
-  box-shadow:0 15px 50px #0005;
-  overflow:hidden;
-}
-#previewCanvas{
-  width:100%;
-  height:auto;
-  display:block;
-}
-.preview-note{
-  color:var(--muted);
-  font-size:12px;
-  text-align:center;
-  margin-top:10px;
-}
+.preview-column{position:sticky;top:14px;min-width:0}
+.preview-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.preview-heading h2{font-size:17px;margin:0}
+.preview-heading span{font-size:12px;color:var(--muted)}
+.preview-shell{background:#fff;color:#111;border-radius:25px;padding:12px;box-shadow:0 15px 50px #0005;overflow:hidden}
+#previewCanvas{width:100%;height:auto;display:block}
+.preview-note{color:var(--muted);font-size:12px;text-align:center;margin-top:9px}
 #sourceVideo{display:none}
-#downloads video{
-  width:100%;
-  margin-top:15px;
-  border-radius:14px;
-  background:#000;
-}
-.download-item button{margin-top:8px}
-footer{
-  border-top:1px solid #ffffff1b;
-  margin-top:35px;
-  padding:18px 0;
-  color:var(--muted);
-  font-size:12px;
-}
+.download-item{margin-top:10px;padding:10px;background:#121a30;border:1px solid var(--border);border-radius:10px}
+.download-item a{color:#c9baff;font-weight:700}
+footer{border-top:1px solid #ffffff1b;margin-top:32px;padding:18px 0;color:var(--muted);font-size:12px}
 footer a{color:#bbaaff;text-decoration:none}
-#makeVideo{font-size:17px;padding:16px}
-#renderStatus{min-height:20px}
+#makeVideo{font-size:16px;padding:15px}
 
 @media(max-width:900px){
-  .workspace{grid-template-columns:1fr;gap:25px}
-  .preview-column{position:static;max-width:650px;width:100%;margin:auto}
-  .controls{max-width:650px;width:100%;margin:auto}
-  h1{font-size:29px}
+.workspace{grid-template-columns:1fr;gap:20px}
+.preview-column{position:static;max-width:680px;width:100%;margin:auto;order:1}
+.controls{max-width:680px;width:100%;margin:auto;order:2}
+h1{font-size:29px}
 }
 @media(max-width:520px){
-  header{height:62px;padding:0 13px}
-  .logo img{width:125px}
-  nav{gap:10px}
-  nav a{font-size:11px}
-  main{width:94%;margin-top:18px}
-  .preview-shell{padding:12px;border-radius:20px}
-  .panel{padding:12px}
-  .row{gap:7px}
-  h1{font-size:26px}
+header{min-height:58px;padding:8px 13px}
+.logo img{width:118px}
+nav{gap:10px}
+nav a{font-size:11px}
+main{width:94%;margin-top:16px}
+.workspace{display:flex;flex-direction:column;gap:16px}
+.controls{order:1}
+.preview-column{order:2}
+.preview-shell{padding:9px;border-radius:18px}
+.panel{padding:11px}
+.row{gap:7px}
+h1{font-size:25px}
+.intro{font-size:13px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
-  <a class="logo" href="index.html">
-    <img src="aivora-logo.svg" alt="AIVORA">
-  </a>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="blog.html">Blog</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+<a class="logo" href="index.html">
+<img src="aivora-logo.svg" alt="AIVORA">
+</a>
+<nav>
+<a href="index.html">Home</a>
+<a href="blog.html">Blog</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
 </header>
 
 <main>
 <div class="workspace">
 
 <section class="controls">
+<h1>AIVORA <span>Reel Studio</span></h1>
+<p class="intro">Create vertical Shorts or social-style videos. Add your channel identity, profile picture and hook.</p>
 
-  <h1>AIVORA <span>Reel Studio</span></h1>
-  <p class="intro">
-    Create vertical Shorts or Twitter-style videos. Add your channel identity,
-    profile picture and hook.
-  </p>
+<div class="tabs">
+<button id="shortsTab" class="active" type="button">▶ 9:16 Shorts</button>
+<button id="twitterTab" type="button">Social card</button>
+</div>
 
-  <div class="tabs">
-    <button id="shortsTab" class="active">9:16 Shorts</button>
-    <button id="twitterTab">Twitter-style</button>
-  </div>
+<label for="videoFile">Select video</label>
+<input id="videoFile" type="file" accept="video/*">
+<video id="sourceVideo" playsinline preload="auto"></video>
 
-  <label>Select video</label>
-  <input id="videoFile" type="file" accept="video/*">
-  <video id="sourceVideo" playsinline preload="auto"></video>
+<div class="row">
+<div>
+<label for="startTime">Start time (seconds)</label>
+<input id="startTime" type="number" min="0" step="0.1" value="0">
+</div>
+<div>
+<label for="endTime">End time (seconds)</label>
+<input id="endTime" type="number" min="0.1" step="0.1" value="45">
+</div>
+</div>
 
-  <div class="row">
-    <div>
-      <label>Start time (seconds)</label>
-      <input id="startTime" value="0" type="text">
-    </div>
-    <div>
-      <label>End time (seconds)</label>
-      <input id="endTime" value="45" type="text">
-    </div>
-  </div>
+<label for="clipCount">Number of clips</label>
+<input id="clipCount" type="number" min="1" max="10" value="1">
 
-  <label>Number of clips</label>
-  <input id="clipCount" type="number" min="1" max="10" value="1">
+<section id="shortSettings" class="panel">
+<div class="panel-title"><span>▣</span> Shorts settings</div>
+<label for="shortLayout">Video layout</label>
+<select id="shortLayout">
+<option value="blur">Blurred background</option>
+<option value="crop">Fill screen (crop sides)</option>
+</select>
+<label for="cropPosition">Horizontal crop position</label>
+<input id="cropPosition" type="range" min="0" max="100" value="50">
+<div class="status">Adjust the video position inside the vertical frame.</div>
+</section>
 
-  <section id="shortSettings" class="panel">
-    <div class="panel-title"><span>▣</span> Shorts settings</div>
-    <label>Video layout</label>
-    <select id="shortLayout">
-      <option value="blur">Blurred background</option>
-      <option value="crop">Fill screen (crop sides)</option>
-    </select>
-    <label>Horizontal crop position</label>
-    <input id="cropPosition" type="range" min="0" max="100" value="50">
-    <div class="status">Adjust the video position inside the vertical frame.</div>
-  </section>
+<section id="channelSettings" class="panel hidden">
+<div class="panel-title"><span>♥</span> Channel identity</div>
 
-  <section id="channelSettings" class="panel hidden">
-    <div class="panel-title"><span>♥</span> Channel identity</div>
+<label>Channel profile picture</label>
+<div class="profile-row">
+<img id="avatarPreview" class="avatar-preview" alt="Channel profile picture">
+<input id="profileFile" type="file" accept="image/*">
+</div>
 
-    <label>Channel profile picture</label>
-    <div class="profile-row">
-      <img id="avatarPreview" class="avatar-preview" alt="Channel PFP">
-      <input id="profileFile" type="file" accept="image/*">
-    </div>
+<div class="row">
+<div>
+<label for="channelName">Channel name</label>
+<input id="channelName" value="Voxifact" maxlength="40">
+</div>
+<div>
+<label for="channelHandle">Username</label>
+<input id="channelHandle" value="@voxifact" maxlength="40">
+</div>
+</div>
 
-    <div class="row">
-      <div>
-        <label>Channel name</label>
-        <input id="channelName" value="Voxifact" maxlength="40">
-      </div>
-      <div>
-        <label>Username</label>
-        <input id="channelHandle" value="@voxifact" maxlength="40">
-      </div>
-    </div>
+<label class="check">
+<input id="blueTick" type="checkbox" checked>
+Show blue verification tick
+</label>
 
-    <label class="check">
-      <input id="blueTick" type="checkbox" checked>
-      Show blue verification tick
-    </label>
+<div class="row">
+<div>
+<label for="cardTheme">Card theme</label>
+<select id="cardTheme">
+<option value="light">White</option>
+<option value="dark">Black</option>
+</select>
+</div>
+<div>
+<label for="videoBorder">Video border</label>
+<select id="videoBorder">
+<option value="white">White</option>
+<option value="black">Black</option>
+<option value="none">None</option>
+</select>
+</div>
+</div>
 
-    <div class="row">
-      <div>
-        <label>Card theme</label>
-        <select id="cardTheme">
-          <option value="light">White</option>
-          <option value="dark">Black</option>
-        </select>
-      </div>
-      <div>
-        <label>Video border</label>
-        <select id="videoBorder">
-          <option value="white">White</option>
-          <option value="black">Black</option>
-          <option value="none">None</option>
-        </select>
-      </div>
-    </div>
+<label for="hookText">Hook / caption</label>
+<textarea id="hookText" rows="2">Nobody tells you this about success...</textarea>
+</section>
 
-    <label>Hook / caption</label>
-    <textarea id="hookText" rows="2">Nobody tells you this about success...</textarea>
+<section id="savedSettings" class="panel hidden">
+<div class="panel-title"><span>▣</span> Saved Channels</div>
+<label for="profileList">Select saved channel</label>
+<div class="row">
+<select id="profileList"><option value="">Select channel</option></select>
+<button id="loadChannel" class="secondary small-button" type="button">Load</button>
+</div>
+<div class="row">
+<button id="saveChannel" class="primary small-button" type="button">▣ Save Channel</button>
+<button id="deleteChannel" class="secondary small-button" type="button">Delete</button>
+</div>
+<p class="status" id="profileStatus">Saved channels are stored in this browser.</p>
+</section>
 
-    <div class="row">
-      <input id="hookTopic" placeholder="Topic (optional)">
-      <button class="primary small-button" id="generateHooks" type="button">✦ Hook ideas</button>
-    </div>
-    <div id="hookIdeas"></div>
-  </section>
+<section id="hookPanel" class="panel hidden">
+<div class="panel-title"><span>✦</span> Hook ideas</div>
+<div class="row">
+<input id="hookTopic" placeholder="Topic (optional)">
+<button class="primary small-button" id="generateHooks" type="button">✦ Hook ideas</button>
+</div>
+<div id="hookIdeas"></div>
+</section>
 
-  <section id="savedSettings" class="panel hidden">
-    <div class="panel-title"><span>▣</span> Saved Channels</div>
-    <label>Select saved channel</label>
-    <div class="row">
-      <select id="profileList">
-        <option value="">Select channel</option>
-      </select>
-      <button id="loadChannel" class="secondary small-button" type="button">Load</button>
-    </div>
-    <div class="row">
-      <button id="saveChannel" class="primary small-button" type="button">▣ Save Channel</button>
-      <button id="deleteChannel" class="secondary small-button" type="button">Delete</button>
-    </div>
-    <p class="status" id="profileStatus">
-      Saved channels are stored in this browser.
-    </p>
-  </section>
+<label class="check">
+<input id="captions" type="checkbox" checked>
+Burn hook caption into Shorts
+</label>
 
-  <label class="check">
-    <input id="captions" type="checkbox" checked>
-    Burn captions into reels (if available)
-  </label>
-
-  <button id="makeVideo" class="action primary" disabled>▶ Make video</button>
-  <p class="status" id="renderStatus">Choose a video to begin.</p>
-  <div id="downloads"></div>
-
+<button id="makeVideo" class="action primary" disabled type="button">▶ Make Video</button>
+<p class="status" id="renderStatus">Choose a video to begin.</p>
+<div id="downloads"></div>
 </section>
 
 <section class="preview-column">
-  <div class="preview-heading">
-    <h2>Live Preview</h2>
-    <span>Updates automatically</span>
-  </div>
-
-  <div class="preview-shell">
-    <canvas id="previewCanvas" width="720" height="1800"></canvas>
-  </div>
-  <p class="preview-note">
-    Your final video will use the selected layout and channel identity.
-  </p>
+<div class="preview-heading">
+<h2>Live Preview</h2>
+<span>Updates automatically ●</span>
+</div>
+<div class="preview-shell">
+<canvas id="previewCanvas" width="720" height="1280"></canvas>
+</div>
+<p class="preview-note">Preview updates as you change the settings.</p>
 </section>
 
 </div>
 
 <footer>
-  © 2026 AIVORA ·
-  <a href="privacy-policy.html">Privacy Policy</a> ·
-  <a href="terms.html">Terms</a> ·
-  <a href="disclaimer.html">Disclaimer</a> ·
-  <a href="faq.html">FAQ</a>
+© 2026 AIVORA ·
+<a href="privacy-policy.html">Privacy Policy</a> ·
+<a href="terms.html">Terms</a> ·
+<a href="disclaimer.html">Disclaimer</a> ·
+<a href="faq.html">FAQ</a>
 </footer>
 </main>
 
 <script>
 'use strict';
 
-const $ = id => document.getElementById(id);
-const canvas = $('previewCanvas');
-const ctx = canvas.getContext('2d');
-const video = $('sourceVideo');
+const $=id=>document.getElementById(id);
+const canvas=$('previewCanvas');
+const ctx=canvas.getContext('2d');
+const video=$('sourceVideo');
 
-const PROFILE_KEY = 'aivora_reel_channel_profiles_v3';
+const PROFILE_KEY='aivora_reel_channel_profiles_v4';
+const W=720,SHORT_H=1280,CARD_H=1800;
 
-let mode = 'shorts';
-let profileImage = null;
-let audioContext = null;
-let audioSource = null;
-let audioDestination = null;
-let busy = false;
-let animationId = 0;
+let mode='shorts';
+let profileImage=null;
+let videoURL='';
+let rendering=false;
+let raf=0;
 
-const W = 720;
-const SHORT_H = 1280;
-const TWITTER_H = 1800;
-
-function rounded(x,y,w,h,r){
-  ctx.beginPath();
-  if(ctx.roundRect) ctx.roundRect(x,y,w,h,r);
-  else ctx.rect(x,y,w,h);
+function path(x,y,w,h,r){
+ctx.beginPath();
+if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);
+else ctx.rect(x,y,w,h);
 }
 
-function cover(source,x,y,w,h,position=.5){
-  const sw=source.videoWidth||source.naturalWidth||source.width;
-  const sh=source.videoHeight||source.naturalHeight||source.height;
-  if(!sw||!sh)return;
+function dims(source){
+return {
+w:source.videoWidth||source.naturalWidth||source.width,
+h:source.videoHeight||source.naturalHeight||source.height
+};
+}
 
-  const scale=Math.max(w/sw,h/sh);
-  const cw=w/scale;
-  const ch=h/scale;
-
-  ctx.drawImage(
-    source,
-    (sw-cw)*position,
-    (sh-ch)/2,
-    cw,ch,
-    x,y,w,h
-  );
+function cover(source,x,y,w,h,pos=.5){
+const d=dims(source);
+if(!d.w||!d.h)return;
+const scale=Math.max(w/d.w,h/d.h);
+const cw=w/scale,ch=h/scale;
+const sx=(d.w-cw)*Math.max(0,Math.min(1,pos));
+ctx.drawImage(source,sx,(d.h-ch)/2,cw,ch,x,y,w,h);
 }
 
 function avatar(){
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(88,88,44,0,Math.PI*2);
-  ctx.clip();
-
-  if(profileImage){
-    cover(profileImage,44,44,88,88);
-  }else{
-    ctx.fillStyle='#858585';
-    ctx.fillRect(44,44,88,88);
-  }
-  ctx.restore();
+ctx.save();
+ctx.beginPath();
+ctx.arc(88,88,44,0,Math.PI*2);
+ctx.clip();
+if(profileImage)cover(profileImage,44,44,88,88);
+else{
+ctx.fillStyle='#888';
+ctx.fillRect(44,44,88,88);
+}
+ctx.restore();
 }
 
 function tick(x,y){
-  ctx.fillStyle='#1d9bf0';
-  ctx.beginPath();
-  ctx.arc(x,y,15,0,Math.PI*2);
-  ctx.fill();
-
-  ctx.strokeStyle='#fff';
-  ctx.lineWidth=3.5;
-  ctx.lineCap='round';
-  ctx.lineJoin='round';
-  ctx.beginPath();
-  ctx.moveTo(x-6,y);
-  ctx.lineTo(x-1,y+5);
-  ctx.lineTo(x+7,y-5);
-  ctx.stroke();
+ctx.fillStyle='#1d9bf0';
+ctx.beginPath();
+ctx.arc(x,y,15,0,Math.PI*2);
+ctx.fill();
+ctx.strokeStyle='#fff';
+ctx.lineWidth=3.5;
+ctx.lineCap='round';
+ctx.lineJoin='round';
+ctx.beginPath();
+ctx.moveTo(x-6,y);
+ctx.lineTo(x-1,y+5);
+ctx.lineTo(x+7,y-5);
+ctx.stroke();
 }
 
-function wrapText(text,x,y,maxWidth,lineHeight,maxLines=4){
-  const words=text.split(/\s+/);
-  let line='';
-  let lines=0;
-
-  for(let i=0;i<words.length;i++){
-    const test=line?line+' '+words[i]:words[i];
-
-    if(ctx.measureText(test).width>maxWidth&&line){
-      ctx.fillText(line,x,y);
-      y+=lineHeight;
-      lines++;
-      line=words[i];
-      if(lines>=maxLines)break;
-    }else{
-      line=test;
-    }
-  }
-
-  if(line&&lines<maxLines){
-    ctx.fillText(line,x,y);
-    y+=lineHeight;
-  }
-
-  return y;
+function wrap(text,x,y,mw,lh,max=4){
+let line='',n=0;
+for(const word of text.split(/\s+/)){
+const test=line?line+' '+word:word;
+if(ctx.measureText(test).width>mw&&line){
+ctx.fillText(line,x,y);
+y+=lh;
+n++;
+line=word;
+if(n>=max)break;
+}else line=test;
+}
+if(line&&n<max){
+ctx.fillText(line,x,y);
+y+=lh;
+}
+return y;
 }
 
-function drawTwitter(){
-  const dark=$('cardTheme').value==='dark';
-  const bg=dark?'#000':'#fff';
-  const fg=dark?'#fff':'#080808';
+function drawCard(){
+const dark=$('cardTheme').value==='dark';
+const bg=dark?'#000':'#fff';
+const fg=dark?'#fff':'#080808';
 
-  canvas.width=W;
-  canvas.height=TWITTER_H;
+canvas.width=W;
+canvas.height=CARD_H;
+ctx.fillStyle=bg;
+ctx.fillRect(0,0,W,CARD_H);
 
-  ctx.fillStyle=bg;
-  ctx.fillRect(0,0,W,TWITTER_H);
+avatar();
 
-  // Profile area
-  avatar();
+const name=$('channelName').value.trim()||'Your Channel';
+const handle=$('channelHandle').value.trim()||'@yourchannel';
 
-  const name=$('channelName').value.trim()||'Your Channel';
-  const handle=$('channelHandle').value.trim()||'@yourchannel';
+ctx.textAlign='left';
+ctx.textBaseline='alphabetic';
+ctx.fillStyle=fg;
+ctx.font='bold 35px Arial';
+ctx.fillText(name,155,83);
 
-  ctx.textAlign='left';
-  ctx.textBaseline='alphabetic';
-  ctx.fillStyle=fg;
-  ctx.font='bold 35px Arial,sans-serif';
-  ctx.fillText(name,155,83);
-
-  if($('blueTick').checked){
-    tick(Math.min(155+ctx.measureText(name).width+23,680),68);
-  }
-
-  ctx.fillStyle='#858585';
-  ctx.font='28px Arial,sans-serif';
-  ctx.fillText(handle,155,124);
-
-  // Three-dot post menu
-  ctx.fillStyle='#777';
-  ctx.font='bold 35px Arial';
-  ctx.fillText('•••',650,75);
-
-  // Hook
-  ctx.fillStyle=fg;
-  ctx.font='bold 43px Arial,sans-serif';
-
-  const hook=$('hookText').value.trim()||'Your video caption goes here...';
-  const hookBottom=wrapText(hook,42,218,635,57,4);
-
-  // Large video area
-  const x=25;
-  const y=Math.max(350,hookBottom+38);
-  const width=670;
-  const height=TWITTER_H-y-95;
-
-  if(!video.videoWidth){
-    ctx.fillStyle='#999';
-    ctx.font='24px Arial';
-    ctx.textAlign='center';
-    ctx.fillText('Your video preview will appear here',360,y+100);
-    ctx.textAlign='left';
-    drawEngagement(dark);
-    return;
-  }
-
-  ctx.save();
-  rounded(x,y,width,height,30);
-  ctx.clip();
-  cover(video,x,y,width,height,.5);
-  ctx.restore();
-
-  const border=$('videoBorder').value;
-  if(border!=='none'){
-    ctx.strokeStyle=border==='white'?'#fff':'#000';
-    ctx.lineWidth=5;
-    rounded(x,y,width,height,30);
-    ctx.stroke();
-  }
-
-  drawEngagement(dark);
+if($('blueTick').checked){
+tick(Math.min(155+ctx.measureText(name).width+23,680),68);
 }
 
-function drawEngagement(dark){
-  const y=1755;
-  const color=dark?'#ddd':'#344054';
+ctx.fillStyle='#858585';
+ctx.font='28px Arial';
+ctx.fillText(handle,155,124);
 
-  ctx.fillStyle=color;
-  ctx.font='25px Arial';
-  ctx.textAlign='left';
-  ctx.fillText('♡   432',45,y);
-  ctx.fillText('↻   1.2K',225,y);
-  ctx.fillText('♡   8.7K',435,y);
-  ctx.fillText('♧',650,y);
+ctx.fillStyle=fg;
+ctx.font='bold 43px Arial';
+
+const bottom=wrap(
+$('hookText').value.trim()||'Your video caption goes here...',
+42,218,635,57,4
+);
+
+// Expanded video viewport; no engagement icons.
+const x=10;
+const y=Math.max(310,bottom+18);
+const w=700;
+const h=CARD_H-y-35;
+
+ctx.save();
+path(x,y,w,h,30);
+ctx.clip();
+
+if(video.videoWidth){
+cover(video,x,y,w,h,.5);
+}else{
+ctx.fillStyle='#080b18';
+ctx.fillRect(x,y,w,h);
+ctx.fillStyle='#bbb';
+ctx.font='25px Arial';
+ctx.textAlign='center';
+ctx.fillText('Select a video to preview',W/2,y+h/2);
+ctx.textAlign='left';
+}
+ctx.restore();
+
+const b=$('videoBorder').value;
+if(b!=='none'){
+ctx.strokeStyle=b==='white'?'#fff':'#000';
+ctx.lineWidth=5;
+path(x,y,w,h,30);
+ctx.stroke();
+}
 }
 
 function drawShorts(){
-  canvas.width=W;
-  canvas.height=SHORT_H;
+canvas.width=W;
+canvas.height=SHORT_H;
+ctx.fillStyle='#000';
+ctx.fillRect(0,0,W,SHORT_H);
 
-  ctx.fillStyle='#000';
-  ctx.fillRect(0,0,W,SHORT_H);
+if(!video.videoWidth){
+ctx.fillStyle='#aaa';
+ctx.font='24px Arial';
+ctx.textAlign='center';
+ctx.fillText('Select a video to preview',W/2,SHORT_H/2);
+ctx.textAlign='left';
+return;
+}
 
-  if(!video.videoWidth)return;
+if($('shortLayout').value==='crop'){
+cover(video,0,0,W,SHORT_H,Number($('cropPosition').value)/100);
+}else{
+ctx.save();
+ctx.filter='blur(25px) brightness(.55)';
+cover(video,-35,-35,W+70,SHORT_H+70);
+ctx.restore();
 
-  if($('shortLayout').value==='crop'){
-    cover(video,0,0,W,SHORT_H,Number($('cropPosition').value)/100);
-  }else{
-    ctx.save();
-    ctx.filter='blur(25px) brightness(.55)';
-    cover(video,-35,-35,W+70,SHORT_H+70);
-    ctx.restore();
+const d=dims(video);
+const h=W*d.h/d.w;
+ctx.drawImage(video,0,(SHORT_H-h)/2,W,h);
+}
 
-    const h=W*video.videoHeight/video.videoWidth;
-    ctx.drawImage(video,0,(SHORT_H-h)/2,W,h);
-  }
+if($('captions').checked&&$('hookText').value.trim()){
+ctx.fillStyle='#0009';
+ctx.fillRect(25,SHORT_H-190,670,145);
+ctx.fillStyle='#fff';
+ctx.font='bold 34px Arial';
+ctx.textAlign='center';
+wrap($('hookText').value.trim(),W/2,SHORT_H-130,610,42,3);
+ctx.textAlign='left';
+}
 }
 
 function draw(){
-  if(mode==='twitter')drawTwitter();
-  else drawShorts();
+if(mode==='card')drawCard();
+else drawShorts();
 }
 
-function setMode(next){
-  mode=next;
+function setMode(m){
+mode=m;
+$('shortsTab').classList.toggle('active',m==='shorts');
+$('twitterTab').classList.toggle('active',m==='card');
+$('shortSettings').classList.toggle('hidden',m!=='shorts');
 
-  $('shortsTab').classList.toggle('active',mode==='shorts');
-  $('twitterTab').classList.toggle('active',mode==='twitter');
-
-  $('shortSettings').classList.toggle('hidden',mode!=='shorts');
-  $('channelSettings').classList.toggle('hidden',mode!=='twitter');
-  $('savedSettings').classList.toggle('hidden',mode!=='twitter');
-
-  draw();
+['channelSettings','savedSettings','hookPanel'].forEach(id=>{
+$(id).classList.toggle('hidden',m!=='card');
+});
+draw();
 }
 
-$('shortsTab').addEventListener('click',()=>setMode('shorts'));
-$('twitterTab').addEventListener('click',()=>setMode('twitter'));
+$('shortsTab').onclick=()=>setMode('shorts');
+$('twitterTab').onclick=()=>setMode('card');
 
 $('videoFile').addEventListener('change',e=>{
-  const file=e.target.files[0];
-  if(!file)return;
+const f=e.target.files&&e.target.files[0];
+if(!f)return;
 
-  if(video.src)URL.revokeObjectURL(video.src);
-  video.src=URL.createObjectURL(file);
-  video.load();
+if(videoURL)URL.revokeObjectURL(videoURL);
+videoURL=URL.createObjectURL(f);
+video.src=videoURL;
+video.load();
 
-  video.onloadedmetadata=()=>{
-    $('endTime').value=Math.min(45,Math.floor(video.duration));
-    $('makeVideo').disabled=false;
-    $('renderStatus').textContent=
-      'Video loaded · '+video.duration.toFixed(1)+' seconds';
-    video.currentTime=0.1;
-  };
+video.onloadedmetadata=()=>{
+$('startTime').max=video.duration;
+$('endTime').max=video.duration;
+$('endTime').value=Math.min(45,video.duration).toFixed(1);
+$('makeVideo').disabled=false;
+$('renderStatus').textContent=`Video loaded · ${video.duration.toFixed(1)} seconds`;
+video.currentTime=.05;
+draw();
+};
 
-  video.onseeked=()=>{
-    if(!busy)draw();
-  };
+video.onerror=()=>{
+$('renderStatus').textContent='Could not open this video. Try an MP4 (H.264) file.';
+};
 });
 
 $('profileFile').addEventListener('change',e=>{
-  const file=e.target.files[0];
-  if(!file)return;
+const f=e.target.files&&e.target.files[0];
+if(!f)return;
 
-  const url=URL.createObjectURL(file);
-  const img=new Image();
+const url=URL.createObjectURL(f);
+const img=new Image();
 
-  img.onload=()=>{
-    profileImage=img;
-    $('avatarPreview').src=url;
-    $('avatarPreview').style.display='block';
-    draw();
-  };
+img.onload=()=>{
+profileImage=img;
+$('avatarPreview').src=url;
+$('avatarPreview').style.display='block';
+draw();
+};
 
-  img.src=url;
+img.onerror=()=>{
+$('profileStatus').textContent='Could not load this image.';
+};
+
+img.src=url;
 });
 
 [
-  'channelName','channelHandle','blueTick','cardTheme',
-  'videoBorder','hookText','shortLayout','cropPosition'
+'channelName','channelHandle','blueTick','cardTheme',
+'videoBorder','hookText','shortLayout','cropPosition','captions'
 ].forEach(id=>{
-  $(id).addEventListener('input',draw);
-  $(id).addEventListener('change',draw);
+$(id).addEventListener('input',draw);
+$(id).addEventListener('change',draw);
 });
 
-// Saved channel profiles
 function profiles(){
-  try{
-    const data=JSON.parse(localStorage.getItem(PROFILE_KEY)||'[]');
-    return Array.isArray(data)?data:[];
-  }catch{
-    return [];
-  }
+try{
+const a=JSON.parse(localStorage.getItem(PROFILE_KEY)||'[]');
+return Array.isArray(a)?a:[];
+}catch{
+return [];
+}
 }
 
-function refreshProfiles(selected=''){
-  const list=$('profileList');
-  list.replaceChildren(new Option('Select channel',''));
-
-  profiles().forEach(p=>{
-    list.add(new Option(p.name+' · '+p.handle,p.id));
-  });
-
-  list.value=selected;
+function refreshProfiles(sel=''){
+const l=$('profileList');
+l.replaceChildren(new Option('Select channel',''));
+profiles().forEach(p=>l.add(new Option(p.name+' · '+p.handle,p.id)));
+l.value=sel;
 }
 
-function profilePictureData(){
-  if(!profileImage)return '';
+function picData(){
+if(!profileImage)return'';
 
-  const temp=document.createElement('canvas');
-  temp.width=256;
-  temp.height=256;
+const c=document.createElement('canvas');
+c.width=c.height=256;
 
-  const w=profileImage.naturalWidth;
-  const h=profileImage.naturalHeight;
-  const side=Math.min(w,h);
+const w=profileImage.naturalWidth;
+const h=profileImage.naturalHeight;
+const s=Math.min(w,h);
 
-  temp.getContext('2d').drawImage(
-    profileImage,
-    (w-side)/2,(h-side)/2,side,side,
-    0,0,256,256
-  );
+c.getContext('2d').drawImage(
+profileImage,(w-s)/2,(h-s)/2,s,s,0,0,256,256
+);
 
-  return temp.toDataURL('image/jpeg',.72);
+return c.toDataURL('image/jpeg',.7);
 }
 
-$('saveChannel').addEventListener('click',()=>{
-  try{
-    const list=profiles();
-    const oldId=$('profileList').value;
-    const id=oldId||'channel_'+Date.now();
+$('saveChannel').onclick=()=>{
+try{
+const a=profiles();
+const id=$('profileList').value||'channel_'+Date.now();
 
-    const p={
-      id,
-      name:$('channelName').value.trim()||'Your Channel',
-      handle:$('channelHandle').value.trim()||'@yourchannel',
-      verified:$('blueTick').checked,
-      theme:$('cardTheme').value,
-      border:$('videoBorder').value,
-      hook:$('hookText').value,
-      picture:profilePictureData()
-    };
+const p={
+id,
+name:$('channelName').value.trim()||'Your Channel',
+handle:$('channelHandle').value.trim()||'@yourchannel',
+verified:$('blueTick').checked,
+theme:$('cardTheme').value,
+border:$('videoBorder').value,
+hook:$('hookText').value,
+picture:picData()
+};
 
-    const i=list.findIndex(x=>x.id===id);
-    if(i>=0)list[i]=p;
-    else list.push(p);
+const i=a.findIndex(x=>x.id===id);
+if(i>=0)a[i]=p;
+else a.push(p);
 
-    localStorage.setItem(PROFILE_KEY,JSON.stringify(list));
-    refreshProfiles(id);
-    $('profileStatus').textContent='Channel saved successfully!';
-  }catch(err){
-    $('profileStatus').textContent=
-      'Could not save. Try a smaller profile picture.';
-  }
-});
+localStorage.setItem(PROFILE_KEY,JSON.stringify(a));
+refreshProfiles(id);
+$('profileStatus').textContent='Channel saved successfully.';
+}catch{
+$('profileStatus').textContent='Could not save. Try a smaller profile picture.';
+}
+};
 
-$('loadChannel').addEventListener('click',()=>{
-  const p=profiles().find(x=>x.id===$('profileList').value);
+$('loadChannel').onclick=()=>{
+const p=profiles().find(x=>x.id===$('profileList').value);
 
-  if(!p){
-    $('profileStatus').textContent='Select a saved channel first.';
-    return;
-  }
+if(!p){
+$('profileStatus').textContent='Select a saved channel first.';
+return;
+}
 
-  $('channelName').value=p.name||'';
-  $('channelHandle').value=p.handle||'';
-  $('blueTick').checked=p.verified!==false;
-  $('cardTheme').value=p.theme||'light';
-  $('videoBorder').value=p.border||'white';
-  $('hookText').value=p.hook||'';
+$('channelName').value=p.name||'';
+$('channelHandle').value=p.handle||'';
+$('blueTick').checked=p.verified!==false;
+$('cardTheme').value=p.theme||'light';
+$('videoBorder').value=p.border||'white';
+$('hookText').value=p.hook||'';
 
-  profileImage=null;
-  $('profileFile').value='';
-  $('avatarPreview').style.display='none';
+profileImage=null;
+$('profileFile').value='';
+$('avatarPreview').style.display='none';
 
-  if(p.picture){
-    const img=new Image();
-    img.onload=()=>{
-      profileImage=img;
-      $('avatarPreview').src=p.picture;
-      $('avatarPreview').style.display='block';
-      draw();
-    };
-    img.src=p.picture;
-  }else draw();
+if(p.picture){
+const im=new Image();
+im.onload=()=>{
+profileImage=im;
+$('avatarPreview').src=p.picture;
+$('avatarPreview').style.display='block';
+draw();
+};
+im.src=p.picture;
+}else draw();
 
-  $('profileStatus').textContent='Channel loaded successfully!';
-});
+$('profileStatus').textContent='Channel loaded.';
+};
 
-$('deleteChannel').addEventListener('click',()=>{
-  const id=$('profileList').value;
+$('deleteChannel').onclick=()=>{
+const id=$('profileList').value;
 
-  if(!id){
-    $('profileStatus').textContent='Select a saved channel first.';
-    return;
-  }
+if(!id){
+$('profileStatus').textContent='Select a saved channel first.';
+return;
+}
 
-  localStorage.setItem(
-    PROFILE_KEY,
-    JSON.stringify(profiles().filter(p=>p.id!==id))
-  );
+localStorage.setItem(
+PROFILE_KEY,
+JSON.stringify(profiles().filter(p=>p.id!==id))
+);
 
-  refreshProfiles();
-  $('profileStatus').textContent='Channel deleted.';
-});
+refreshProfiles();
+$('profileStatus').textContent='Channel deleted.';
+};
 
-// Hook suggestions
-const hookTemplates=[
-  'Nobody tells you this about TOPIC...',
-  'Stop doing TOPIC this way',
-  'The truth about TOPIC...',
-  '3 things about TOPIC that may surprise you',
-  'The biggest mistake people make with TOPIC',
-  'What nobody explains about TOPIC',
-  'This changed how I think about TOPIC'
+const hooks=[
+'Nobody tells you this about TOPIC...',
+'Stop doing TOPIC this way',
+'The truth about TOPIC...',
+'3 things about TOPIC that may surprise you',
+'The biggest mistake people make with TOPIC',
+'What nobody explains about TOPIC',
+'This changed how I think about TOPIC'
 ];
 
-$('generateHooks').addEventListener('click',()=>{
-  const topic=$('hookTopic').value.trim()||'success';
-  const area=$('hookIdeas');
-  area.replaceChildren();
+$('generateHooks').onclick=()=>{
+const topic=$('hookTopic').value.trim()||'success';
+const area=$('hookIdeas');
+area.replaceChildren();
 
-  hookTemplates.forEach(template=>{
-        const b = document.createElement('button');
+hooks.forEach(t=>{
+const b=document.createElement('button');
+b.type='button';
+b.textContent=t.replace(/TOPIC/g,topic);
+b.onclick=()=>{
+$('hookText').value=b.textContent;
+draw();
+};
+area.appendChild(b);
+});
+};
 
-    b.type = 'button';
-    b.className = 'hook-suggestion';
-    b.textContent = template.replace(/TOPIC/g, topic);
+function mimeType(){
+if(!window.MediaRecorder)return'';
+return[
+'video/webm;codecs=vp9,opus',
+'video/webm;codecs=vp8,opus',
+'video/webm'
+].find(t=>MediaRecorder.isTypeSupported(t))||'';
+}
 
-    b.addEventListener('click', () => {
-      $('hookText').value = b.textContent;
-      draw();
+function recordOne(start,end){
+return new Promise(async(resolve,reject)=>{
+const mime=mimeType();
 
-      $('profileStatus').textContent =
-        'Hook selected. Your preview has been updated.';
-    });
+if(!mime){
+reject(new Error('Video export is not supported in this browser. Update Chrome.'));
+return;
+}
 
-    area.appendChild(b);
-  });
+const stream=canvas.captureStream(30);
+let audio=null;
+
+try{
+if(video.captureStream){
+audio=video.captureStream();
+audio.getAudioTracks().forEach(t=>stream.addTrack(t));
+}
+
+const rec=new MediaRecorder(stream,{
+mimeType:mime,
+videoBitsPerSecond:5000000
 });
 
-// Update preview when channel details change
-[
-  'channelName',
-  'channelHandle',
-  'blueTick',
-  'cardTheme',
-  'videoBorder',
-  'hookText'
-].forEach(id => {
-  $(id).addEventListener('input', draw);
-  $(id).addEventListener('change', draw);
+const chunks=[];
+let finished=false;
+
+rec.ondataavailable=e=>{
+if(e.data&&e.data.size)chunks.push(e.data);
+};
+
+rec.onerror=()=>{
+reject(new Error('Recording failed. Try a shorter clip.'));
+};
+
+rec.onstop=()=>{
+stream.getTracks().forEach(t=>t.stop());
+if(audio)audio.getTracks().forEach(t=>t.stop());
+resolve(new Blob(chunks,{type:mime}));
+};
+
+const stop=()=>{
+if(finished)return;
+finished=true;
+cancelAnimationFrame(raf);
+video.pause();
+if(rec.state!=='inactive')rec.stop();
+};
+
+rec.start(250);
+video.pause();
+video.currentTime=start;
+
+await new Promise((ok,no)=>{
+video.onseeked=ok;
+video.onerror=()=>no(new Error('Could not seek to the selected start time.'));
 });
 
-// Initial preview
+const frame=()=>{
+if(finished)return;
+draw();
+
+if(video.currentTime>=end||video.ended){
+stop();
+return;
+}
+raf=requestAnimationFrame(frame);
+};
+
+try{
+await video.play();
+frame();
+}catch{
+stop();
+reject(new Error('Browser could not play this video. Try MP4.'));
+}
+
+setTimeout(()=>{
+if(!finished)stop();
+},(end-start+5)*1000);
+
+}catch(err){
+stream.getTracks().forEach(t=>t.stop());
+if(audio)audio.getTracks().forEach(t=>t.stop());
+reject(err);
+}
+});
+}
+
+$('makeVideo').onclick=async()=>{
+if(rendering)return;
+
+if(!video.src||!Number.isFinite(video.duration)){
+$('renderStatus').textContent='Please select a valid video first.';
+return;
+}
+
+const start=Math.max(0,Number($('startTime').value)||0);
+const end=Math.min(video.duration,Number($('endTime').value)||video.duration);
+
+if(end<=start){
+$('renderStatus').textContent='End time must be greater than start time.';
+return;
+}
+
+if(end-start>180){
+$('renderStatus').textContent='Maximum export duration is 3 minutes.';
+return;
+}
+
+const count=Math.max(1,Math.min(10,parseInt($('clipCount').value,10)||1));
+
+rendering=true;
+$('makeVideo').disabled=true;
+$('downloads').replaceChildren();
+
+try{
+for(let i=0;i<count;i++){
+const a=start+(end-start)*i/count;
+const b=start+(end-start)*(i+1)/count;
+
+$('renderStatus').textContent=`Creating clip ${i+1} of ${count}...`;
+
+const blob=await recordOne(a,b);
+const url=URL.createObjectURL(blob);
+
+const item=document.createElement('div');
+item.className='download-item';
+
+const title=document.createElement('div');
+title.textContent=`Clip ${i+1} ready · WebM`;
+
+const link=document.createElement('a');
+link.href=url;
+link.download=`aivora-clip-${i+1}.webm`;
+link.textContent='Download video';
+
+item.append(title,link);
+$('downloads').appendChild(item);
+}
+
+$('renderStatus').textContent='Done! Your clips are ready to download.';
+
+}catch(err){
+$('renderStatus').textContent=err.message||'Export failed. Try another video.';
+}finally{
+rendering=false;
+$('makeVideo').disabled=false;
+video.pause();
+draw();
+}
+};
+
+refreshProfiles();
 draw();
 
 </script>
